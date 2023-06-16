@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,8 +25,6 @@ public class PlayerController : MonoBehaviour
     Vector2 mousepoint;
 
     private SpriteRenderer playerrender;
-    
-  
 
 
 
@@ -78,7 +77,10 @@ public class PlayerController : MonoBehaviour
    
     private void OnJump(InputValue value)
     {
-        Jump();
+       
+            Jump();
+      
+
 
     }
     private void Jump()
@@ -89,7 +91,8 @@ public class PlayerController : MonoBehaviour
   
     private void OnDash(InputValue value)
     {
-        playerRb.AddForce(mousepoint* Dashpower, ForceMode2D.Impulse);
+      
+      playerRb.AddForce(mousepoint* Dashpower, ForceMode2D.Impulse);
     }
     private void OnPointer(InputValue value)
     {
@@ -102,5 +105,6 @@ public class PlayerController : MonoBehaviour
     {
 
     }
+  
   
 }
