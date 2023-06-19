@@ -8,6 +8,11 @@ using UnityEngine.Rendering;
 public class PlayerAim : MonoBehaviour
 
 {
+
+    private void Awake()
+    {
+       
+    }
    
 
 }

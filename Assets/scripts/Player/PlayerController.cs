@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -5,24 +6,27 @@ using System.Security.Principal;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D playerRb;
-    private Animator playeranim;
+    public Rigidbody2D playerRb;
+    public Animator playeranim;
 
 
-    private Vector2 movedir;
+    public Vector2 movedir;
     [SerializeField] float movespeed;
     [SerializeField] float Dashpower;
+    [SerializeField] GameObject dust;
 
     [SerializeField] float jumppower;
 
-
+ 
     [SerializeField] Transform WeaponHolder;
+    [SerializeField] UnityEvent WeaponPositionChanged;
 
     [SerializeField] GameObject ob;
     Vector2 mousepoint;
@@ -46,38 +50,53 @@ public class PlayerController : MonoBehaviour
         if (movedir.magnitude == 0)
         {
             playeranim.SetFloat("movespeed", 0);
+            dust.SetActive(false);
         }
-        else playeranim.SetFloat("movespeed", movespeed);
+        else
+        {
+            playeranim.SetFloat("movespeed", movespeed);
+            dust.SetActive(true);
+        }
+
         if (mousepoint.x > playerRb.transform.position.x)
         {
             playerrender.flipX = false;
-   
         }
         else
         {
             playerrender.flipX = true;
-         
+
         }
+      /*  if(mousepoint.x < playerRb.transform.position.x&& movedir.x < 0)
+        {
+            playerrender.flipX = true;
+            dust.GetComponent<SpriteRenderer>().flipX = true;
+            
+        }*/
+       
 
     }
     private void LateUpdate()
     {
-        ob.transform.position = Input.mousePosition;
+        ob.transform.position = Camera.main.ScreenToWorldPoint(mousepoint);
         
     }
     private void Move()
     {
+       
+      transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
         
-        transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
-        
+
     }
     private void OnMove(InputValue value)
     {
         movedir.x = value.Get<Vector2>().x;
-
+        movedir.y = value.Get<Vector2>().y;
+       
+        
 
     }
-   
+
     private void OnJump(InputValue value)
     {
        
