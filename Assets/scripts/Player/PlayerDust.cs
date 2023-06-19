@@ -5,23 +5,23 @@ using UnityEngine;
 public class PlayerDust : MonoBehaviour
 {
 
-    [SerializeField] Transform player;
+    [SerializeField] Transform movecheck;
     private Animator dustanim;
+
 
     private void Awake()
     {
         dustanim = GetComponent<Animator>();
-        player = GetComponent<Transform>();
-
+        movecheck  = GetComponent<Transform>();
+        dustanim.SetBool("move", false);
     }
 
     private void Update()
     {
-        if(player.transform.position.magnitude ==0)
+        if(movecheck.transform.position.magnitude !=0)
         {
             
-            dustanim.SetBool("move", false);
+            dustanim.SetBool("move", true);
         }
-        else dustanim.SetBool("move", true);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Security.Principal;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float Dashpower;
 
     [SerializeField] float jumppower;
+
+
     [SerializeField] Transform WeaponHolder;
 
     [SerializeField] GameObject ob;
@@ -33,8 +36,7 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         playeranim = GetComponent<Animator>();
         playerrender = GetComponent<SpriteRenderer>();
-     
-
+  
     }
    
 
@@ -60,7 +62,8 @@ public class PlayerController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        ob.transform.position = mousepoint;
+        ob.transform.position = Input.mousePosition;
+        
     }
     private void Move()
     {
@@ -79,14 +82,12 @@ public class PlayerController : MonoBehaviour
     {
        
             Jump();
-      
-
-
     }
     private void Jump()
     {
-        playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
-        playeranim.SetTrigger("Jump");
+     
+            playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
+            playeranim.SetTrigger("Jump");
     }
   
     private void OnDash(InputValue value)
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
     private void OnPointer(InputValue value)
     {
         mousepoint = value.Get<Vector2>();
-        Camera.main.ScreenToWorldPoint(mousepoint);
+      //  Camera.main.ScreenToWorldPoint(mousepoint);
      
     }
     

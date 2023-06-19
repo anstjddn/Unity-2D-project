@@ -22,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     private void Attack()
     {
         WeaponAnim.SetTrigger("Attack");
+    
     }
 
     
