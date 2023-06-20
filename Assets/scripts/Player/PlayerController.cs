@@ -14,8 +14,8 @@ using UnityEngine.Tilemaps;
 public class PlayerController : MonoBehaviour
 {
     //플레이어 이동
-    public Rigidbody2D playerRb;
-    public Animator playeranim;
+    private Rigidbody2D playerRb;
+    private Animator playeranim;
     [SerializeField] float movespeed;
     [SerializeField] float Dashpower;
     public Vector2 movedir;
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject leftdust;
     // 플레이어 점프 구현
     [SerializeField] float jumppower;
+    private bool isjumping;
 
     // 플레이어 시점 관련 구현
     Vector3 mousepoint;
@@ -33,8 +34,8 @@ public class PlayerController : MonoBehaviour
 
 
     //무기 구현
-    private GameObject Weapon;
-
+    [SerializeField] private GameObject Weapon;
+  
 
 
     private void Awake()
@@ -42,12 +43,13 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         playeranim = GetComponent<Animator>();
         playerrender = GetComponent<SpriteRenderer>();
-     
+ 
     }
     
 
     private void Update()
     {
+        
         Move();
         if (movedir.magnitude == 0)
         {
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             playerrender.flipX = true;
+            
         }
 
 
@@ -75,7 +78,8 @@ public class PlayerController : MonoBehaviour
   // 무브 구현
     private void Move()
     {
-      transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
+        transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
+        
 
     }
     private void OnMove(InputValue value)
@@ -86,19 +90,33 @@ public class PlayerController : MonoBehaviour
     // 점프구현
     private void OnJump(InputValue value)
     {
-       
-            Jump();
+        /*   if (value.isPressed)
+           {
+
+               playerRb.velocity = new Vector2(playerRb.velocity.x, jumppower);
+               isjumping = true;
+               playeranim.SetTrigger("Jump");
+           }
+
+           if (isjumping && playerRb.velocity.y > 0)
+           {
+               playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
+               isjumping = false;
+           }*/
+        Jump();
+         
     }
     private void Jump()
     {
-     
-            playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
-            playeranim.SetTrigger("Jump");
+        
+       playerRb.velocity = new Vector2(playerRb.velocity.x, jumppower);
+         //   playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
+          //  playeranim.SetTrigger("Jump");
     }
   //대시구현  (대시 카운터 회복하는거 구현필요
     private void OnDash(InputValue value)
     {
-      playerRb.AddForce(mousepoint* Dashpower, ForceMode2D.Impulse);
+        playerRb.velocity = mousepoint.normalized*Dashpower ;
     }
 
     private void OnPointer(InputValue value)
