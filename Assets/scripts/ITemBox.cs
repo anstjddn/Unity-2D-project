@@ -7,7 +7,7 @@ using UnityEngine;
 public class ITemBox : MonoBehaviour
 {
     private Animator anim;
-    [SerializeField] GameObject interact;
+    [SerializeField] GameObject interactkey; //F키
     [SerializeField] GameObject Coinobj;
     [SerializeField] GameObject Bullionobj;
     private int coinmoney;
@@ -20,29 +20,30 @@ public class ITemBox : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키
     {
-        if (interact != null)
+       if (interactkey != null)
         {
-            interact.SetActive(true);
+            interactkey.SetActive(true);
         }
         else return;
-
+       
     }
    
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (interact != null)
-        {
-            interact.SetActive(false);
-        }
-        else return;
-        
+     
+       if (interactkey != null)
+          {
+              interactkey.SetActive(false);
+          }
+          else return;
+
     }
 
     public void Interact()
     {
         
         anim.SetBool("Hit", true);
-        Destroy(interact);
+        Destroy(interactkey);
         coinmoney = Random.Range(5, 7);
        
         bullionmoney = Random.Range(1, 3);
