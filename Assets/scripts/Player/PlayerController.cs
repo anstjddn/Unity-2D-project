@@ -13,25 +13,27 @@ using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
+    //플레이어 이동
     public Rigidbody2D playerRb;
     public Animator playeranim;
-
-
-    public Vector2 movedir;
     [SerializeField] float movespeed;
     [SerializeField] float Dashpower;
-    [SerializeField] GameObject dust;
+    public Vector2 movedir;
+    public int gold=0;
 
+
+    //발아래 더스트 애니메이션
+    [SerializeField] GameObject leftdust;
+    // 플레이어 점프 구현
     [SerializeField] float jumppower;
 
- 
-    [SerializeField] Transform WeaponHolder;
-    [SerializeField] UnityEvent WeaponPositionChanged;
-
-    [SerializeField] GameObject ob;
-    Vector2 mousepoint;
-
+    // 플레이어 시점 관련 구현
+    Vector3 mousepoint;
     private SpriteRenderer playerrender;
+
+
+    //무기 구현
+    private GameObject Weapon;
 
 
 
@@ -40,9 +42,9 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         playeranim = GetComponent<Animator>();
         playerrender = GetComponent<SpriteRenderer>();
-  
+     
     }
-   
+    
 
     private void Update()
     {
@@ -50,53 +52,38 @@ public class PlayerController : MonoBehaviour
         if (movedir.magnitude == 0)
         {
             playeranim.SetFloat("movespeed", 0);
-            dust.SetActive(false);
+            leftdust.SetActive(false);
         }
         else
         {
             playeranim.SetFloat("movespeed", movespeed);
-            dust.SetActive(true);
+            leftdust.SetActive(true);
         }
 
         if (mousepoint.x > playerRb.transform.position.x)
         {
-            playerrender.flipX = false;
+            playerrender.flipX = false; 
         }
         else
         {
             playerrender.flipX = true;
-
         }
-      /*  if(mousepoint.x < playerRb.transform.position.x&& movedir.x < 0)
-        {
-            playerrender.flipX = true;
-            dust.GetComponent<SpriteRenderer>().flipX = true;
-            
-        }*/
-       
+
+
 
     }
-    private void LateUpdate()
-    {
-        ob.transform.position = Camera.main.ScreenToWorldPoint(mousepoint);
-        
-    }
+  // 무브 구현
     private void Move()
     {
-       
       transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
-        
 
     }
     private void OnMove(InputValue value)
     {
         movedir.x = value.Get<Vector2>().x;
         movedir.y = value.Get<Vector2>().y;
-       
-        
-
     }
-
+    // 점프구현
     private void OnJump(InputValue value)
     {
        
@@ -108,23 +95,25 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
             playeranim.SetTrigger("Jump");
     }
-  
+  //대시구현  (대시 카운터 회복하는거 구현필요
     private void OnDash(InputValue value)
     {
-      
       playerRb.AddForce(mousepoint* Dashpower, ForceMode2D.Impulse);
     }
+
     private void OnPointer(InputValue value)
     {
         mousepoint = value.Get<Vector2>();
-      //  Camera.main.ScreenToWorldPoint(mousepoint);
-     
+        mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
     }
-    
-    private void Dust()
-    {
 
+    // 골드 먹었을경우 돈얻는거 구현
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Gold")
+        {
+            gold += 10;
+            Destroy(collision.gameObject);
+        }
     }
-  
-  
 }

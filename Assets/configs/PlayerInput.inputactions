@@ -45,7 +45,7 @@
                     "name": "Pointer",
                     "type": "Value",
                     "id": "4a2be284-fbb3-4d25-b163-3b990341152d",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

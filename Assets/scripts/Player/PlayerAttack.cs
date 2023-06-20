@@ -1,33 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private Animator WeaponAnim;
-    [SerializeField]private UnityEvent Ondamaged;
-    private Collider2D Weaponcollider;
-
-    private void Awake()
-    {
-        WeaponAnim = GetComponent<Animator>();
-        Weaponcollider = GetComponent<Collider2D>();
-    }
-    private void OnAttack(InputValue Value)
+  
+    //[SerializeField] UnityEvent hited;
+    [SerializeField] GameObject effect;
+    private void OnAttack(InputValue value)
     {
         Attack();
+ 
     }
     private void Attack()
     {
-        WeaponAnim.SetTrigger("Attack");
-    
+      //  hited?.Invoke();
+        StartCoroutine(hiteffctroutin());
     }
-
     
-    private void OnTriggerEnter2D(Collider2D collision)
+  IEnumerator hiteffctroutin()
     {
-        Ondamaged?.Invoke();
+
+        Instantiate(effect, transform.position, transform.rotation);
+
+        yield return null;
     }
 }
