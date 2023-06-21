@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Unity.VisualScripting;
+using UnityEditor.U2D.Path.GUIFramework;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -10,18 +13,28 @@ public class Monster : MonoBehaviour
     public float AttackRange;
 
     public Transform Player;
-    private List<State> states;
+    private BaseState[] states;
     private State curstate;
+    public int movespeed;
+    public Rigidbody2D monsterRb;
+    public Animator monsteranim;
+    public Collider2D monsterCollider;
+    public SpriteRenderer monsterRender;
+
+  
+
     private void Awake()
     {
-        states = new List<State>();
-       /* states[(int)State.Idle] = 
-        states[(int)State.Trace] 
-        states[(int)State.Attack]*/
-       
+        states = new BaseState[(int)State.size];
+        states[(int)State.Idle] = new IdleState(this);
+        states[(int)State.Trace] = new TraceState(this);
+        states[(int)State.Attack] = new AttackState(this);
 
-
-
+        monsterRb = GetComponent<Rigidbody2D>();
+        monsteranim = GetComponent<Animator>();
+        monsterCollider = GetComponent<Collider2D>();
+        monsterRender = GetComponent<SpriteRenderer>();
+        
     }
     private void OnDrawGizmos()
     {
@@ -32,29 +45,131 @@ public class Monster : MonoBehaviour
     }
     private void Start()
     {
-        
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        curstate = State.Idle;
+        states[(int)curstate].Enter();
+    }
+    private void Update()
+    {
+        states[(int)curstate].Update();
+      
     }
 
-
-
+    public void ChangeState(State state)
+    {
+        states[(int)curstate].Exit();
+        curstate = state;
+        states[(int)curstate].Enter();
+    }
+    
 }
 
-public class IdleState : Monster
+public class IdleState : BaseState
 {
-    private Monster monster;
+    public Monster monster;
+
     public IdleState(Monster monster)
     {
         this.monster = monster;
     }
 
+    public override void Enter()
+    {
+        Debug.Log("Idle Enter");
+    }
+
+    public override void Exit()
+    {
+        Debug.Log("Idle Exit");
+
+    }
+
+    public override void Update()
+    {
+        Debug.Log("Idle Update");
+        if (Vector2.Distance(monster.Player.position, monster.transform.position) < monster.detectRange)
+        {
+            monster.ChangeState(Monster.State.Trace);
+        }
+        
+
+    }
 }
-public class TraceState : Monster
+public class TraceState : BaseState
 {
+    public Monster monster;
 
+    public TraceState(Monster monster)
+    {
+        this.monster = monster;
+    }
+    public override void Enter()
+    {
+        Debug.Log("Trace Enter");
+    }
+
+    public override void Exit()
+    {
+        Debug.Log("Trace Exit");
+        monster.monsteranim.SetBool("Move", false);
+    }
+
+    public override void Update()
+    {
+        Debug.Log("Trace Update");
+        Vector2 playerdir = (monster.Player.position-monster.transform.position);
+        playerdir = new Vector2(playerdir.x, 0).normalized;
+        monster.transform.Translate(playerdir * monster.movespeed * Time.deltaTime);
+        monster.monsteranim.SetBool("Move", true);
+
+        if (Vector2.Distance(monster.Player.position, monster.transform.position) < monster.AttackRange)
+        {
+            monster.ChangeState(Monster.State.Attack);
+        }
+      
+        if((monster.Player.transform.position.x-monster.transform.position.x)< 0) //플레이어 왼쪽
+        {
+            monster.monsterRender.flipX = true;
+        }
+        else
+        {
+            monster.monsterRender.flipX = false; 
+        }
+        
+        
+    }
 }
 
-public class AttackState : Monster
+public class AttackState : BaseState
 {
+    public Monster monster;
 
+    public AttackState(Monster monster)
+    {
+        this.monster = monster;
+    }
+    public override void Enter()
+    {
+
+        monster.monsteranim.SetTrigger("Attack");
+        Debug.Log("Attack Enter");
+    }
+
+    public override void Exit()
+    {
+        Debug.Log("Attack Exit");
+
+    }
+
+    public override void Update()
+    {
+        Debug.Log("Attack Exit");
+        if (Vector2.Distance(monster.Player.position, monster.transform.position) > monster.AttackRange)
+        {
+            monster.ChangeState(Monster.State.Trace);
+        }
+
+    }
+
+    
 }
