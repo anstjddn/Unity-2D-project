@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class Monster : MonoBehaviour
     public Collider2D monsterCollider;
     public SpriteRenderer monsterRender;
   
+    
+    
+    
 
     private void Awake()
     {
@@ -174,7 +178,7 @@ public class AttackState : BaseState
 
     public override void Update()
     {
-        Debug.Log("Attack Up");
+        Debug.Log("Attack Update");
         
 
     }

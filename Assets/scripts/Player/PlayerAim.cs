@@ -11,9 +11,9 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] GameObject aimcursor;
     [SerializeField] Transform WeaponHoledpoint;
     [SerializeField] GameObject hiteffect;
-
+    [SerializeField] float attackdalay;
     Vector2 aimpos;
-
+    public bool isattack;
    
     private void LateUpdate()
     {
@@ -32,20 +32,25 @@ public class PlayerAim : MonoBehaviour
 
     private void OnAttack(InputValue value)
     {
-        Attack();
+        if (!isattack)
+        {
+            Attack();
+        }
+        else return;
 
     }
     private void Attack()
     {
        
-        StartCoroutine(hiteffctroutin());
+        StartCoroutine(hiteffctroutin(attackdalay));
     }
 
-    IEnumerator hiteffctroutin()
+    IEnumerator hiteffctroutin(float attackdalay)
     {
-      
+        isattack = true;
         Instantiate(hiteffect, hiteffect.transform.position, hiteffect.transform.rotation);
-
-        yield return null;
+        yield return new WaitForSeconds(attackdalay);
+        isattack = false;
+    
     }
 }
