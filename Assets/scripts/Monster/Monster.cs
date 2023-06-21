@@ -20,7 +20,6 @@ public class Monster : MonoBehaviour
     public Animator monsteranim;
     public Collider2D monsterCollider;
     public SpriteRenderer monsterRender;
-
   
 
     private void Awake()
@@ -60,6 +59,17 @@ public class Monster : MonoBehaviour
         states[(int)curstate].Exit();
         curstate = state;
         states[(int)curstate].Enter();
+    }
+    public void checkd()
+    {
+        if (Vector2.Distance(Player.position, transform.position) < detectRange)
+        {
+            ChangeState(State.Trace);
+        }
+        if (Vector2.Distance(Player.position, transform.position) < AttackRange)
+        {
+            ChangeState(State.Attack);
+        }
     }
     
 }
@@ -153,6 +163,7 @@ public class AttackState : BaseState
 
         monster.monsteranim.SetTrigger("Attack");
         Debug.Log("Attack Enter");
+       
     }
 
     public override void Exit()
@@ -163,13 +174,10 @@ public class AttackState : BaseState
 
     public override void Update()
     {
-        Debug.Log("Attack Exit");
-        if (Vector2.Distance(monster.Player.position, monster.transform.position) > monster.AttackRange)
-        {
-            monster.ChangeState(Monster.State.Trace);
-        }
+        Debug.Log("Attack Up");
+        
 
     }
 
-    
+
 }
