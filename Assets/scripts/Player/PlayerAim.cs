@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-public class PlayerAim : MonoBehaviour
+public class PlayerAim : MonoBehaviour, IHitable
 
 {
     [SerializeField] GameObject aimcursor;
@@ -52,5 +52,10 @@ public class PlayerAim : MonoBehaviour
         yield return new WaitForSeconds(attackdalay);
         isattack = false;
     
+    }
+
+    public void Hit(int damage)
+    {
+        Debug.Log("공격당햇음");
     }
 }
