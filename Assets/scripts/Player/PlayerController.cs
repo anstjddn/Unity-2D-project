@@ -130,8 +130,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Gold")
         {
-            gold += 10;
+            GameManager.data.basegold += 10;
             Destroy(collision.gameObject);
         }
     }
+    
 }

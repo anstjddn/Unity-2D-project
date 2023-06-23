@@ -10,7 +10,10 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField] UnityEvent OnInteracted;
 
-
+    private void OnInteract(InputValue value)
+    {
+        Interact();
+    }
     private void Interact()
     {
         OnInteracted?.Invoke();
