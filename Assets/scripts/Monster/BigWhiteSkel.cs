@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigWhiteSkel : MonoBehaviour
+public class BigWhiteSkel : MonoBehaviour, IHitable
 {
     [SerializeField] private int hp;
     [SerializeField] private int defance;
@@ -15,7 +15,7 @@ public class BigWhiteSkel : MonoBehaviour
     public void Hit()
     {
         Attackpoint.enabled = true;
-        
+  
 
     }
 
@@ -30,5 +30,9 @@ public class BigWhiteSkel : MonoBehaviour
 
         
     }
-    
+
+    public void TakeHit(int damage)
+    {
+        Destroy(gameObject);
+    }
 }

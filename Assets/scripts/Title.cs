@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Title : MonoBehaviour, IPointerEnterHandler
+public class Title : MonoBehaviour
 {
   
 
-    
-    public void OnPointerEnter(PointerEventData eventData)
+   public void ChangeScene(string scenename)
     {
-        Debug.Log("º±≈√");
+        SceneManager.LoadScene(scenename, LoadSceneMode.Single);
     }
 
 

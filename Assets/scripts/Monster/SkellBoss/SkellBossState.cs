@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class SkellBossState : MonoBehaviour
     public Rigidbody2D monsterRb;
     public Animator monsteranim;
     public Collider2D monsterCollider;
-    [SerializeField] GameObject[] handobj;
+    [SerializeField] public GameObject[] handobj;
     [SerializeField] public GameObject Attack1;
     [SerializeField] public Transform[] Attackpoints;
     [SerializeField] public float rotatespeed;
@@ -53,8 +54,6 @@ public class SkellBossState : MonoBehaviour
     private void Update()
     {
         states[(int)curstate].Update();
-        
-
 
     }
 
@@ -92,7 +91,7 @@ public class BossIdleState : BaseState           //가만히 있는거
 
     public override void Update()
     {
-        bossmonster.ChangeState(SkellBossState.State.Attack1);
+        bossmonster.ChangeState(SkellBossState.State.Attack2);
 
 
     }
@@ -108,40 +107,6 @@ public class BossAttack1State : BaseState             //입에서 회전
 
     public override void Enter()
     {
-
-
-        /*  bossmonster.monsteranim.SetBool("Attack1", true);
-          GameObject leftobj = new GameObject();
-          leftobj.name = "Attackleft";
-          leftobj.transform.parent = bossmonster.Attackpoint;
-          leftobj.transform.position = bossmonster.Attackpoint.position;
-
-
-          GameObject righttobj = new GameObject();
-          righttobj.name = "AttackRight";
-          righttobj.transform.parent = bossmonster.Attackpoint;
-          righttobj.transform.position = bossmonster.Attackpoint.position;
-          righttobj.transform.Rotate(0, 0, 180);
-
-
-
-
-          GameObject Upobj = new GameObject();
-          Upobj.name = "AttackUp";
-          Upobj.transform.parent = bossmonster.Attackpoint;
-          Upobj.transform.position = bossmonster.Attackpoint.position;
-          Upobj.transform.Rotate(0, 0, 90);
-
-
-
-          GameObject Downobj = new GameObject();
-          Downobj.name = "AttackDown";
-          Downobj.transform.parent = bossmonster.Attackpoint;
-          Downobj.transform.position = bossmonster.Attackpoint.position;
-          Downobj.transform.Rotate(0, 0, 270);*/
-
-        //SkellBossState.Instantiate(bossmonster.Attack1, bossmonster.Attackpoint.position,Quaternion.identity);
-
 
         bossmonster.monsteranim.SetBool("Attack1", true);
         Debug.Log("Attack1 Enter");
@@ -163,7 +128,7 @@ public class BossAttack1State : BaseState             //입에서 회전
             t.Rotate(-Vector3.back * bossmonster.rotatespeed * Time.deltaTime);
         }
 
-        //SkellBossState.Instantiate(bossmonster.Attack1, bossmonster.Attackpoint.position, bossmonster.Attackpoint.rotation); //한쪽만 회전
+      
         if (!isattack)
         {
             bossmonster.StartCoroutine(AttackRoutin(0.3f));
@@ -199,17 +164,58 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
     public override void Enter()
     {
-        
+        Debug.Log("Attack2 Enter");
     }
 
     public override void Exit()
     {
-        Debug.Log("Idle Exit");
+        Debug.Log("Attack2 Exit");
 
     }
 
     public override void Update()
     {
+        /*  GameObject leftobj = bossmonster.handobj[0];
+         Debug.Log("Attack2 Update");
+         Vector2 playerdir = (bossmonster.player.position - leftobj.transform.position);
+       playerdir = new Vector2(0, playerdir.y).normalized;
+
+
+         leftobj.transform.Translate(new Vector2(0, bossmonster.player.position.y) * 2 * Time.deltaTime);                           //왼쪽손위치추적 
+         if(Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y)<0.1f)
+         {
+             leftobj.GetComponent<Animator>().SetBool("Attack", true);
+         }*/
+        bossmonster.StartCoroutine(Attack2Routin());
+
+    }
+    IEnumerator Attack2Routin()
+    {
+        GameObject leftobj = bossmonster.handobj[0];
+        //leftobj.transform.Translate(new Vector2(0, bossmonster.player.position.y) * 2 * Time.deltaTime);                           //왼쪽손위치추적 
+        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 1f)
+        {
+            leftobj.transform.Translate(new Vector2(0, bossmonster.player.position.y) * 4 * Time.deltaTime);
+            
+        }
+        else
+        {
+            leftobj.GetComponent<Animator>().SetBool("Attack", true);
+        }
+        yield return new WaitForSeconds(1f);
+        leftobj.GetComponent<Animator>().SetBool("Attack", false);
+        yield return new WaitForSeconds(1f);
+
+
+        GameObject rightobj = bossmonster.handobj[1];
+        //rightobj.transform.Translate(new Vector2(0, bossmonster.player.position.y) * 2 * Time.deltaTime);                           //오른속 공격후 위치추적
+        if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) < 0.1f)
+        {
+            rightobj.GetComponent<Animator>().SetBool("Attack", true);
+        }
+        yield return new WaitForSeconds(3f);
+        rightobj.GetComponent<Animator>().SetBool("Attack", false);
+
 
     }
 }
@@ -224,18 +230,18 @@ public class BossAttack3State : BaseState                           //칼 꼿히는�
 
     public override void Enter()
     {
-        Debug.Log("Idle Enter");
+        Debug.Log("Attack3 Enter");
     }
 
     public override void Exit()
     {
-        Debug.Log("Idle Exit");
+        Debug.Log("Attack3 Exit");
 
     }
 
     public override void Update()
     {
-
+        Debug.Log("Attack3 Update");
     }
 }
 

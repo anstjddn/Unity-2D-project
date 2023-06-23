@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
 
     //발아래 더스트 애니메이션
-    [SerializeField] GameObject leftdust;
+    [SerializeField] GameObject dust;
     // 플레이어 점프 구현
     [SerializeField] float jumppower;
     private bool isjumping;
@@ -49,27 +49,29 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        
+       
         Move();
         if (movedir.magnitude == 0)
         {
             playeranim.SetFloat("movespeed", 0);
-            leftdust.SetActive(false);
+            dust.SetActive(false);
         }
         else
         {
             playeranim.SetFloat("movespeed", movespeed);
-            leftdust.SetActive(true);
+            dust.SetActive(true);
         }
 
-        if (mousepoint.x > playerRb.transform.position.x)
+        if (mousepoint.x > playerRb.transform.position.x)   //앞방향
         {
-            playerrender.flipX = false; 
+            playerrender.flipX = false;
+            dust.GetComponent<SpriteRenderer>().flipX = false;
+       
         }
-        else
+        else                                               // 뒤방향
         {
             playerrender.flipX = true;
-            
+            dust.GetComponent<SpriteRenderer>().flipX = true;
         }
 
 
@@ -90,33 +92,21 @@ public class PlayerController : MonoBehaviour
     // 점프구현
     private void OnJump(InputValue value)
     {
-        /*   if (value.isPressed)
-           {
-
-               playerRb.velocity = new Vector2(playerRb.velocity.x, jumppower);
-               isjumping = true;
-               playeranim.SetTrigger("Jump");
-           }
-
-           if (isjumping && playerRb.velocity.y > 0)
-           {
-               playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
-               isjumping = false;
-           }*/
-        Jump();
-         
+       
+            Jump();
+       
     }
     private void Jump()
     {
-        
-       playerRb.velocity = new Vector2(playerRb.velocity.x, jumppower);
-         //   playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
-          //  playeranim.SetTrigger("Jump");
+        playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
+
     }
+    
   //대시구현  (대시 카운터 회복하는거 구현필요
     private void OnDash(InputValue value)
     {
-        playerRb.velocity = mousepoint.normalized*Dashpower ;
+       transform.Translate(new Vector3(mousepoint.x * Dashpower * Time.deltaTime, mousepoint.y * Dashpower * Time.deltaTime));
+        
     }
 
     private void OnPointer(InputValue value)
@@ -133,6 +123,26 @@ public class PlayerController : MonoBehaviour
             GameManager.data.basegold += 10;
             Destroy(collision.gameObject);
         }
+        
     }
-    
+
+    //플레이어 데미지 받을떄
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Monster")
+        {
+            Debug.Log("색변함");
+            gameObject.layer = 8;
+            playerrender.color = new Color(1, 1, 1, 0.4f);
+            Invoke("OffDamage", 0.5f);
+        }
+    }
+
+    public void OffDamage()
+    {
+        gameObject.layer = 0;
+        playerrender.color = new Color(1, 1, 1,1);
+    }
+   
+
 }

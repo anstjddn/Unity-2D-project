@@ -5,14 +5,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-public class PlayerAim : MonoBehaviour, IHitable
+public class PlayerAim : MonoBehaviour
 
 {
     [SerializeField] GameObject aimcursor;
     [SerializeField] Transform WeaponHoledpoint;
     [SerializeField] GameObject hiteffect;
     [SerializeField] float attackdalay;
+    [SerializeField] Transform Hitbox;
     Vector2 aimpos;
+    [SerializeField] Vector2 boxsize;
     public bool isattack;
    
     private void LateUpdate()
@@ -43,6 +45,18 @@ public class PlayerAim : MonoBehaviour, IHitable
     {
        
         StartCoroutine(hiteffctroutin(attackdalay));
+
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(Hitbox.position, boxsize, 0);
+        foreach(Collider2D collider in colliders)
+        {
+
+            IHitable hitable = GetComponent<IHitable>();
+          
+          hitable?.TakeHit(GameManager.data.playerDamege);
+        
+        }
+
+
     }
 
     IEnumerator hiteffctroutin(float attackdalay)
@@ -57,5 +71,10 @@ public class PlayerAim : MonoBehaviour, IHitable
     public void Hit(int damage)
     {
         Debug.Log("공격당햇음");
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(Hitbox.position, boxsize);
     }
 }
