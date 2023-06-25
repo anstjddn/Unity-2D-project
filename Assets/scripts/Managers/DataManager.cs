@@ -11,7 +11,8 @@ public class DataManager : MonoBehaviour
     public int playerDamege=10;
     public int defence=10;
     public int basegold=5000;
-
+    public int curfood = 0;
+    public int maxfood = 125;
     public UnityEvent OnChangeHp;
 
 

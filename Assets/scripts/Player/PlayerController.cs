@@ -137,12 +137,10 @@ public class PlayerController : MonoBehaviour
             Invoke("OffDamage", 0.5f);
         }
     }
-
+    // 무적됬따가 풀리는거
     public void OffDamage()
     {
         gameObject.layer = 0;
         playerrender.color = new Color(1, 1, 1,1);
     }
-   
-
 }

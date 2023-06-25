@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IHitable 
 {
-    public void TakeHit(int damage);
+    public void TakeHit(int dagame);
 }

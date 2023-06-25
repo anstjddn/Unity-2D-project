@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 public class PlayerAim : MonoBehaviour
 
@@ -12,9 +15,14 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] Transform WeaponHoledpoint;
     [SerializeField] GameObject hiteffect;
     [SerializeField] float attackdalay;
-    [SerializeField] Transform Hitbox;
+    [SerializeField] float range;
     Vector2 aimpos;
     [SerializeField] Vector2 boxsize;
+    int damage;
+    [SerializeField] Transform attackpoint;
+    [SerializeField] int dagame;
+
+
     public bool isattack;
    
     private void LateUpdate()
@@ -43,19 +51,8 @@ public class PlayerAim : MonoBehaviour
     }
     private void Attack()
     {
-       
+        //임펙트
         StartCoroutine(hiteffctroutin(attackdalay));
-
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(Hitbox.position, boxsize, 0);
-        foreach(Collider2D collider in colliders)
-        {
-
-            IHitable hitable = GetComponent<IHitable>();
-          
-          hitable?.TakeHit(GameManager.data.playerDamege);
-        
-        }
-
 
     }
 
@@ -63,18 +60,24 @@ public class PlayerAim : MonoBehaviour
     {
         isattack = true;
         Instantiate(hiteffect, hiteffect.transform.position, hiteffect.transform.rotation);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(attackpoint.position, boxsize, 0);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.CompareTag("Monster"))
+            {
+                IHitable hitable = GetComponent<IHitable>();
+                hitable?.TakeHit(dagame);
+               // Destroy(collider.gameObject);
+            }
+        }
         yield return new WaitForSeconds(attackdalay);
         isattack = false;
     
     }
-
-    public void Hit(int damage)
-    {
-        Debug.Log("공격당햇음");
-    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawCube(Hitbox.position, boxsize);
+        Gizmos.DrawCube(attackpoint.position, boxsize);
     }
+
 }

@@ -12,11 +12,17 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnInteract(InputValue value)
     {
+        
         Interact();
     }
     private void Interact()
     {
         OnInteracted?.Invoke();
+    }
+    private void InteractRange()
+    {
+
+
     }
  
 }

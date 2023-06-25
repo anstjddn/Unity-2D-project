@@ -15,27 +15,33 @@ public class ITemBox : MonoBehaviour
 
     private void Awake()
     {
+        interactkey.SetActive(false);
         anim = GetComponent<Animator>();
 
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키
     {
-       if (interactkey != null)
+        if (collision.gameObject.CompareTag("Player"))
         {
             interactkey.SetActive(true);
         }
-        else return;
+        
+      /* if (interactkey != null)
+        {
+            interactkey.SetActive(true);
+        }
+        else
+        {
+            interactkey.SetActive(false);
+        }*/
+
        
     }
    
     private void OnTriggerExit2D(Collider2D collision)
     {
-     
-       if (interactkey != null)
-          {
+
               interactkey.SetActive(false);
-          }
-          else return;
 
     }
 
@@ -51,6 +57,7 @@ public class ITemBox : MonoBehaviour
         StartCoroutine(bullionRoutin());
        
     } 
+    //나오는돈갯수조절
     IEnumerator CoinRoutin()
     {
         while (coinmoney > 0)
