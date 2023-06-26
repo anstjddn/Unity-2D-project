@@ -5,11 +5,10 @@ using UnityEngine;
 public class BigWhiteSkel : MonoBehaviour, IHitable
 {
     [SerializeField] public int hp;
-
     private void Update()
     {
-       
-        if (hp > 0)
+
+       if (hp > 0)
         {
             Debug.Log(hp);
         }

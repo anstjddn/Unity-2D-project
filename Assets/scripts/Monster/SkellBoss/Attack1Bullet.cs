@@ -7,6 +7,7 @@ public class Attack1Bullet : MonoBehaviour
     [SerializeField] public float bulletspeed;
     private Animator bulletanim;
     private bool hit;
+    [SerializeField] public int hitdamege;
     private void Awake()
     {
         hit = false;
@@ -29,14 +30,16 @@ public class Attack1Bullet : MonoBehaviour
   
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.layer == 6)
         {
+
+            IHitable hitable = collision.GetComponent<IHitable>();
             hit = true;
+           
             bulletanim.SetTrigger("hit");
-            GameManager.data.curHp -= 10;
+            hitable?.TakeHit(hitdamege);
             Destroy(gameObject, 0.4f);
-            
-          
+           
         }
     }
 

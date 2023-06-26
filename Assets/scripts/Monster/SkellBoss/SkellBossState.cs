@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class SkellBossState : MonoBehaviour
@@ -122,7 +123,9 @@ public class BossAttack1State : BaseState             //입에서 회전
 
     public override void Update()
     {
-
+        float curTime = 0;
+        curTime += Time.deltaTime;
+       
         if (!isattack)
         {
             bossmonster.StartCoroutine(AttackRoutin(0.4f));
@@ -132,19 +135,28 @@ public class BossAttack1State : BaseState             //입에서 회전
         foreach (Transform t in bossmonster.Attackpoints)
         {
             t.Rotate(-Vector3.back * bossmonster.rotatespeed * Time.deltaTime);
+           
+        }
+        if (curTime > 8f)
+        {
+
+            bossmonster.StopAllCoroutines();
+            bossmonster.ChangeState(SkellBossState.State.Attack2);
+
         }
 
-      
-       /* if (!isattack)
-        {
-            bossmonster.StartCoroutine(AttackRoutin(0.4f));
 
-        }*/
-        
+        /* if (!isattack)
+         {
+             bossmonster.StartCoroutine(AttackRoutin(0.4f));
+
+         }*/
+
 
     }
     IEnumerator AttackRoutin(float dalay)
     {
+       
         isattack = true;
         if (isattack)
         {
@@ -155,7 +167,7 @@ public class BossAttack1State : BaseState             //입에서 회전
             
         }
         yield return new WaitForSeconds(dalay);
-
+      
         isattack = false;
       
 
@@ -169,110 +181,107 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     private bool isAttack2right;
     private bool isAttack2end;
     private bool isAttack2last;
+ 
     public BossAttack2State(SkellBossState bossmonster)
     {
         this.bossmonster = bossmonster;
+       
+
     }
 
     public override void Enter()
     {
+        
         Debug.Log("Attack2 Enter");
         isAttack2left = false;
         isAttack2right = false;
         isAttack2end = false;
-      
+
     }
 
     public override void Exit()
     {
         Debug.Log("Attack2 Exit");
-       
-
     }
 
     public override void Update()
     {
-       bossmonster.StartCoroutine(Attack2Routin());
+       
+            bossmonster.StartCoroutine(Attack2Routin());
+ 
+        if (isAttack2last)
+        {
+            bossmonster.StopAllCoroutines();
+            bossmonster.ChangeState(SkellBossState.State.Attack1);
+        }
       
 
     }
     IEnumerator Attack2Routin()
     {
-      
-        GameObject leftobj = bossmonster.handobj[0];
-       
-        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2left)
+      GameObject leftobj = bossmonster.handobj[0];
+        GameObject rightobj = bossmonster.handobj[1];
+
+        if (Mathf.Abs(bossmonster.player.position.y- leftobj.transform.position.y) > 0.1f && !isAttack2left)
         {
+            Vector2 playerdirleft = (bossmonster.player.position - leftobj.transform.position);
+            playerdirleft = new Vector2(0, playerdirleft.y).normalized;
+            leftobj.transform.Translate(playerdirleft*4*Time.deltaTime);
 
-          leftobj.transform.Translate(new Vector3(0, bossmonster.player.position.y,0) * 4 * Time.deltaTime);
-          
         }
-        else if(isAttack2left)
-            {
-                bossmonster.handobj[0].transform.Translate(0, 0, 0);
-            }
-
+   
         if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2left)
         {
-            bossmonster.handobj[0].transform.Translate(0,0,0);
+            leftobj.transform.Translate(Vector3.zero);
             isAttack2left = true;
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
-           yield return new WaitForSeconds(1.5f);
-          leftobj.GetComponent<Animator>().SetBool("Attack", false);
-           
+            yield return new WaitForSeconds(1.5f);                              //지속할떄까지 스탑
+            leftobj.GetComponent<Animator>().SetBool("Attack", false);
         }
- 
-        yield return new WaitForSeconds(2f);
 
-        GameObject rightobj = bossmonster.handobj[1];
+        yield return new WaitForSeconds(1f);   //왼손쓰고 1초후 오른손
+
         if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2right)
         {
+            Vector2 playerdirRight = (bossmonster.player.position - rightobj.transform.position);
+            playerdirRight = new Vector2(0, playerdirRight.y).normalized;
+            rightobj.transform.Translate(playerdirRight * 4 * Time.deltaTime);
 
-            rightobj.transform.Translate(new Vector3(0, bossmonster.player.position.y, 0) * 4 * Time.deltaTime);
-
-        }
-        else if (isAttack2right)
-        {
-            bossmonster.handobj[1].transform.Translate(0, 0, 0);
         }
 
 
-        if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2right)
+       if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2right)
         {
-            bossmonster.handobj[1].transform.Translate(0, 0, 0);
+            rightobj.transform.Translate(Vector3.zero);
             isAttack2right = true;
             rightobj.GetComponent<Animator>().SetBool("righthand", true);
            yield return new WaitForSeconds(1.5f);
             rightobj.GetComponent<Animator>().SetBool("righthand", false);
         
         }
+
         yield return new WaitForSeconds(0.5f);
-      
 
-        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2last)
+       if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2last)
         {
-
-            leftobj.transform.Translate(new Vector3(0, bossmonster.player.position.y, 0) * 4 * Time.deltaTime);
+            Vector2 playerdirleft = (bossmonster.player.position - leftobj.transform.position);
+            playerdirleft = new Vector2(0, playerdirleft.y).normalized;
+            leftobj.transform.Translate(playerdirleft * 4 * Time.deltaTime);
 
         }
-        else if (isAttack2last)
-        {
-            leftobj.transform.Translate(new Vector3(0, bossmonster.player.position.y, 0) * 4 * Time.deltaTime);
-        }
 
-        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f&& !!isAttack2last)
+        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f&& !isAttack2last)
         {
-            bossmonster.handobj[0].transform.Translate(0, 0, 0);
-            isAttack2last = true;
+            leftobj.transform.Translate(Vector3.zero);
+             
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
             yield return new WaitForSeconds(1.5f);
             leftobj.GetComponent<Animator>().SetBool("Attack", false);
-            
+            isAttack2last = true;
+
         }
-        yield return new WaitForSeconds(5.5f);
-        isAttack2end = true;
-        bossmonster.StopAllCoroutines();
-        bossmonster.ChangeState(SkellBossState.State.Attack1);
+        yield return new WaitForSeconds(7f);
+        
     }
 }
 public class BossAttack3State : BaseState                           //칼 꼿히는거

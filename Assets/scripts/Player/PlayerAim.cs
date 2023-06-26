@@ -18,10 +18,9 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] float range;
     Vector2 aimpos;
     [SerializeField] Vector2 boxsize;
-    int damage;
     [SerializeField] Transform attackpoint;
-    [SerializeField] int dagame;
-
+    [SerializeField] public int dagame;
+    [SerializeField] LayerMask monster;
 
     public bool isattack;
    
@@ -53,22 +52,23 @@ public class PlayerAim : MonoBehaviour
     {
         //¿”∆Â∆Æ
         StartCoroutine(hiteffctroutin(attackdalay));
-
+       
     }
 
     IEnumerator hiteffctroutin(float attackdalay)
     {
         isattack = true;
         Instantiate(hiteffect, hiteffect.transform.position, hiteffect.transform.rotation);
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(attackpoint.position, boxsize, 0);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(attackpoint.position, boxsize, 0, monster);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.gameObject.CompareTag("Monster"))
-            {
-                IHitable hitable = GetComponent<IHitable>();
-                hitable?.TakeHit(dagame);
-               // Destroy(collider.gameObject);
-            }
+          //  if (collider.gameObject.CompareTag("Monster"))
+           // {
+                IHitable hitable = collider.GetComponent<IHitable>();
+                hitable.TakeHit(dagame);
+                //Destroy(collider.gameObject);
+                //collider.GetComponent<BigWhiteSkel>().hp -= dagame;
+         //   }
         }
         yield return new WaitForSeconds(attackdalay);
         isattack = false;
@@ -77,7 +77,12 @@ public class PlayerAim : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawCube(attackpoint.position, boxsize);
+        Gizmos.DrawWireCube(attackpoint.position, boxsize);
     }
 
+  /*  public void TakeHit(int dagame)
+    {
+        GameManager.data.curHp -= dagame;
+        
+    }*/
 }

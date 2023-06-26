@@ -21,10 +21,13 @@ public class Monster : MonoBehaviour
     public Animator monsteranim;
     public Collider2D monsterCollider;
     public SpriteRenderer monsterRender;
-  
-    
-    
-    
+
+    [SerializeField] public GameObject attackpoint;
+    [SerializeField] public Vector2 boxsize;
+    [SerializeField] public LayerMask attackable;
+    [SerializeField] public int damage;
+
+
 
     private void Awake()
     {
@@ -45,6 +48,8 @@ public class Monster : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectRange);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(attackpoint.transform.position, boxsize);
     }
     private void Start()
     {
@@ -167,7 +172,8 @@ public class AttackState : BaseState
 
         monster.monsteranim.SetTrigger("Attack");
         Debug.Log("Attack Enter");
-       
+        monster.StartCoroutine(AttackRoutin());
+
     }
 
     public override void Exit()
@@ -183,5 +189,19 @@ public class AttackState : BaseState
 
     }
 
+    IEnumerator AttackRoutin()
+    {
+
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(monster.attackpoint.transform.position, monster.boxsize, 0, monster.attackable);
+        foreach (Collider2D collider in colliders)
+        {
+            
+            IHitable hitable = collider.GetComponent<IHitable>();
+            hitable.TakeHit(monster.damage);
+            
+        }
+        yield return new WaitForSeconds(1f);
+    }
+   
 
 }
