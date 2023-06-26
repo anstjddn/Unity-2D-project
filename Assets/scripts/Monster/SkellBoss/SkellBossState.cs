@@ -180,73 +180,74 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
         isAttack2left = false;
         isAttack2right = false;
         isAttack2end = false;
-       
+      
     }
 
     public override void Exit()
     {
         Debug.Log("Attack2 Exit");
-        bossmonster.StopAllCoroutines();
+       
 
     }
 
     public override void Update()
     {
-        bossmonster.StartCoroutine(Attack2Routin());
-      /*  if (isAttack2end)
-        {
-            bossmonster.StopAllCoroutines();
-            bossmonster.ChangeState(SkellBossState.State.Attack1);
-        }*/
-        
+       bossmonster.StartCoroutine(Attack2Routin());
+      
 
     }
     IEnumerator Attack2Routin()
     {
       
         GameObject leftobj = bossmonster.handobj[0];
-        //leftobj.transform.Translate(new Vector2(0, bossmonster.player.position.y) * 2 * Time.deltaTime);                           //왼쪽손위치추적 
-        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f&&!isAttack2left)
+       
+        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2left)
         {
 
           leftobj.transform.Translate(new Vector3(0, bossmonster.player.position.y,0) * 4 * Time.deltaTime);
-
+          
         }
+        else if(isAttack2left)
+            {
+                bossmonster.handobj[0].transform.Translate(0, 0, 0);
+            }
 
         if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2left)
         {
-            bossmonster.handobj[0].transform.Translate(Vector3.zero);
+            bossmonster.handobj[0].transform.Translate(0,0,0);
             isAttack2left = true;
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
            yield return new WaitForSeconds(1.5f);
           leftobj.GetComponent<Animator>().SetBool("Attack", false);
            
         }
-       
-
+ 
         yield return new WaitForSeconds(2f);
 
-
         GameObject rightobj = bossmonster.handobj[1];
-        //오른속 공격후 위치추적
         if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2right)
         {
 
             rightobj.transform.Translate(new Vector3(0, bossmonster.player.position.y, 0) * 4 * Time.deltaTime);
 
         }
+        else if (isAttack2right)
+        {
+            bossmonster.handobj[1].transform.Translate(0, 0, 0);
+        }
+
 
         if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2right)
         {
-            bossmonster.handobj[1].transform.Translate(Vector3.zero);
-            isAttack2left = true;
+            bossmonster.handobj[1].transform.Translate(0, 0, 0);
+            isAttack2right = true;
             rightobj.GetComponent<Animator>().SetBool("righthand", true);
            yield return new WaitForSeconds(1.5f);
             rightobj.GetComponent<Animator>().SetBool("righthand", false);
         
         }
         yield return new WaitForSeconds(0.5f);
-        isAttack2left = false;
+      
 
         if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2last)
         {
@@ -254,10 +255,14 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
             leftobj.transform.Translate(new Vector3(0, bossmonster.player.position.y, 0) * 4 * Time.deltaTime);
 
         }
-
-        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f)
+        else if (isAttack2last)
         {
-            bossmonster.handobj[0].transform.Translate(Vector3.zero);
+            leftobj.transform.Translate(new Vector3(0, bossmonster.player.position.y, 0) * 4 * Time.deltaTime);
+        }
+
+        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f&& !!isAttack2last)
+        {
+            bossmonster.handobj[0].transform.Translate(0, 0, 0);
             isAttack2last = true;
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
             yield return new WaitForSeconds(1.5f);
