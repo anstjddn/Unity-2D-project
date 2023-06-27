@@ -191,12 +191,13 @@ public class AttackState : BaseState
 
     IEnumerator AttackRoutin()
     {
-
+        
         Collider2D[] colliders = Physics2D.OverlapBoxAll(monster.attackpoint.transform.position, monster.boxsize, 0, monster.attackable);
         foreach (Collider2D collider in colliders)
         {
             
             IHitable hitable = collider.GetComponent<IHitable>();
+            
             hitable.TakeHit(monster.damage);
             
         }

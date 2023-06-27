@@ -21,9 +21,14 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] Transform attackpoint;
     [SerializeField] public int dagame;
     [SerializeField] LayerMask monster;
+    [SerializeField] GameObject slasheffect;
 
     public bool isattack;
-   
+
+    private void Awake()
+    {
+        dagame = GameManager.data.playerDamege;
+    }
     private void LateUpdate()
     {
 
@@ -45,12 +50,11 @@ public class PlayerAim : MonoBehaviour
         {
             Attack();
         }
-        else return;
 
     }
     private void Attack()
     {
-        //¿”∆Â∆Æ
+
         StartCoroutine(hiteffctroutin(attackdalay));
        
     }
@@ -62,13 +66,11 @@ public class PlayerAim : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapBoxAll(attackpoint.position, boxsize, 0, monster);
         foreach (Collider2D collider in colliders)
         {
-          //  if (collider.gameObject.CompareTag("Monster"))
-           // {
+          
                 IHitable hitable = collider.GetComponent<IHitable>();
                 hitable.TakeHit(dagame);
-                //Destroy(collider.gameObject);
-                //collider.GetComponent<BigWhiteSkel>().hp -= dagame;
-         //   }
+               Instantiate(slasheffect, collider.transform.position, Quaternion.Euler(0,0,120));
+            Destroy(slasheffect, 0.5f);
         }
         yield return new WaitForSeconds(attackdalay);
         isattack = false;
@@ -80,9 +82,5 @@ public class PlayerAim : MonoBehaviour
         Gizmos.DrawWireCube(attackpoint.position, boxsize);
     }
 
-  /*  public void TakeHit(int dagame)
-    {
-        GameManager.data.curHp -= dagame;
-        
-    }*/
+ 
 }

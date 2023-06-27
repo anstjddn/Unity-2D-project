@@ -5,6 +5,7 @@ using UnityEngine;
 public class BigWhiteSkel : MonoBehaviour, IHitable
 {
     [SerializeField] public int hp;
+    [SerializeField] GameObject textprefabs;
     private void Update()
     {
 
@@ -20,6 +21,7 @@ public class BigWhiteSkel : MonoBehaviour, IHitable
 
     public void TakeHit(int dagame)
     {
+        Instantiate(textprefabs, transform.position, Quaternion.identity);
         hp -= dagame;
     }
 }

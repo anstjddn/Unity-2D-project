@@ -17,11 +17,13 @@ public class ITemBox : MonoBehaviour
     {
         interactkey.SetActive(false);
         anim = GetComponent<Animator>();
+        coinmoney = Random.Range(5, 7);
+        bullionmoney = Random.Range(1, 3);
 
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.layer ==6)
         {
             interactkey.SetActive(true);
         }
@@ -50,12 +52,14 @@ public class ITemBox : MonoBehaviour
         
         anim.SetBool("Hit", true);
         Destroy(interactkey);
-        coinmoney = Random.Range(5, 7);
-       
-        bullionmoney = Random.Range(1, 3);
+      //  coinmoney = Random.Range(5, 7);
+      //  bullionmoney = Random.Range(1, 3);
         StartCoroutine(CoinRoutin());
         StartCoroutine(bullionRoutin());
-       
+      
+
+
+
     } 
     //나오는돈갯수조절
     IEnumerator CoinRoutin()
@@ -63,6 +67,7 @@ public class ITemBox : MonoBehaviour
         while (coinmoney > 0)
         {
             Instantiate(Coinobj, transform.position, Quaternion.identity);
+            
             coinmoney--;
         }
         yield return null;
@@ -72,6 +77,7 @@ public class ITemBox : MonoBehaviour
         while (bullionmoney > 0)
         {
             Instantiate(Bullionobj, transform.position, Quaternion.identity);
+
             bullionmoney--;
         }
         yield return null;
