@@ -14,6 +14,10 @@ public class DataManager : MonoBehaviour
     public int curfood = 0;
     public int maxfood = 125;
     public UnityEvent OnChangeHp;
-
+    public float playerTime;
+    private void Update()
+    {
+        playerTime += Time.deltaTime;
+    }
 
 }

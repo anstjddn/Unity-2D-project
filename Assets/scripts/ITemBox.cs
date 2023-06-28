@@ -17,8 +17,8 @@ public class ITemBox : MonoBehaviour
     {
         interactkey.SetActive(false);
         anim = GetComponent<Animator>();
-        coinmoney = Random.Range(5, 7);
-        bullionmoney = Random.Range(1, 3);
+        coinmoney = Random.Range(30, 50);
+        bullionmoney = Random.Range(10, 12);
 
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키

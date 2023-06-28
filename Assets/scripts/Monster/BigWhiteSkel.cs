@@ -6,16 +6,25 @@ public class BigWhiteSkel : MonoBehaviour, IHitable
 {
     [SerializeField] public int hp;
     [SerializeField] GameObject textprefabs;
+    [SerializeField] GameObject coinprefabs;
+    [SerializeField] private int coinmoney;
+    private void Awake()
+    {
+        coinmoney = Random.Range(5, 11);
+    }
     private void Update()
     {
 
        if (hp > 0)
         {
-            Debug.Log(hp);
+           // Debug.Log(hp);
         }
         else
         {
             Destroy(gameObject);
+
+            StartCoroutine(CoinRoutin());
+            
         }
     }
 
@@ -23,5 +32,15 @@ public class BigWhiteSkel : MonoBehaviour, IHitable
     {
         Instantiate(textprefabs, transform.position, Quaternion.identity);
         hp -= dagame;
+    }
+
+    IEnumerator CoinRoutin()
+    {
+        while (coinmoney > 0)
+        {
+            Instantiate(coinprefabs, transform.position, Quaternion.identity);
+            coinmoney--;
+        }
+        yield return null;
     }
 }

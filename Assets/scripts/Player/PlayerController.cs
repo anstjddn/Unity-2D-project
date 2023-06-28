@@ -138,19 +138,8 @@ public class PlayerController : MonoBehaviour, IHitable
      }
 
 
-     // 골드 먹었을경우 돈얻는거 구현
-     private void OnTriggerEnter2D(Collider2D collision)
-     {
-         if (collision.gameObject.tag == "Gold")
-         {
-             GameManager.data.basegold += 10;
-             Destroy(collision.gameObject);
-         }
 
-     }
-
-
-   //뚫고 내려가기
+   //뚫고 내려가기, 돈먹는거 구현
      public void OnCollisionEnter2D(Collision2D collision)
      {
        
@@ -158,12 +147,18 @@ public class PlayerController : MonoBehaviour, IHitable
          {
              curfloor = collision.gameObject;
          }
-         /*  if (collision.gameObject.CompareTag("TileFloor"))
-           {
-               curfloorTile = collision.gameObject;
-           }*/
+        /*  if (collision.gameObject.CompareTag("TileFloor"))
+          {
+              curfloorTile = collision.gameObject;
+          }*/
+        if (collision.gameObject.layer ==11)
+        {
+            GameManager.data.basegold += 10;
+            Destroy(collision.gameObject);
+        }
 
-}
+
+    }
 // 무적됬따가 풀리는거
 public void OffDamage()
       {

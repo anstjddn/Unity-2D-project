@@ -11,7 +11,6 @@ public class Dungeonpos : MonoBehaviour
     public UnityEvent Onplayed;
     [SerializeField] float pos;
 
-
     private void Awake()
     {
         Dungeoinanim = GetComponent<Animator>();
@@ -22,13 +21,9 @@ public class Dungeonpos : MonoBehaviour
 
         if (collision.gameObject.name == "Player")
         {
- 
             playerpos.position = new Vector2(collision.transform.position.x, collision.transform.position.y + pos);
             Onplayed?.Invoke();
             Debug.Log("플레이어 던전진입");
-
-            //  collision.GetComponent<PlayerInput>();
-
         }
     }
    

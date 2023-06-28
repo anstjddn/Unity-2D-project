@@ -304,7 +304,22 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     public class BossAttack3State : BaseState                           //칼 꼿히는거
     {
         public SkellBossState bossmonster;
-   
+         private bool Attack3path= false;
+         private bool Attack3a= false;
+         private bool Attack3b = false;
+         private bool Attack3c = false;
+         private bool Attack3d = false;
+         private bool Attack3e = false;
+         private bool Attack3f = false;
+         GameObject attack3obj1;
+         GameObject attack3obj2;
+         GameObject attack3obj3;
+         GameObject attack3obj4;
+         GameObject attack3obj5;
+         GameObject attack3obj6;
+         public Vector2 targetDir;
+         public bool playerchehck = false;
+
     public BossAttack3State(SkellBossState bossmonster)
     {
             this.bossmonster = bossmonster;
@@ -313,20 +328,87 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
         public override void Enter()
         {
-     
+        Debug.Log("Attack3 Enter");
          }
-
         public override void Exit()
         {
             Debug.Log("Attack3 Exit");
-
         }
-
     public override void Update()
     {
-       
+        Debug.Log("Attack3 Update");
+        bossmonster.StartCoroutine(Attack3routin());
     }
 
+    IEnumerator Attack3routin()
+    {
+        /*if (!Attack3path)
+         {
+             foreach (GameObject attackobjs in bossmonster.Attack3point)
+             {
+
+                 SkellBossState.Instantiate(bossmonster.Attack3prefabs, attackobjs.transform.position, Quaternion.identity);
+
+             }
+             Attack3path = true;
+         }
+         yield return new WaitForSeconds(2f);*/
+     
+        if (!Attack3path && !Attack3a)
+        {
+            attack3obj1 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[0].transform.position, Quaternion.identity);
+          
+            Attack3a = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+        if(!Attack3path && !Attack3b)
+        {
+            attack3obj2 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[1].transform.position, Quaternion.identity);
+            Attack3b = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+        if (!Attack3path && !Attack3c)
+        {
+            attack3obj3 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[2].transform.position, Quaternion.identity);
+            Attack3c = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+        if (!Attack3path && !Attack3d)
+        {
+            attack3obj4 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[3].transform.position, Quaternion.identity);
+            Attack3d = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+        if (!Attack3path && !Attack3e)
+        {
+            SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[4].transform.position, Quaternion.identity);
+            Attack3e = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+        if (!Attack3path && !Attack3f)
+        {
+            attack3obj6 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[5].transform.position, Quaternion.identity);
+            Attack3f = true;
+            Attack3path = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+
+       if (!playerchehck)
+        {
+            targetDir = new Vector2( bossmonster.player.transform.position.x- attack3obj1.transform.position.x, bossmonster.player.transform.position.y - attack3obj1.transform.position.y).normalized;
+            float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+            attack3obj1.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            playerchehck = true;
+        }
+        if (playerchehck)
+        {
+            attack3obj1.transform.rotation = Quaternion.identity;
+            attack3obj1.transform.Translate(targetDir * Time.deltaTime * 1);
+  
+        }
+
+
+    }
 
 
 }

@@ -54,7 +54,7 @@ public class PlayerAim : MonoBehaviour
     }
     private void Attack()
     {
-
+       
         StartCoroutine(hiteffctroutin(attackdalay));
        
     }

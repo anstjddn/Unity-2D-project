@@ -203,6 +203,4 @@ public class AttackState : BaseState
         }
         yield return new WaitForSeconds(1f);
     }
-   
-
 }
