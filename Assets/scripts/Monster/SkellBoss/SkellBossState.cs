@@ -353,57 +353,104 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
              Attack3path = true;
          }
          yield return new WaitForSeconds(2f);*/
-     
+        
         if (!Attack3path && !Attack3a)
         {
-            attack3obj1 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[0].transform.position, Quaternion.identity);
+            attack3obj1 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[0].transform.position,Quaternion.identity);
           
             Attack3a = true;
         }
+        if (Attack3a)
+        {
+            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj1.transform.position.x, bossmonster.player.transform.position.y - attack3obj1.transform.position.y).normalized;
+            attack3obj1.transform.up = targetDir;
+        }
         yield return new WaitForSeconds(0.5f);
+
+
         if(!Attack3path && !Attack3b)
         {
             attack3obj2 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[1].transform.position, Quaternion.identity);
+           
             Attack3b = true;
         }
+        if (Attack3b)
+        {
+            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj2.transform.position.x, bossmonster.player.transform.position.y - attack3obj2.transform.position.y).normalized;
+            attack3obj2.transform.up = targetDir;
+        }
         yield return new WaitForSeconds(0.5f);
+
+
+
+
         if (!Attack3path && !Attack3c)
         {
             attack3obj3 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[2].transform.position, Quaternion.identity);
             Attack3c = true;
         }
+        if (Attack3c)
+        {
+            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj3.transform.position.x, bossmonster.player.transform.position.y - attack3obj3.transform.position.y).normalized;
+            attack3obj3.transform.up = targetDir;
+        }
         yield return new WaitForSeconds(0.5f);
+        
+
+
         if (!Attack3path && !Attack3d)
         {
             attack3obj4 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[3].transform.position, Quaternion.identity);
             Attack3d = true;
         }
+        if (Attack3d)
+        {
+            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj4.transform.position.x, bossmonster.player.transform.position.y - attack3obj4.transform.position.y).normalized;
+            attack3obj4.transform.up = targetDir;
+        }
         yield return new WaitForSeconds(0.5f);
+
+
+
+
         if (!Attack3path && !Attack3e)
         {
             SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[4].transform.position, Quaternion.identity);
             Attack3e = true;
         }
+     /*   if (Attack3e)
+        {
+            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj5.transform.position.x, bossmonster.player.transform.position.y - attack3obj5.transform.position.y).normalized;
+            attack3obj5.transform.up = targetDir;
+        }*/
+
         yield return new WaitForSeconds(0.5f);
+
+
+
         if (!Attack3path && !Attack3f)
         {
             attack3obj6 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[5].transform.position, Quaternion.identity);
             Attack3f = true;
             Attack3path = true;
         }
+        if (Attack3f)
+        {
+            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj6.transform.position.x, bossmonster.player.transform.position.y - attack3obj6.transform.position.y).normalized;
+            attack3obj6.transform.up = targetDir;
+        }
         yield return new WaitForSeconds(0.5f);
 
-       if (!playerchehck)
+
+
+        if (!playerchehck)
         {
-            targetDir = new Vector2( bossmonster.player.transform.position.x- attack3obj1.transform.position.x, bossmonster.player.transform.position.y - attack3obj1.transform.position.y).normalized;
-            float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
-            attack3obj1.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
             playerchehck = true;
+            Attack3a = false;
         }
         if (playerchehck)
         {
-            attack3obj1.transform.rotation = Quaternion.identity;
-            attack3obj1.transform.Translate(targetDir * Time.deltaTime * 1);
+            attack3obj1.transform.Translate(targetDir * Time.deltaTime * -1);
   
         }
 

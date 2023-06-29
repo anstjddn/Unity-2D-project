@@ -9,6 +9,8 @@ TagManager:
   - Monster
   - Floor
   - TileFloor
+  - sppoint
+  - Rooms
   layers:
   - Default
   - TransparentFX
