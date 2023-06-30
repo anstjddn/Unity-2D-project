@@ -99,10 +99,10 @@ public class PlayerController : MonoBehaviour, IHitable
    // 무브 구현
      private void Move()
      {
-         transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
+       transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
 
 
-     }
+    }
      private void OnMove(InputValue value)
      {
          movedir.x = value.Get<Vector2>().x;

@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class SkellBossState : MonoBehaviour
@@ -21,9 +18,9 @@ public class SkellBossState : MonoBehaviour
     [SerializeField] public Transform[] Attackpoints;
     [SerializeField] public float rotatespeed;
 
+   // public int Randpatton = Random.Range((int)State.Attack1, (int)State.Attack3);
 
-    [SerializeField] public GameObject[] Attack3point;
-    [SerializeField] public GameObject Attack3prefabs;
+    [SerializeField] public Attack3 Attack3prefabs;
     
 
     private void Awake()
@@ -53,17 +50,14 @@ public class SkellBossState : MonoBehaviour
 
     }
 
-    public void ChangeState(State state)
-    {
-        states[(int)curstate].Exit();
-        curstate = state;
-        states[(int)curstate].Enter();
-    }
+     public void ChangeState(State state)
+      {
+          states[(int)curstate].Exit();
+          curstate = state;
+          states[(int)curstate].Enter();
+      }
+ 
 
-    public void TakeHit(int dagame)
-    {
-        throw new System.NotImplementedException();
-    }
 }
 public class BossIdleState : BaseState           //가만히 있는거
 {
@@ -85,7 +79,7 @@ public class BossIdleState : BaseState           //가만히 있는거
 
     public override void Update()
     {
-        bossmonster.ChangeState(SkellBossState.State.Attack3);
+        bossmonster.ChangeState(SkellBossState.State.Attack1);
 
 
     }
@@ -94,7 +88,7 @@ public class BossAttack1State : BaseState             //입에서 회전
 {
     public SkellBossState bossmonster;
     public bool isattack;
-    public int curTime = 0;
+    public float curTime;
     public BossAttack1State(SkellBossState bossmonster)
     {
         this.bossmonster = bossmonster;
@@ -102,7 +96,7 @@ public class BossAttack1State : BaseState             //입에서 회전
 
     public override void Enter()
     {
-       
+        curTime = 0;
         bossmonster.monsteranim.SetBool("Attack1", true);
         Debug.Log("Attack1 Enter");
         isattack = false;
@@ -111,32 +105,38 @@ public class BossAttack1State : BaseState             //입에서 회전
     public override void Exit()
     {
         Debug.Log("Attack1 Exit");
-        bossmonster.StopAllCoroutines();
+  
     }
 
     public override void Update()
     {
-        float curTime = 0;
+
         curTime += Time.deltaTime;
-       
+        if (curTime > 5f)
+        {
+            bossmonster.monsteranim.SetBool("Attack1", false);
+            bossmonster.StopAllCoroutines();
+            bossmonster.ChangeState(SkellBossState.State.Attack3);
+
+        }
         if (!isattack)
         {
             bossmonster.StartCoroutine(AttackRoutin(0.4f));
-
+            
         }
         Debug.Log("Attack1 Update");
-        foreach (Transform t in bossmonster.Attackpoints)
+        foreach (Transform t in bossmonster.Attackpoints)                                       //회전
         {
             t.Rotate(-Vector3.back * bossmonster.rotatespeed * Time.deltaTime);
            
         }
-        if (curTime > 8f)
+     /*   if (curTime > 8f)
         {
 
             bossmonster.StopAllCoroutines();
             bossmonster.ChangeState(SkellBossState.State.Attack3);
 
-        }
+        }*/
 
 
         /* if (!isattack)
@@ -149,20 +149,19 @@ public class BossAttack1State : BaseState             //입에서 회전
     }
     IEnumerator AttackRoutin(float dalay)
     {
-       
         isattack = true;
         if (isattack)
         {
             foreach (Transform t in bossmonster.Attackpoints)
             {
-                SkellBossState.Instantiate(bossmonster.Attack1, t.position, t.rotation);
+                SkellBossState.Instantiate(bossmonster.Attack1, t.position, t.rotation);        //동시에 생성
             }
             
         }
         yield return new WaitForSeconds(dalay);
-      
         isattack = false;
-      
+
+
 
     }
     
@@ -304,32 +303,19 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     public class BossAttack3State : BaseState                           //칼 꼿히는거
     {
         public SkellBossState bossmonster;
-         private bool Attack3path= false;
-         private bool Attack3a= false;
-         private bool Attack3b = false;
-         private bool Attack3c = false;
-         private bool Attack3d = false;
-         private bool Attack3e = false;
-         private bool Attack3f = false;
-         GameObject attack3obj1;
-         GameObject attack3obj2;
-         GameObject attack3obj3;
-         GameObject attack3obj4;
-         GameObject attack3obj5;
-         GameObject attack3obj6;
-         public Vector2 targetDir;
-         public bool playerchehck = false;
+    List<Attack3> attack3List = new List<Attack3>();
 
     public BossAttack3State(SkellBossState bossmonster)
     {
             this.bossmonster = bossmonster;
-           
+         
     }
 
-        public override void Enter()
-        {
+    public override void Enter()
+    {
         Debug.Log("Attack3 Enter");
-         }
+        bossmonster.StartCoroutine(Attack3routin());
+    }
         public override void Exit()
         {
             Debug.Log("Attack3 Exit");
@@ -337,128 +323,46 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     public override void Update()
     {
         Debug.Log("Attack3 Update");
-        bossmonster.StartCoroutine(Attack3routin());
+        
     }
 
     IEnumerator Attack3routin()
     {
-        /*if (!Attack3path)
-         {
-             foreach (GameObject attackobjs in bossmonster.Attack3point)
-             {
-
-                 SkellBossState.Instantiate(bossmonster.Attack3prefabs, attackobjs.transform.position, Quaternion.identity);
-
-             }
-             Attack3path = true;
-         }
-         yield return new WaitForSeconds(2f);*/
-        
-        if (!Attack3path && !Attack3a)
+       // List<Attack3> attack3List = new List<Attack3>();
+        int swordCount = 6;
+        for (int i = 0; i < swordCount; i++)
         {
-            attack3obj1 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[0].transform.position,Quaternion.identity);
-          
-            Attack3a = true;
-        }
-        if (Attack3a)
-        {
-            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj1.transform.position.x, bossmonster.player.transform.position.y - attack3obj1.transform.position.y).normalized;
-            attack3obj1.transform.up = targetDir;
-        }
-        yield return new WaitForSeconds(0.5f);
+            float posX = bossmonster.transform.position.x - 5f + i * 2f;
+            float posY = bossmonster.transform.position.y + 5;
+            Attack3 attack3 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, new Vector2(posX, posY), Quaternion.identity);
+            attack3.SetTarget(bossmonster.player.transform);
+            attack3.Aim();
+            attack3List.Add(attack3);
 
-
-        if(!Attack3path && !Attack3b)
-        {
-            attack3obj2 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[1].transform.position, Quaternion.identity);
-           
-            Attack3b = true;
-        }
-        if (Attack3b)
-        {
-            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj2.transform.position.x, bossmonster.player.transform.position.y - attack3obj2.transform.position.y).normalized;
-            attack3obj2.transform.up = targetDir;
-        }
-        yield return new WaitForSeconds(0.5f);
-
-
-
-
-        if (!Attack3path && !Attack3c)
-        {
-            attack3obj3 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[2].transform.position, Quaternion.identity);
-            Attack3c = true;
-        }
-        if (Attack3c)
-        {
-            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj3.transform.position.x, bossmonster.player.transform.position.y - attack3obj3.transform.position.y).normalized;
-            attack3obj3.transform.up = targetDir;
-        }
-        yield return new WaitForSeconds(0.5f);
-        
-
-
-        if (!Attack3path && !Attack3d)
-        {
-            attack3obj4 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[3].transform.position, Quaternion.identity);
-            Attack3d = true;
-        }
-        if (Attack3d)
-        {
-            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj4.transform.position.x, bossmonster.player.transform.position.y - attack3obj4.transform.position.y).normalized;
-            attack3obj4.transform.up = targetDir;
-        }
-        yield return new WaitForSeconds(0.5f);
-
-
-
-
-        if (!Attack3path && !Attack3e)
-        {
-            SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[4].transform.position, Quaternion.identity);
-            Attack3e = true;
-        }
-     /*   if (Attack3e)
-        {
-            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj5.transform.position.x, bossmonster.player.transform.position.y - attack3obj5.transform.position.y).normalized;
-            attack3obj5.transform.up = targetDir;
-        }*/
-
-        yield return new WaitForSeconds(0.5f);
-
-
-
-        if (!Attack3path && !Attack3f)
-        {
-            attack3obj6 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, bossmonster.Attack3point[5].transform.position, Quaternion.identity);
-            Attack3f = true;
-            Attack3path = true;
-        }
-        if (Attack3f)
-        {
-            targetDir = new Vector2(bossmonster.player.transform.position.x - attack3obj6.transform.position.x, bossmonster.player.transform.position.y - attack3obj6.transform.position.y).normalized;
-            attack3obj6.transform.up = targetDir;
-        }
-        yield return new WaitForSeconds(0.5f);
-
-
-
-        if (!playerchehck)
-        {
-            playerchehck = true;
-            Attack3a = false;
-        }
-        if (playerchehck)
-        {
-            attack3obj1.transform.Translate(targetDir * Time.deltaTime * -1);
-  
+            yield return new WaitForSeconds(0.5f);
         }
 
+        yield return new WaitForSeconds(1f);
 
+        for (int i = 0; i < swordCount; i++)
+        {
+            attack3List[i].Attack();
+
+            yield return new WaitForSeconds(0.5f);
+        }
+        yield return new WaitForSeconds(1f);
+        if (attack3List[5].hitable)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                attack3List[i].Remove();
+            }
+            bossmonster.ChangeState(SkellBossState.State.Attack1);
+            bossmonster.StopAllCoroutines();
+        }
     }
 
-
-}
+    }
 
 
 
