@@ -156,15 +156,15 @@ public class PlayerController : MonoBehaviour, IHitable
    //대시구현  (대시 카운터 회복하는거 구현필요
      private void OnDash(InputValue value)
      {
-       
-        transform.Translate(mousepoint.normalized * Dashpower);
+      
+      transform.Translate(mousepoint.normalized * Dashpower);
         
      }
 
      private void OnPointer(InputValue value)
      {
          mousepoint = value.Get<Vector2>();
-        // mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+        mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
      }
 
 

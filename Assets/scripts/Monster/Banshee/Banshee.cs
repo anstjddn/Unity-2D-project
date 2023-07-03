@@ -2,32 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigWhiteSkel : MonoBehaviour, IHitable
+public class Banshee : MonoBehaviour, IHitable
 {
     [SerializeField] public int hp;
     [SerializeField] GameObject textprefabs;
     [SerializeField] GameObject coinprefabs;
     [SerializeField] private int coinmoney;
     [SerializeField] GameObject dieeffect;
+    [SerializeField] Transform playerpos;
+
+    private SpriteRenderer renderer; 
     private void Awake()
     {
-        coinmoney = Random.Range(5, 11);
+        renderer.GetComponent<SpriteRenderer>();
+        coinmoney = Random.Range(5, 11);                                        //이게 에어 몬스터 공용
     }
     private void Update()
     {
 
-       if (hp > 0)
+        if (hp <= 0)
+      
+            Destroy(gameObject);
+            dieeffect = Instantiate(dieeffect, transform.position, Quaternion.identity);
+            Destroy(dieeffect, 3f);
+            StartCoroutine(CoinRoutin());
+        if((transform.position.x - playerpos.position.x)> 0)                //플레이어 왼쪽
         {
-           // Debug.Log(hp);
+            renderer.flipX = true;
         }
         else
         {
-            Destroy(gameObject);
-            dieeffect=Instantiate(dieeffect, transform.position, Quaternion.identity);
-            Destroy(dieeffect, 3f);
-            StartCoroutine(CoinRoutin());
-            
+            renderer.flipX = false;
         }
+
+
     }
 
     public void TakeHit(int dagame)
@@ -45,4 +53,8 @@ public class BigWhiteSkel : MonoBehaviour, IHitable
         }
         yield return null;
     }
+
+
+
+
 }

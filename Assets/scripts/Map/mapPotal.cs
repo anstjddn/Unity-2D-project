@@ -12,7 +12,7 @@ public class mapPotal : MonoBehaviour
         if(collision.gameObject.layer== 6)
         {
             Debug.Log("다음맵으로 이동");
-            collision.transform.position += new Vector3(20, 0, 0);
+            collision.transform.position += new Vector3(15, 0, 0);
             cameramoved?.Invoke();
 
         } 
