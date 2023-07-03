@@ -19,7 +19,7 @@ public class airmonster : MonoBehaviour
     }
     public void Update()
     {
-        if(!isattack &&Vector2.Distance(playerpos.position, transform.position) < 10)
+        if(!isattack &&Vector2.Distance(playerpos.position, transform.position) < 5)
         {
             StartCoroutine(attackroutin());
         }
@@ -30,7 +30,16 @@ public class airmonster : MonoBehaviour
     {
         isattack = true;
         anim.SetTrigger("attack");
-        yield return new WaitForSeconds(2f);
+        Instantiate(bulletprefabs,transform.position,Quaternion.identity);
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -90));
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -135));
+      
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 90));
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 135));
+        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 180));
+        yield return new WaitForSeconds(5f);
         isattack = false;
     }
 }
