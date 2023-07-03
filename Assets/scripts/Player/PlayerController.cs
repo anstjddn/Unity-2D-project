@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour, IHitable
     [SerializeField] float movespeed;
     [SerializeField] float Dashpower;
     public Vector2 movedir;
-    public int gold = 0;
 
 
     //발아래 더스트 애니메이션
@@ -33,18 +32,26 @@ public class PlayerController : MonoBehaviour, IHitable
     [SerializeField] float footrange;
     private bool isgroundcheck;
     [SerializeField] LayerMask whatground;
+    private float jumpTimeCounter;
+    private float jumpTime = 0.35f;
+
+
 
     // 플레이어 시점 관련 구현
     Vector3 mousepoint;
     private SpriteRenderer playerrender;
 
 
+
     //무기 구현
     [SerializeField] private GameObject Weapon;
+
+
 
     //아래점프 구현
     private GameObject curfloor;
     // private GameObject curfloorTile;
+
 
      private void Awake()
      {
@@ -95,7 +102,9 @@ public class PlayerController : MonoBehaviour, IHitable
              }
 
          }
-     }
+
+        mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+    }
    // 무브 구현
      private void Move()
      {
@@ -111,30 +120,51 @@ public class PlayerController : MonoBehaviour, IHitable
      // 점프구현
      private void OnJump(InputValue value)
      {
-
-             Jump();
-
-
+        isgroundcheck = Physics2D.OverlapCircle(footarea.position, footrange, whatground);
+        if (isgroundcheck)
+        {
+            isjumping = true;
+            jumpTimeCounter = jumpTime;
+            Jump(); 
+        }
+        if (value.isPressed&&isjumping)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                playerRb.velocity = Vector2.up * jumppower;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isjumping = false;
+            }
+        }
+        if (value != null)
+        {
+            isjumping = false;
+        }
 
      }
      private void Jump()
      {
 
-        playerRb.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
+        playerRb.velocity = Vector2.up * jumppower;
+     
 
      }
 
    //대시구현  (대시 카운터 회복하는거 구현필요
      private void OnDash(InputValue value)
      {
-        //transform.Translate(new Vector3(mousepoint.x * Dashpower * Time.deltaTime, mousepoint.y * Dashpower * Time.deltaTime));
-        transform.Translate(mousepoint.x * Dashpower * Time.deltaTime, mousepoint.y * Dashpower * Time.deltaTime, 0);
+       
+        transform.Translate(mousepoint.normalized * Dashpower);
+        
      }
 
      private void OnPointer(InputValue value)
      {
          mousepoint = value.Get<Vector2>();
-         mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+        // mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
      }
 
 

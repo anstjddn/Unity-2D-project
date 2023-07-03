@@ -14,12 +14,14 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] GameObject aimcursor;
     [SerializeField] Transform WeaponHoledpoint;
     [SerializeField] GameObject hiteffect;
-    [SerializeField] float attackdalay;
+    private float attackdalay;
+
     [SerializeField] float range;
     Vector2 aimpos;
     [SerializeField] Vector2 boxsize;
     [SerializeField] Transform attackpoint;
     [SerializeField] public int dagame;
+
     [SerializeField] LayerMask monster;
     [SerializeField] GameObject slasheffect;
 
@@ -27,6 +29,7 @@ public class PlayerAim : MonoBehaviour
 
     private void Awake()
     {
+        attackdalay = GameManager.data.playerattackspeed;
         dagame = GameManager.data.playerDamege;
     }
     private void LateUpdate()

@@ -24,5 +24,11 @@ public class PlayerInteract : MonoBehaviour
 
 
     }
- 
+    private void OnState(InputValue value)
+    {
+        PopUpUI ui = GameManager.Resource.Load<PopUpUI>("UI/StateUI");
+        GameManager.UI.ShowPopUpUI(ui);
+    }
+
+
 }

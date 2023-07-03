@@ -13,6 +13,9 @@ public class DataManager : MonoBehaviour
     public int basegold=5000;
     public int curfood = 0;
     public int maxfood = 125;
+    public int block = 0;
+    public int tough = 0;
+    public float playerattackspeed =0.2f;
     public UnityEvent OnChangeHp;
     public float playerTime;
     private void Update()
