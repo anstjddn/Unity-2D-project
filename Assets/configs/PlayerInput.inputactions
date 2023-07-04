@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "swap",
+                    "type": "Button",
+                    "id": "dd1e0936-e185-455b-8c9e-9b763ee6acd3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -210,32 +219,26 @@
                     "action": "levelup",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Weapon",
-            "id": "79f7846d-b6cc-4ffc-86c4-455819b6edf0",
-            "actions": [
-                {
-                    "name": "Attack",
-                    "type": "Button",
-                    "id": "abe528bd-ef28-47ff-a0ed-fbba05f45e91",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "fc3d7283-f6f4-4904-9f44-48a8a3b27358",
-                    "path": "<Mouse>/leftButton",
+                    "id": "23f0b4f9-cbdc-471f-b5a1-f75d5a7799a9",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "swap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02006408-8efa-462a-9c48-e57b2f080030",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "swap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

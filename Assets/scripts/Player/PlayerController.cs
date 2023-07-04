@@ -104,6 +104,10 @@ public class PlayerController : MonoBehaviour, IHitable
          }
 
         mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+       /* if (isgroundcheck)
+        {
+            playeranim.SetBool("Jump", false);
+        }*/
     }
    // 무브 구현
      private void Move()
@@ -127,7 +131,8 @@ public class PlayerController : MonoBehaviour, IHitable
             jumpTimeCounter = jumpTime;
             Jump(); 
         }
-        if (value.isPressed&&isjumping)
+
+      /*  if (value.isPressed&&isjumping)
         {
             if (jumpTimeCounter > 0)
             {
@@ -137,19 +142,22 @@ public class PlayerController : MonoBehaviour, IHitable
             else
             {
                 isjumping = false;
+               
+
             }
         }
         if (value != null)
         {
             isjumping = false;
-        }
+            
+        }*/
 
      }
      private void Jump()
      {
 
         playerRb.velocity = Vector2.up * jumppower;
-     
+        playeranim.SetBool("Jump", true);
 
      }
 
@@ -158,6 +166,7 @@ public class PlayerController : MonoBehaviour, IHitable
      {
       
       transform.Translate(mousepoint.normalized * Dashpower);
+        
         
      }
 

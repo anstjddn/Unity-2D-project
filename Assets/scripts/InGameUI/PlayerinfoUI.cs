@@ -23,5 +23,5 @@ public class PlayerinfoUI : SceneUI
         sliders["playerhpslider"].value = GameManager.data.curHp;
         texts["curcoin"].text = GameManager.data.basegold.ToString();
         texts["curfood"].text = GameManager.data.curfood.ToString();
-    }
+     }
 }

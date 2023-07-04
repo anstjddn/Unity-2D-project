@@ -18,6 +18,7 @@ public class DataManager : MonoBehaviour
     public float playerattackspeed =0.2f;
     public UnityEvent OnChangeHp;
     public float playerTime;
+
     private void Update()
     {
         playerTime += Time.deltaTime;
