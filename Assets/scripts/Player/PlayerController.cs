@@ -41,13 +41,6 @@ public class PlayerController : MonoBehaviour, IHitable
     Vector3 mousepoint;
     private SpriteRenderer playerrender;
 
-
-
-    //무기 구현
-    [SerializeField] private GameObject Weapon;
-
-
-
     //아래점프 구현
     private GameObject curfloor;
     // private GameObject curfloorTile;
@@ -83,14 +76,14 @@ public class PlayerController : MonoBehaviour, IHitable
          {
              playerrender.flipX = false;
              dust.GetComponent<SpriteRenderer>().flipX = false;
-            Weapon.GetComponent<SpriteRenderer>().flipX = false;
+        
 
          }
          else                                               // 뒤방향
          {
              playerrender.flipX = true;
              dust.GetComponent<SpriteRenderer>().flipX = true;
-            Weapon.GetComponent<SpriteRenderer>().flipX = true;
+       
         }
 
 

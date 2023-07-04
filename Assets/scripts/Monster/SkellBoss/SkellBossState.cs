@@ -303,7 +303,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     public class BossAttack3State : BaseState                           //칼 꼿히는거
     {
         public SkellBossState bossmonster;
-    List<Attack3> attack3List = new List<Attack3>();
+        List<Attack3> attack3List = new List<Attack3>();
 
     public BossAttack3State(SkellBossState bossmonster)
     {

@@ -73,7 +73,7 @@ public class PlayerAim : MonoBehaviour
                 IHitable hitable = collider.GetComponent<IHitable>();
                 hitable.TakeHit(dagame);
                Instantiate(slasheffect, collider.transform.position, Quaternion.Euler(0,0,120));
-            Destroy(slasheffect, 0.5f);
+                Destroy(slasheffect, 0.5f);
         }
         yield return new WaitForSeconds(attackdalay);
         isattack = false;
