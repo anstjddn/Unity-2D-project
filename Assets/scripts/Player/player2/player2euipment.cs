@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class player2euipment : MonoBehaviour
 {
-    
+ 
     public List<GameObject> weapons = new List<GameObject>();
     public GameObject curweapon;
 
-  
     public void Awake()
     {
         for(int i = 0; i < 2; i++)

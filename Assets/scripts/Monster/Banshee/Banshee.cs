@@ -1,28 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Purchasing;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Banshee : MonoBehaviour, IHitable
 {
-    [SerializeField] public int hp;
+    [SerializeField] public int maxhp;
     [SerializeField] GameObject textprefabs;
     [SerializeField] GameObject coinprefabs;
     [SerializeField] private int coinmoney;
     [SerializeField] GameObject dieeffect;
+    [SerializeField] public int curhp;
+    [SerializeField] Slider hpbar;
+    [SerializeField] Canvas hpbackground;
 
     private SpriteRenderer hit;
     private void Awake()
     {
         coinmoney = Random.Range(5, 11);
         hit = GetComponent<SpriteRenderer>();
+        curhp = maxhp;
+        hpbar.maxValue = maxhp;
+        hpbar.value = curhp;
+        hpbackground.gameObject.SetActive(false);
     }
+    
     private void Update()
     {
-
-        if (hp > 0)
+        hpbar.value = curhp;
+        if (curhp > 0)
         {
-          
+         
         }
         else
         {
@@ -35,8 +45,9 @@ public class Banshee : MonoBehaviour, IHitable
 
     public void TakeHit(int dagame)
     {
+        hpbackground.gameObject.SetActive(true);
         Instantiate(textprefabs, transform.position, Quaternion.identity);
-        hp -= dagame;
+        curhp -= dagame;
         hit.color = new Color(255, 0, 0, 255);
         Invoke("prihit", 0.1f);
     }
