@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Security.Principal;
+using System.Transactions;
 using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour, IHitable
          {
              playerrender.flipX = true;
              dust.GetComponent<SpriteRenderer>().flipX = true;
-       
+ 
         }
 
 
@@ -96,7 +97,7 @@ public class PlayerController : MonoBehaviour, IHitable
 
          }
 
-        mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+       // mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
        /* if (isgroundcheck)
         {
             playeranim.SetBool("Jump", false);
@@ -151,22 +152,21 @@ public class PlayerController : MonoBehaviour, IHitable
 
         playerRb.velocity = Vector2.up * jumppower;
         playeranim.SetBool("Jump", true);
-
+       
      }
 
    //대시구현  (대시 카운터 회복하는거 구현필요
      private void OnDash(InputValue value)
      {
-      
-      transform.Translate(mousepoint.normalized * Dashpower);
-        
-        
-     }
+        // transform.Translate(mousepoint.normalized * Dashpower);
+        playerRb.velocity = new Vector2(mousepoint.normalized.x, mousepoint.normalized.y) * Dashpower;
+    }
 
      private void OnPointer(InputValue value)
      {
          mousepoint = value.Get<Vector2>();
-        mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+       mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
+      
      }
 
 

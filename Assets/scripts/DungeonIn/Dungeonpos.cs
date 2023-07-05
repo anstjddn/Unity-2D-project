@@ -19,7 +19,7 @@ public class Dungeonpos : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "player2")
         {
             playerpos.position = new Vector2(collision.transform.position.x, collision.transform.position.y + pos);
             Onplayed?.Invoke();

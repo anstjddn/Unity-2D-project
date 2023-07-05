@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: cosmossword
   damage: 20
-  hiteffctprefabs: {fileID: 3716686033347894140, guid: 67df3e4322facb144a80ec685473a66c, type: 3}
+  hiteffctprefabs: {fileID: 8954867940309937698, guid: 347aa0cc97b7ffa4a91423c7b93a3cb1, type: 3}
   swodrobj: {fileID: 6296501265131572443, guid: 9c0ef0fd95596354f958d4b488a2d6ae, type: 3}
   slasheffectprefabs: {fileID: 4644872391254929133, guid: 52133435f4f48164480c37627f0f27ce, type: 3}
   attackdelay: 1

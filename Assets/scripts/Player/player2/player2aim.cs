@@ -21,7 +21,7 @@ public class player2aim : MonoBehaviour
             aimpos.y = value.Get<Vector2>().y;
         }
         
-        private void OnAttack()
+     private void OnAttack()
     {
         Attack();
     }

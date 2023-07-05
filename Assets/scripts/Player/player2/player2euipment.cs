@@ -8,6 +8,7 @@ public class player2euipment : MonoBehaviour
  
     public List<GameObject> weapons = new List<GameObject>();
     public GameObject curweapon;
+    
 
     public void Awake()
     {
