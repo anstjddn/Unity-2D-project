@@ -10,7 +10,10 @@ public class DataManager : MonoBehaviour
     public int curHp=60;
     public int playerDamege=0;
     public int defence=0;
-    public int basegold=5000;
+    private int basegold=5000;
+    public int BaseGold { get { return basegold; } set { basegold = value; OnBaseGoldChanged?.Invoke(); } }
+    public UnityAction OnBaseGoldChanged;
+
     public int curfood = 0;
     public int maxfood = 125;
     public int block = 0;

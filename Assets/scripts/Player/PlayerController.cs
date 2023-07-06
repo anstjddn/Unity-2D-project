@@ -47,33 +47,37 @@ public class PlayerController : MonoBehaviour, IHitable
     // private GameObject curfloorTile;
 
 
-     private void Awake()
-     {
-         playerRb = GetComponent<Rigidbody2D>();
-         playeranim = GetComponent<Animator>();
-         playerrender = GetComponent<SpriteRenderer>();
-         isjumping = false;
+    private void Awake()
+    {
+        playerRb = GetComponent<Rigidbody2D>();
+        playeranim = GetComponent<Animator>();
+        playerrender = GetComponent<SpriteRenderer>();
+        isjumping = false;
+
+    }
 
 
-     }
+    private void Update()
+    {
 
+        Move();
 
-     private void Update()
-     {
-
-         Move();
-         if (movedir.magnitude == 0)
+        if (movedir.magnitude == 0|| isjumping)
          {
              playeranim.SetFloat("movespeed", 0);
              dust.SetActive(false);
          }
-         else
+         else if(movedir.magnitude != 0 || !isjumping)
          {
              playeranim.SetFloat("movespeed", movespeed);
              dust.SetActive(true);
          }
+        else if (movedir.magnitude != 0 || isjumping)
+        {
+            dust.SetActive(false);
+        }
 
-         if (mousepoint.x > playerRb.transform.position.x)   //앞방향
+            if (mousepoint.x > playerRb.transform.position.x)   //앞방향
          {
              playerrender.flipX = false;
              dust.GetComponent<SpriteRenderer>().flipX = false;
@@ -84,7 +88,6 @@ public class PlayerController : MonoBehaviour, IHitable
          {
              playerrender.flipX = true;
              dust.GetComponent<SpriteRenderer>().flipX = true;
- 
         }
 
 
@@ -97,11 +100,22 @@ public class PlayerController : MonoBehaviour, IHitable
 
          }
 
-       // mousepoint = Camera.main.ScreenToWorldPoint(mousepoint);
-       /* if (isgroundcheck)
+        isgroundcheck = Physics2D.OverlapCircle(footarea.position, footrange, whatground);
+        if (isgroundcheck) //충돌중
+          {
+              isjumping = false;
+              playeranim.SetBool("Jump", false);
+          }
+       else
         {
-            playeranim.SetBool("Jump", false);
-        }*/
+            dust.SetActive(false);
+            playeranim.SetBool("Jump", true);
+        }
+        /*  if (isjumping)
+          {
+              dust.SetActive(false);
+          }*/
+
     }
    // 무브 구현
      private void Move()
@@ -118,41 +132,16 @@ public class PlayerController : MonoBehaviour, IHitable
      // 점프구현
      private void OnJump(InputValue value)
      {
-        isgroundcheck = Physics2D.OverlapCircle(footarea.position, footrange, whatground);
-        if (isgroundcheck)
+        if (isgroundcheck)                   
         {
-            isjumping = true;
-            jumpTimeCounter = jumpTime;
             Jump(); 
         }
-
-      /*  if (value.isPressed&&isjumping)
-        {
-            if (jumpTimeCounter > 0)
-            {
-                playerRb.velocity = Vector2.up * jumppower;
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                isjumping = false;
-               
-
-            }
-        }
-        if (value != null)
-        {
-            isjumping = false;
-            
-        }*/
-
-     }
+       
+    }
      private void Jump()
      {
-
         playerRb.velocity = Vector2.up * jumppower;
-        playeranim.SetBool("Jump", true);
-       
+
      }
 
    //대시구현  (대시 카운터 회복하는거 구현필요
@@ -185,7 +174,7 @@ public class PlayerController : MonoBehaviour, IHitable
           }*/
         if (collision.gameObject.layer ==11)
         {
-            GameManager.data.basegold += 10;
+            GameManager.data.BaseGold += 10;
             Destroy(collision.gameObject);
         }
 
@@ -222,7 +211,7 @@ public void OffDamage()
             yield return new WaitForSeconds(1f);
             Physics2D.IgnoreCollision(transform.GetComponent<Collider2D>(), floorcollder, false);
         }
-    /*    if (curfloorTile != null)
+    /*   if (curfloorTile != null)
         {
             TilemapCollider2D floorTilecollder = curfloorTile.gameObject.GetComponent<TilemapCollider2D>();
             Physics2D.IgnoreCollision(transform.GetComponent<Collider2D>(), floorTilecollder);

@@ -17,7 +17,7 @@ public class Playercurcoin : MonoBehaviour
 
     private void Update()
     {
-        cointext.text = ($"{GameManager.data.basegold}");
+        cointext.text = ($"{GameManager.data.BaseGold}");
 
     }
 }

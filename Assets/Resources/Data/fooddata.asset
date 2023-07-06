@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 951bcee8ff37ff143b27ee68363604f9, type: 3}
+  m_Name: fooddata
+  m_EditorClassIdentifier: 
+  foods:
+  - price: 1000
+    name: bread
+    hpheal: 10
+    maxhp: 10
+    foodimage: {fileID: 21300000, guid: 7a3a1a46b9f23e94ba4ddc381d11b51b, type: 3}
+  - price: 2000
+    name: burger
+    hpheal: 20
+    maxhp: 20
+    foodimage: {fileID: 21300000, guid: 353374e3cad5cd14f9616da6b9d44ef4, type: 3}
+  - price: 3000
+    name: chicken
+    hpheal: 30
+    maxhp: 30
+    foodimage: {fileID: 21300000, guid: ef9327ed39558e545a26b359079fc55f, type: 3}

@@ -23,11 +23,11 @@ public class Inventory : MonoBehaviour
             slot.name = $"inventory{i}";
             slots.Add(slot);
         }
-       shop.onslotcliked += Buyitem;                                              //샵에 이벤트 
+                                         
     }
 
-    void Buyitem(itemproperty item)                                                         //비어있는슬롯 찾아서 넣어준다
-    { var emptySlot = slots.Find(t =>
+   // void Buyitem(itemproperty item)                                                         //비어있는슬롯 찾아서 넣어준다
+  /*  { var emptySlot = slots.Find(t =>
           {
               return t.item == null || t.item.name == string.Empty;
           });
@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
           if(emptySlot != null)
           {
               emptySlot.Setitem(item);
-          }
+          }*/
 
        
         /*   public void getitem(item item)
@@ -49,4 +49,4 @@ public class Inventory : MonoBehaviour
                }
            }*/
     }
-}
+

@@ -14,7 +14,7 @@ public class Coin : MonoBehaviour, IGetable
 
     public void Get()
     {
-        GameManager.data.basegold += 10;
+        GameManager.data.BaseGold += 10;
         Destroy(gameObject);
     }
 
