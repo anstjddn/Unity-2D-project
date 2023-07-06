@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour, IHitable
      private void OnDash(InputValue value)
      {
         // transform.Translate(mousepoint.normalized * Dashpower);
-        playerRb.velocity = new Vector2(mousepoint.normalized.x, mousepoint.normalized.y) * Dashpower;
+        playerRb.velocity = new Vector2(mousepoint.x * Dashpower, mousepoint.y * Dashpower);
     }
 
      private void OnPointer(InputValue value)

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class shopslot : MonoBehaviour
 {
-    public Transform slotRoot;
+   public Transform slotRoot;
     public itembuffer itembuffer;
     public List<Slot> slots;
 

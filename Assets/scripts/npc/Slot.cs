@@ -5,24 +5,27 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
+
+
     public itemproperty item;
     public Image image; 
 
-    public void Setitem(itemproperty item)
-    {
-        this.item = item;
+     public void Setitem(itemproperty item)
+      {
+          this.item = item;
 
 
-        if( item == null)
-        {
-            image.enabled = false;
-            gameObject.name = "Empty";
-        }
-        else
-        {
-            image.enabled = true;
-            gameObject.name = item.name;
-            image.sprite = item.sprite;
-        }
-    }
+          if( item == null)
+          {
+              image.enabled = false;
+              gameObject.name = "Empty";
+          }
+          else
+          {
+              image.enabled = true;
+              gameObject.name = item.name;
+              image.sprite = item.sprite;
+          }
+      }
+
 }

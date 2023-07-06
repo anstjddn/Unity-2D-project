@@ -5,8 +5,6 @@ using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Unity.VisualScripting.Dependencies.Sqlite.SQLite3;
-using static Weapon;
 
 public class Weapon: MonoBehaviour
 {
@@ -40,9 +38,11 @@ public class Weapon: MonoBehaviour
         if (curweapon.GetComponent<sword>() != null)
         {
             dagame = curweapon.GetComponent<sword>().data.damage;
+            GameManager.data.playerDamege = dagame;
             slasheffect = curweapon.GetComponent<sword>().data.slasheffectprefabs;
             hiteffect = curweapon.GetComponent<sword>().data.hiteffctprefabs;
             attackdalay = curweapon.GetComponent<sword>().data.attackdelay;
+            GameManager.data.playerattackspeed = attackdalay;
             swordAttackpoint = curweapon.transform.GetChild(0).gameObject.transform;
             curtype = weapontype.sword;
             
@@ -50,8 +50,10 @@ public class Weapon: MonoBehaviour
        else if (curweapon.GetComponent<gun>() != null)
         {
             dagame = curweapon.GetComponent<gun>().data.damage;
+            GameManager.data.playerDamege = dagame;
             bulletprefabs = curweapon.GetComponent<gun>().data.bulletprefabs;
             attackdalay = curweapon.GetComponent<gun>().data.attackdelay;
+            GameManager.data.playerattackspeed = attackdalay;
             hiteffect = null;
             slasheffect = null;
             curtype = weapontype.gun;

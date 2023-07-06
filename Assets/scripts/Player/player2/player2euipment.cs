@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class player2euipment : MonoBehaviour
 {
  
     public List<GameObject> weapons = new List<GameObject>();
     public GameObject curweapon;
-    
+ 
 
     public void Awake()
     {
@@ -24,6 +25,7 @@ public class player2euipment : MonoBehaviour
     public void Update()
     {
         curweapon.SetActive(true);
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             curweapon.SetActive(false);
