@@ -42,5 +42,23 @@ public class gunbullet : MonoBehaviour
             Destroy(gameObject, 0.4f);
 
         }
+        if (collision.gameObject.layer == 7)
+        {
+
+       
+            hit = true;
+
+            bulletanim.SetTrigger("hit");
+  
+            Destroy(gameObject, 0.4f);
+
+        }
+        if (collision.gameObject.layer == 14)
+        {          
+            hit = true;
+            bulletanim.SetTrigger("hit");
+            Destroy(gameObject, 0.4f);
+
+        }
     }
 }

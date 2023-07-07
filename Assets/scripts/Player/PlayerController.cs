@@ -12,6 +12,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour, IHitable
 {
@@ -33,8 +34,7 @@ public class PlayerController : MonoBehaviour, IHitable
     [SerializeField] float footrange;
     private bool isgroundcheck;
     [SerializeField] LayerMask whatground;
-    private float jumpTimeCounter;
-    private float jumpTime = 0.35f;
+
 
 
 
@@ -47,19 +47,24 @@ public class PlayerController : MonoBehaviour, IHitable
     // private GameObject curfloorTile;
 
 
+    //무기 뒤집기
+    [SerializeField] Transform weaponhold;
+
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
         playeranim = GetComponent<Animator>();
         playerrender = GetComponent<SpriteRenderer>();
         isjumping = false;
+        weaponhold = transform.GetChild(0).transform;
 
     }
 
 
-    private void Update()
+    private void Update()   
     {
-
+        Vector2 scale = weaponhold.transform.localScale;
+      
         Move();
 
         if (movedir.magnitude == 0|| isjumping)
@@ -81,15 +86,17 @@ public class PlayerController : MonoBehaviour, IHitable
          {
              playerrender.flipX = false;
              dust.GetComponent<SpriteRenderer>().flipX = false;
-        
+            scale.y = 1; 
 
-         }
+        }
          else                                               // 뒤방향
          {
              playerrender.flipX = true;
              dust.GetComponent<SpriteRenderer>().flipX = true;
-        }
+            scale.y = -1;
 
+        }
+        weaponhold.transform.localScale = scale;
 
          if (movedir.y == -1 && Input.GetKey(KeyCode.Space))
          {
@@ -115,7 +122,7 @@ public class PlayerController : MonoBehaviour, IHitable
           {
               dust.SetActive(false);
           }*/
-
+        Debug.Log(mousepoint);
     }
    // 무브 구현
      private void Move()
@@ -148,7 +155,16 @@ public class PlayerController : MonoBehaviour, IHitable
      private void OnDash(InputValue value)
      {
         // transform.Translate(mousepoint.normalized * Dashpower);
-        playerRb.velocity = new Vector2(mousepoint.x * Dashpower, mousepoint.y * Dashpower);
+     
+        if (mousepoint.x > playerRb.transform.position.x|| mousepoint.y > playerRb.transform.position.y)         //오른쪽 위             
+        {
+            playerRb.velocity = mousepoint.normalized * Dashpower;
+        }
+        else if(mousepoint.x > playerRb.transform.position.x || mousepoint.y < playerRb.transform.position.y)  //오른쪽 아래
+        {
+            playerRb.velocity = new Vector2(mousepoint.normalized.x, -mousepoint.normalized.y) * Dashpower;
+        }
+
     }
 
      private void OnPointer(InputValue value)

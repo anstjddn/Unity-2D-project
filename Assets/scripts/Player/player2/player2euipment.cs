@@ -9,7 +9,6 @@ public class player2euipment : MonoBehaviour
  
     public List<GameObject> weapons = new List<GameObject>();
     public GameObject curweapon;
- 
 
     public void Awake()
     {
@@ -20,6 +19,8 @@ public class player2euipment : MonoBehaviour
             weapons[i].SetActive(false);
         }
         curweapon = weapons[0];
+
+        
     }
 
     public void Update()
@@ -37,8 +38,7 @@ public class player2euipment : MonoBehaviour
             curweapon.SetActive(false);
             curweapon = weapons[1];
         }
-
-
+  
     }
 
 
