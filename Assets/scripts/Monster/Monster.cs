@@ -21,6 +21,7 @@ public class Monster : MonoBehaviour
     public Animator monsteranim;
     public Collider2D monsterCollider;
     public SpriteRenderer monsterRender;
+    public float atackdalay;
 
     [SerializeField] public GameObject attackpoint;
     [SerializeField] public Vector2 boxsize;
@@ -71,14 +72,44 @@ public class Monster : MonoBehaviour
     }
     public void checkd()
     {
-        if (Vector2.Distance(Player.position, transform.position) < detectRange)
+        StartCoroutine(Attackdalay(atackdalay));
+       /* if (Vector2.Distance(Player.position, transform.position) < detectRange)  //범위 안에 있으면
         {
             ChangeState(State.Trace);
         }
-        if (Vector2.Distance(Player.position, transform.position) < AttackRange)
+        else
+        {
+            if (Vector2.Distance(Player.position, transform.position) > detectRange)   //멀리 있으면 idle
+            {
+                ChangeState(State.Idle);
+            }
+        }
+        if (Vector2.Distance(Player.position, transform.position) < AttackRange)   //어택 범위 안에 있으면 다시공격
+        {
+            ChangeState(State.Attack);
+        }*/
+        
+    }
+    IEnumerator Attackdalay(float Attackdalay)
+    {
+        yield return new WaitForSeconds(Attackdalay);
+             if (Vector2.Distance(Player.position, transform.position) < detectRange)  //범위 안에 있으면
+        {
+            ChangeState(State.Trace);
+        }
+        else
+        {
+            if (Vector2.Distance(Player.position, transform.position) > detectRange)   //멀리 있으면 idle
+            {
+                ChangeState(State.Idle);
+            }
+        }
+        if (Vector2.Distance(Player.position, transform.position) < AttackRange)   //어택 범위 안에 있으면 다시공격
         {
             ChangeState(State.Attack);
         }
+
+
     }
     
 }
@@ -110,7 +141,7 @@ public class IdleState : BaseState
         {
             monster.ChangeState(Monster.State.Trace);
         }
-        
+   
 
     }
 }
@@ -184,8 +215,8 @@ public class AttackState : BaseState
 
     public override void Update()
     {
+
         Debug.Log("Attack Update");
-        
 
     }
 
@@ -201,6 +232,7 @@ public class AttackState : BaseState
             hitable.TakeHit(monster.damage);
             
         }
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
+        yield return null;
     }
 }

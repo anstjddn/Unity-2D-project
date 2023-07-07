@@ -8,6 +8,11 @@ public class itemDarge : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     public Image image;
     public Transform partentAfterDarag;
+    public void Awake()
+    {
+        image = GetComponent<Image>();
+        
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         partentAfterDarag = transform.parent;

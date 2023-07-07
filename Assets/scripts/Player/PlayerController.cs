@@ -49,6 +49,14 @@ public class PlayerController : MonoBehaviour, IHitable
 
     //무기 뒤집기
     [SerializeField] Transform weaponhold;
+   
+    
+    //대쉬 방향
+    Vector2 dir;
+    //대쉬 하는중과 시간 설정
+    public float dashTime= 0.3f;
+    public bool isdashing;
+    public int dashcount;
 
     private void Awake()
     {
@@ -57,14 +65,16 @@ public class PlayerController : MonoBehaviour, IHitable
         playerrender = GetComponent<SpriteRenderer>();
         isjumping = false;
         weaponhold = transform.GetChild(0).transform;
-
+        dashcount = GameManager.data.dashcount;
+     
     }
 
 
     private void Update()   
     {
+   
         Vector2 scale = weaponhold.transform.localScale;
-      
+        dir = (mousepoint - transform.position).normalized;
         Move();
 
         if (movedir.magnitude == 0|| isjumping)
@@ -86,7 +96,9 @@ public class PlayerController : MonoBehaviour, IHitable
          {
              playerrender.flipX = false;
              dust.GetComponent<SpriteRenderer>().flipX = false;
-            scale.y = 1; 
+            scale.y = 1;
+           
+            weaponhold.localPosition= new Vector3(0.08f, -0.03f, 0);
 
         }
          else                                               // 뒤방향
@@ -94,7 +106,8 @@ public class PlayerController : MonoBehaviour, IHitable
              playerrender.flipX = true;
              dust.GetComponent<SpriteRenderer>().flipX = true;
             scale.y = -1;
-
+         
+            weaponhold.localPosition = new Vector3(-0.08f, -0.03f, 0);
         }
         weaponhold.transform.localScale = scale;
 
@@ -122,13 +135,12 @@ public class PlayerController : MonoBehaviour, IHitable
           {
               dust.SetActive(false);
           }*/
-        Debug.Log(mousepoint);
+       // Debug.Log(mousepoint);
     }
    // 무브 구현
      private void Move()
      {
        transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
-
 
     }
      private void OnMove(InputValue value)
@@ -154,18 +166,13 @@ public class PlayerController : MonoBehaviour, IHitable
    //대시구현  (대시 카운터 회복하는거 구현필요
      private void OnDash(InputValue value)
      {
-        // transform.Translate(mousepoint.normalized * Dashpower);
-     
-        if (mousepoint.x > playerRb.transform.position.x|| mousepoint.y > playerRb.transform.position.y)         //오른쪽 위             
+        if (dashcount > 0)
         {
-            playerRb.velocity = mousepoint.normalized * Dashpower;
-        }
-        else if(mousepoint.x > playerRb.transform.position.x || mousepoint.y < playerRb.transform.position.y)  //오른쪽 아래
-        {
-            playerRb.velocity = new Vector2(mousepoint.normalized.x, -mousepoint.normalized.y) * Dashpower;
+            StartCoroutine(dashroutin());
         }
 
-    }
+       }
+ 
 
      private void OnPointer(InputValue value)
      {
@@ -193,11 +200,14 @@ public class PlayerController : MonoBehaviour, IHitable
             GameManager.data.BaseGold += 10;
             Destroy(collision.gameObject);
         }
-
+      /*  if(isdashing&& collision.gameObject.layer == 9)
+        {
+            collision.gameObject.GetComponent<IHitable>().TakeHit(GameManager.data.playerDamege);
+        }*/
 
     }
 // 무적됬따가 풀리는거
-public void OffDamage()
+      public void OffDamage()
       {
           gameObject.layer = 6;
           playerrender.color = new Color(1, 1, 1,1);
@@ -246,5 +256,37 @@ public void OffDamage()
         playerrender.color = new Color(1, 1, 1, 0.4f);
         Invoke("OffDamage", 0.5f);
 
+    }
+
+    IEnumerator dashroutin()
+    {
+        dashTime -= Time.deltaTime;
+        if (dashTime > 0)
+        {
+            // transform.gameObject.layer = 16;
+          //  transform.Translate(dir * Dashpower);
+            playerRb.velocity = dir * Dashpower;
+            isdashing = true;
+            dashcount--;
+            StartCoroutine(dashheal());
+            yield return new WaitForSeconds(0.5f);
+           transform.gameObject.layer = 6;
+           isdashing = false;
+        
+        }
+        else
+        {
+            playerRb.velocity = new Vector2(0,Physics2D.gravity.y);
+        }
+ 
+    }
+    IEnumerator dashheal()
+    {
+        yield return new WaitForSeconds(3f);
+        if (dashcount < 2)
+        {
+            dashcount++;
+        }
+       
     }
 }

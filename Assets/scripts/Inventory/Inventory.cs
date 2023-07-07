@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
     public GameObject image;
     public void Start()
     {
-        slots = new List<Slot>();
+        slots = new List<Slot>();      //lost을 담을 
         int slotcunt = slotRoot.childCount;
 
         for (int i = 0; i < slotcunt; i++)
@@ -23,7 +23,39 @@ public class Inventory : MonoBehaviour
             slot.name = $"inventory{i}";
             slots.Add(slot);
         }
-                                         
+    }
+ 
+    public void Buyitem(GameObject obj)
+    {
+
+       GameObject moveobj = Instantiate(obj);
+       // Destroy(obj);
+        Debug.Log("들이감");
+        /* for (int i = 0; i < slots.Count; i++)
+         {
+             if (slots[i].transform.GetChild(0) == null)                 //없는경우
+             {
+
+                 moveobj.transform.SetParent(slots[i].transform);
+                 Debug.Log($"{obj.name} slots{i}비어있음"); //여기 넣고
+             }
+             else
+             {
+                 return;
+             }*/
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].transform.childCount == 0)                 //없는경우
+            {
+                Debug.Log($"{obj.name} slots{i}비어있음");
+
+                moveobj.transform.SetParent(slots[i].transform);
+                moveobj.AddComponent<itemDarge>();
+                return;
+                //Debug.Log($"{obj.name} slots{i}비어있음"); //여기 넣고
+            }
+          
+    }
     }
 
    // void Buyitem(itemproperty item)                                                         //비어있는슬롯 찾아서 넣어준다
@@ -37,16 +69,5 @@ public class Inventory : MonoBehaviour
               emptySlot.Setitem(item);
           }*/
 
-       
-        /*   public void getitem(item item)
-           {
-               for(int i =0; i < slots.Count; i++)
-               {
-                   if (slots[i].transform.GetChild(0) == null)
-                   {
-                       item.itemImage = slots[i].transform.GetChild(0);
-                   }
-               }
-           }*/
     }
 

@@ -60,5 +60,7 @@ public class gunbullet : MonoBehaviour
             Destroy(gameObject, 0.4f);
 
         }
+     
     }
+  
 }

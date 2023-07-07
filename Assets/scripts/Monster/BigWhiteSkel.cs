@@ -9,9 +9,13 @@ public class BigWhiteSkel : MonoBehaviour, IHitable
     [SerializeField] GameObject coinprefabs;
     [SerializeField] private int coinmoney;
     [SerializeField] GameObject dieeffect;
+    [SerializeField] public int damage;
+    [SerializeField] public float attackdaley;
     private void Awake()
     {
         coinmoney = Random.Range(5, 11);
+        transform.GetComponent<Monster>().damage = damage;
+        transform.GetComponent<Monster>().atackdalay = attackdaley;
     }
     private void Update()
     {

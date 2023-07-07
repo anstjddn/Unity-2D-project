@@ -49,7 +49,8 @@ public class Banshee : MonoBehaviour, IHitable
         Instantiate(textprefabs, transform.position, Quaternion.identity);
         curhp -= dagame;
         hit.color = new Color(255, 0, 0, 255);
-        Invoke("prihit", 0.1f);
+      StartCoroutine(damageRoutin());
+      //  Invoke("prihit", 0.1f);
     }
 
     IEnumerator CoinRoutin()
@@ -61,7 +62,13 @@ public class Banshee : MonoBehaviour, IHitable
         }
         yield return null;
     }
-    private void prihit()
+
+    IEnumerator damageRoutin()
+    {
+        hit.color = new Color(255, 255, 255, 255);
+        yield return new WaitForSeconds(0.3f);
+    }
+   private void prihit()
     {
         hit.color = new Color(255, 255, 255, 255);
     }

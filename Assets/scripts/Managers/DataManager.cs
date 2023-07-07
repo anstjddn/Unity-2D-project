@@ -21,6 +21,7 @@ public class DataManager : MonoBehaviour
     public float playerattackspeed =0;
     public UnityEvent OnChangeHp;
     public float playerTime;
+    public int dashcount=2;
 
     private void Update()
     {

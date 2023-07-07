@@ -8,9 +8,11 @@ using UnityEngine.UI;
 public class foodslot : MonoBehaviour
 {
    
-        [SerializeField]public Transform slotRoot;
-        public List<meum> slots;
-       public FoodData fooddata;
+    [SerializeField]public Transform slotRoot;
+    public List<meum> slots;
+    public FoodData fooddata;
+    public int rand;
+
    public void Awake()
     {
         
@@ -20,7 +22,7 @@ public class foodslot : MonoBehaviour
             for (int i = 0; i < slotcunt; i++)
             {
                 var slot = slotRoot.GetChild(i).GetComponent<meum>();
-
+                 
                  slot.name = fooddata.foods[i].name;                     
                  slot.money= fooddata.foods[i].price;
                  slot.meumimage = fooddata.foods[i].foodimage;
