@@ -17,6 +17,7 @@ public class SkellBossState : MonoBehaviour
     [SerializeField] public GameObject Attack1;
     [SerializeField] public Transform[] Attackpoints;
     [SerializeField] public float rotatespeed;
+    public int randpatoon;
 
    // public int Randpatton = Random.Range((int)State.Attack1, (int)State.Attack3);
 
@@ -35,7 +36,7 @@ public class SkellBossState : MonoBehaviour
         monsteranim = GetComponent<Animator>();
         monsterCollider = GetComponent<Collider2D>();
 
-
+        randpatoon = Random.Range(0, 3);
     }
 
     private void Start()
@@ -50,13 +51,20 @@ public class SkellBossState : MonoBehaviour
 
     }
 
-     public void ChangeState(State state)
+  /*   public void ChangeState(State state)
       {
           states[(int)curstate].Exit();
           curstate = state;
           states[(int)curstate].Enter();
-      }
- 
+      }*/
+
+    public void ChangeState(State state)
+    {
+        states[(int)curstate].Exit();
+        curstate = state;
+        states[(int)curstate].Enter();
+    }
+
 
 }
 public class BossIdleState : BaseState           //가만히 있는거
@@ -79,7 +87,7 @@ public class BossIdleState : BaseState           //가만히 있는거
 
     public override void Update()
     {
-        bossmonster.ChangeState(SkellBossState.State.Attack1);
+        bossmonster.ChangeState(SkellBossState.State.Attack3);
 
 
     }
@@ -116,7 +124,7 @@ public class BossAttack1State : BaseState             //입에서 회전
         {
             bossmonster.monsteranim.SetBool("Attack1", false);
             bossmonster.StopAllCoroutines();
-            bossmonster.ChangeState(SkellBossState.State.Attack3);
+            bossmonster.ChangeState(SkellBossState.State.Attack2);
 
         }
         if (!isattack)
@@ -206,7 +214,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
         if (isAttack2last)
         {
             bossmonster.StopAllCoroutines();
-            bossmonster.ChangeState(SkellBossState.State.Attack1);
+            bossmonster.ChangeState(SkellBossState.State.Attack3);
         }
 
 
@@ -357,7 +365,8 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
             {
                 attack3List[i].Remove();
             }
-            bossmonster.ChangeState(SkellBossState.State.Attack1);
+           // bossmonster.StopAllCoroutines();
+            bossmonster.ChangeState(SkellBossState.State.Attack3);
             bossmonster.StopAllCoroutines();
         }
     }
