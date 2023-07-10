@@ -54,6 +54,7 @@ public class Attack3 : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log("°ø°ÝµÊ");
         isLooking = false;
         isAttack = true;
         transform.position -= transform.up.normalized * Attack3speed * Time.deltaTime;

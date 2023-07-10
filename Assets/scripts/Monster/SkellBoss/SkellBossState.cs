@@ -123,7 +123,8 @@ public class BossAttack1State : BaseState             //입에서 회전
         if (curTime > 5f)
         {
             bossmonster.monsteranim.SetBool("Attack1", false);
-            bossmonster.StopAllCoroutines();
+            // bossmonster.StopAllCoroutines();
+            bossmonster.StopCoroutine(AttackRoutin(0.4f));
             bossmonster.ChangeState(SkellBossState.State.Attack2);
 
         }
@@ -213,7 +214,8 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
         if (isAttack2last)
         {
-            bossmonster.StopAllCoroutines();
+            //  bossmonster.StopAllCoroutines();
+            bossmonster.StartCoroutine(Attack2Routin());
             bossmonster.ChangeState(SkellBossState.State.Attack3);
         }
 
@@ -324,10 +326,11 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
         Debug.Log("Attack3 Enter");
         bossmonster.StartCoroutine(Attack3routin());
     }
-        public override void Exit()
-        {
-            Debug.Log("Attack3 Exit");
-        }
+    public override void Exit()
+    {
+      //  bossmonster.StopCoroutine(Attack3routin());
+        Debug.Log("Attack3 Exit");
+    }
     public override void Update()
     {
         Debug.Log("Attack3 Update");
@@ -354,20 +357,25 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
         for (int i = 0; i < swordCount; i++)
         {
+            
             attack3List[i].Attack();
 
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(1f);
+
         if (attack3List[5].hitable)
         {
             for (int i = 0; i < 6; i++)
             {
                 attack3List[i].Remove();
             }
-           // bossmonster.StopAllCoroutines();
+
+   
+        bossmonster.StopCoroutine(Attack3routin());
             bossmonster.ChangeState(SkellBossState.State.Attack3);
-            bossmonster.StopAllCoroutines();
+            
+
         }
     }
 
