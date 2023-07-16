@@ -13,7 +13,8 @@ public class PlayerinfoUI : SceneUI
         sliders["playerhpslider"].value = GameManager.data.curHp;
         texts["curcoin"].text = GameManager.data.BaseGold.ToString();
         texts["curfood"].text = GameManager.data.curfood.ToString();
-   
+
+
     }
     public void Update()
     {
@@ -23,5 +24,6 @@ public class PlayerinfoUI : SceneUI
         sliders["playerhpslider"].value = GameManager.data.curHp;
         texts["curcoin"].text = GameManager.data.BaseGold.ToString();
         texts["curfood"].text = GameManager.data.curfood.ToString();
+        
      }
 }

@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class player2euipment : MonoBehaviour
 {
- 
+  
     public List<GameObject> weapons = new List<GameObject>();
     public GameObject curweapon;
-
+    public Sprite curimage { get { return curweapon.GetComponent<Image>().sprite; } }
     public void Awake()
     {
         for(int i = 0; i < 2; i++)

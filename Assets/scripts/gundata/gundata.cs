@@ -14,7 +14,7 @@ using UnityEngine;
         [SerializeField] public GameObject bulletprefabs;
         [SerializeField] public float attackdelay;
         [SerializeField] public Sprite sprite;
-    [SerializeField] public int realoadtime;
+        [SerializeField] public int realoadtime;
 
     }
 

@@ -17,21 +17,10 @@ public class Slot : MonoBehaviour //, IPointerClickHandler
     {
         button = GetComponent<Button>();
         imageobj = transform.GetChild(0).gameObject;
-      //  button.onClick.AddListener(() => Buy());
+        button.onClick.AddListener(() => invent.Buyitem(imageobj));
       
     }
 
-  /* public void Buy()
-  {
-        transform.GetChild(0).gameObject.transform.parent = 
-   }*/
 
-
-  /*  public void OnPointerClick(PointerEventData eventData)
-    {
-
-        Debug.Log("Å¬¸¯µÊ");
-
-    }*/
     
 }

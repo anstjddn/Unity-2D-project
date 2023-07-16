@@ -29,20 +29,9 @@ public class Inventory : MonoBehaviour
     {
 
        GameObject moveobj = Instantiate(obj);
-       // Destroy(obj);
+        Destroy(obj);
         Debug.Log("들이감");
-        /* for (int i = 0; i < slots.Count; i++)
-         {
-             if (slots[i].transform.GetChild(0) == null)                 //없는경우
-             {
-
-                 moveobj.transform.SetParent(slots[i].transform);
-                 Debug.Log($"{obj.name} slots{i}비어있음"); //여기 넣고
-             }
-             else
-             {
-                 return;
-             }*/
+      
         for (int i = 0; i < slots.Count; i++)
         {
             if (slots[i].transform.childCount == 0)                 //없는경우
@@ -52,22 +41,15 @@ public class Inventory : MonoBehaviour
                 moveobj.transform.SetParent(slots[i].transform);
                 moveobj.AddComponent<itemDarge>();
                 return;
-                //Debug.Log($"{obj.name} slots{i}비어있음"); //여기 넣고
+             
             }
-          
-    }
-    }
 
-   // void Buyitem(itemproperty item)                                                         //비어있는슬롯 찾아서 넣어준다
-  /*  { var emptySlot = slots.Find(t =>
-          {
-              return t.item == null || t.item.name == string.Empty;
-          });
-
-          if(emptySlot != null)
-          {
-              emptySlot.Setitem(item);
-          }*/
-
+            if (slots[14].transform.childCount != 0)
+            {
+                Debug.Log("꽉찼음");
+                return;
+            }
+        }
     }
+}
 

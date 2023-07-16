@@ -28,7 +28,7 @@ public class itemDarge : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-
+       
         transform.SetParent(partentAfterDarag);
         image.raycastTarget = true ;
     }

@@ -21,6 +21,7 @@ public class Weapon: MonoBehaviour
     //equipment 창에 있는 현재 무기 불러와서 쓰기
         GameObject curweapon; 
 
+
     //칼일떄
       [SerializeField] GameObject slasheffect;                   
        [SerializeField] public int dagame;                           
@@ -37,12 +38,7 @@ public class Weapon: MonoBehaviour
     public int reloadingtime;
 
 
-    private void OnEnable()
-    {      
-    }
-
-
-    public void Update()
+    public void Update()                //무기 바뀔거 염려해서 update에 올려놈
     {
         curweapon = GetComponent<player2euipment>().curweapon;
         if (curweapon.GetComponent<sword>() != null)                                //현재 무기가 칼이면
@@ -55,23 +51,31 @@ public class Weapon: MonoBehaviour
             GameManager.data.playerattackspeed = attackdalay;
             swordAttackpoint = curweapon.transform.GetChild(0).gameObject.transform;
             curtype = weapontype.sword;
-            
+            bulletpoint = null;
+            bulletprefabs = null;
+
+
         }
-       else if (curweapon.GetComponent<gun>() != null)                             // 현재 무기가 총이면
+        else if (curweapon.GetComponent<gun>() != null)                             // 현재 무기가 총이면
         {
+            hiteffect = null;            //칼꺼
+            slasheffect = null;         //칼꺼
+            swordAttackpoint = null;    //칼꺼
+
+
+
             dagame = curweapon.GetComponent<gun>().data.damage;
             GameManager.data.playerDamege = dagame;
             bulletprefabs = curweapon.GetComponent<gun>().data.bulletprefabs;
             attackdalay = curweapon.GetComponent<gun>().data.attackdelay;
             GameManager.data.playerattackspeed = attackdalay;
-            hiteffect = null;
-            slasheffect = null;
             curtype = weapontype.gun;
-            bulletpoint = curweapon.transform.GetChild(0).gameObject.transform;         
+            bulletpoint = curweapon.transform.GetChild(0).gameObject.transform;
             reloadingtime = curweapon.GetComponent<gun>().data.realoadtime;
         }
-     
+
     }
+
 
     public void Attack()
     {
@@ -114,24 +118,25 @@ public class Weapon: MonoBehaviour
     {
         isreloading = false;
         isattack = true;
-        bulletcount--;
+        int weaponcount = curweapon.GetComponent<gun>().data.shootcount;
+        bulletcount++;
         Instantiate(bulletprefabs, bulletpoint.position, bulletpoint.rotation);
         Destroy(slasheffect, 5f);
         yield return new WaitForSeconds(attackdaley);
         isattack = false;
-        if (bulletcount == 0)
+        if (bulletcount == weaponcount)
         {
             isreloading = true;
         }
     }
     IEnumerator reloadingrouine(int reloadingtime)
     {
-        bulletcount = curweapon.GetComponent<gun>().data.shootcount;
-     
+        curweapon.GetComponent<gun>().Reloading();
         yield return new WaitForSeconds(reloadingtime);
+        bulletcount = 0;
         isreloading = false;
+        // 리로딩 이미지 넣자
     }
-
 
     private void OnDrawGizmos()
     {
