@@ -14,8 +14,8 @@ public class airmonster : MonoBehaviour
     [SerializeField] GameObject bulletprefabs;
     private void Awake()
     {
-       
-        anim = GetComponent<Animator>();
+        playerpos = GameObject.FindWithTag("Player").transform;
+         anim = GetComponent<Animator>();
     }
     public void Update()
     {
@@ -30,15 +30,22 @@ public class airmonster : MonoBehaviour
     {
         isattack = true;
         anim.SetTrigger("attack");
-        Instantiate(bulletprefabs,transform.position,Quaternion.identity);
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -90));
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -135));
-      
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 90));
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 135));
-        Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 180));
+      GameObject obj1= Instantiate(bulletprefabs,transform.position,Quaternion.identity);
+        Destroy(obj1, 5f);
+      GameObject obj2= Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
+        Destroy(obj2, 5f);
+        GameObject obj3=  Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));
+        Destroy(obj3, 5f);
+        GameObject obj4 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -90));
+        Destroy(obj4, 5f);
+        GameObject obj5 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -135));
+        Destroy(obj5, 5f);
+        GameObject obj6 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 90));
+        Destroy(obj6, 5f);
+        GameObject obj7 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 135));
+        Destroy(obj7, 5f);
+        GameObject obj8 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 180));
+        Destroy(obj8, 5f);
         yield return new WaitForSeconds(5f);
         isattack = false;
     }

@@ -26,9 +26,12 @@ public class shopslot : MonoBehaviour
             if (items.iteminfos[i] != null)
             {
                 slot.name = items.iteminfos[i].name;
+                slot.imageobj.name = items.iteminfos[i].name;
                 slot.image.sprite = items.iteminfos[i].sprite;
+
                 slots.Add(slot);
             }
+            else return;
         }
     }
 }

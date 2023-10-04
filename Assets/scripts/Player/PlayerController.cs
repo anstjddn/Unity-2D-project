@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour, IHitable
     private bool isgroundcheck;
     [SerializeField] LayerMask whatground;
 
-
+    public UnityEvent Ondeaded;
 
 
     // 플레이어 시점 관련 구현
@@ -66,7 +66,8 @@ public class PlayerController : MonoBehaviour, IHitable
         isjumping = false;
         weaponhold = transform.GetChild(0).transform;
         dashcount = GameManager.data.dashcount;
-     
+        GameManager.data.Set();
+
     }
 
 
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour, IHitable
    // 무브 구현
      private void Move()
      {
-       transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
+         transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
 
     }
      private void OnMove(InputValue value)
@@ -249,8 +250,14 @@ public class PlayerController : MonoBehaviour, IHitable
 
     public void TakeHit(int dagame)
     {
-        
          GameManager.data.curHp -= dagame;
+        if (GameManager.data.curHp <= 0)
+        {
+            Ondeaded?.Invoke();
+            GameManager.data.Set();
+        }
+
+
         Debug.Log("색변함");
         gameObject.layer = 8;
         playerrender.color = new Color(1, 1, 1, 0.4f);
@@ -265,7 +272,7 @@ public class PlayerController : MonoBehaviour, IHitable
         {
             // transform.gameObject.layer = 16;
           //  transform.Translate(dir * Dashpower);
-            playerRb.velocity = dir * Dashpower;
+            playerRb.velocity = dir.normalized * Dashpower;
             isdashing = true;
             dashcount--;
             StartCoroutine(dashheal());

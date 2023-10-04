@@ -27,5 +27,20 @@ public class DataManager : MonoBehaviour
     {
         playerTime += Time.deltaTime;
     }
+    public void Set()
+    {
+     playerLevel = 1;
+     maxHp = 60;
+     curHp = 60;
+     playerDamege = 0;
+     defence = 0;
+     basegold = 5000;
+     curfood = 0;
+     maxfood = 125;
+     block = 0;
+     tough = 0;
+     playerattackspeed = 0;
+     dashcount = 2;
+    }
 
 }

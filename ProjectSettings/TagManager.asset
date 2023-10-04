@@ -11,6 +11,7 @@ TagManager:
   - TileFloor
   - sppoint
   - Rooms
+  - weapondata
   layers:
   - Default
   - TransparentFX
@@ -29,8 +30,8 @@ TagManager:
   - TitleFloor
   - Npc
   - dashing
-  - 
-  - 
+  - potal
+  - CamaraMap
   - 
   - 
   - 

@@ -29,6 +29,7 @@ public class Inventory : MonoBehaviour
     {
 
        GameObject moveobj = Instantiate(obj);
+        moveobj.name = obj.name;
         Destroy(obj);
         Debug.Log("µÈ¿Ã∞®");
       

@@ -17,16 +17,17 @@ public class gun : MonoBehaviour
         reloadingTiemground.gameObject.SetActive(false);
         reloadeffet.SetActive(false);
     }
-    public void Reloading()
+   /* public void Reloading()
     {
-        curTime += Time.deltaTime;
-        reloadingTiemground.gameObject.SetActive(true);
-        if (curTime/data.realoadtime >=1)
-        {
-            reloadingTiemground.gameObject.SetActive(false);
-            reloadeffet.SetActive(true);
-        }
-    }
+       
+         reloadingTiem.value += Time.deltaTime;
+          reloadingTiemground.gameObject.SetActive(true);
+          if (curTime/data.realoadtime >=1)
+          {
+              reloadingTiemground.gameObject.SetActive(false);
+              reloadeffet.SetActive(true);
+          }
+    }*/
 
 }
 

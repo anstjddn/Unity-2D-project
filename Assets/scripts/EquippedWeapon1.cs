@@ -12,7 +12,7 @@ public class EquippedWeapon1 : MonoBehaviour
     
     private void Update()
     {
-        cur1eq = GetComponent<player2euipment>().curweapon;
+        cur1eq = GetComponent<player2euipment>().curweapons;
         if(cur1eq.GetComponent<sword>() != null)            //소드일경우
         {
             curim = cur1eq.GetComponent<sword>().data.sprite;

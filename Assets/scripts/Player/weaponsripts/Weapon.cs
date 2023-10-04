@@ -19,8 +19,7 @@ public class Weapon: MonoBehaviour
 
 
     //equipment 창에 있는 현재 무기 불러와서 쓰기
-        GameObject curweapon; 
-
+   public    GameObject curweapon;
 
     //칼일떄
       [SerializeField] GameObject slasheffect;                   
@@ -40,7 +39,11 @@ public class Weapon: MonoBehaviour
 
     public void Update()                //무기 바뀔거 염려해서 update에 올려놈
     {
-        curweapon = GetComponent<player2euipment>().curweapon;
+        if (curweapon == null)
+        {
+            isattack = false;
+        }
+        curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
         if (curweapon.GetComponent<sword>() != null)                                //현재 무기가 칼이면
         {
             dagame = curweapon.GetComponent<sword>().data.damage;
@@ -131,7 +134,7 @@ public class Weapon: MonoBehaviour
     }
     IEnumerator reloadingrouine(int reloadingtime)
     {
-        curweapon.GetComponent<gun>().Reloading();
+       // curweapon.GetComponent<gun>().Reloading();
         yield return new WaitForSeconds(reloadingtime);
         bulletcount = 0;
         isreloading = false;
