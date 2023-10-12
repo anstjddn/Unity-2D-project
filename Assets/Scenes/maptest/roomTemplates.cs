@@ -19,6 +19,8 @@ public class roomTemplates : MonoBehaviour
     public bool alladd;
     public GameObject startroom;
 
+    public static roomTemplates Gameroom;
+
     public void Start()
     {
         StartCoroutine(roomroutin());
@@ -37,7 +39,7 @@ public class roomTemplates : MonoBehaviour
 
         while (va<4)
         {
-            SceneManager.LoadScene("testest");
+            GameManager.Scene.LoadSceneAsync("testest");
             yield return null;
         }
         if (va == 4)
@@ -46,18 +48,18 @@ public class roomTemplates : MonoBehaviour
             {
                 if(item1.gameObject == closeroom)
                 {
-                    SceneManager.LoadScene("testest");
+                    GameManager.Scene.LoadSceneAsync("testest");
                 }
             }
             alladd = true;
         }
         if (va >= 5)
         {
-            SceneManager.LoadScene("testest");
+            GameManager.Scene.LoadSceneAsync("testest");
         }
         if (rooms.Count > 15)
         {
-            SceneManager.LoadScene("testest");
+            GameManager.Scene.LoadSceneAsync("testest");
         }
             yield return null;
     }

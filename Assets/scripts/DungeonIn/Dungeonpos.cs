@@ -14,13 +14,6 @@ public class Dungeonpos : MonoBehaviour
     public UnityEvent Onplayed;
     [SerializeField] float pos;
 
-    public void Update()
-    {
-        if (dungonimage.active)
-        {
-            dungeon.position -= new Vector3(0, 1 * Time.deltaTime*1f, 0);
-        }
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -42,8 +35,10 @@ public class Dungeonpos : MonoBehaviour
 
     IEnumerator dungeonRoutin()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.9f);
         Onplayed?.Invoke();
+        yield return new WaitForSeconds(2f);
+        GameManager.Scene.LoadSceneAsync("testest");
     }
    
 }

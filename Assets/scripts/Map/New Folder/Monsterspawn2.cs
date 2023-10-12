@@ -34,6 +34,11 @@ public class Monsterspawn2 : MonoBehaviour
         {
             Debug.Log("¿ÃπÃ∏∏µÎ");
         }
+        if(collision.gameObject.layer == 6 && roomState.isclear)
+        {
+            return;
+        }
+
     }
 
     public void Update()

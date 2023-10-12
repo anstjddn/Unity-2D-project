@@ -11,7 +11,7 @@ public class Title : MonoBehaviour
 
    public void ChangeScene(string scenename)
     {
-        SceneManager.LoadScene(scenename, LoadSceneMode.Single);
+        GameManager.Scene.LoadScene(scenename);
     }
 
 

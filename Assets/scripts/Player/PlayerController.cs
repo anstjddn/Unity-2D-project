@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour, IHitable
         weaponhold = transform.GetChild(0).transform;
         dashcount = GameManager.data.dashcount;
         GameManager.data.Set();
-
+        DontDestroyOnLoad(gameObject);
     }
 
 
