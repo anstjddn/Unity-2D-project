@@ -12,13 +12,13 @@ public class roomSpawner : MonoBehaviour
     // 3. left 로른쪽에 배치           오른쪽sp
     // 4. right 왼ㅇ쪽에 배치            왼쪽 sp
 
-    private roomTemplates templates;
+    private RoomTemplates templates;
     private int rand;
     public bool spawned = false;
 
     private void Awake()
     {
-        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<roomTemplates>();
+        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 
         Invoke("Spawn", 0.05f);
     }

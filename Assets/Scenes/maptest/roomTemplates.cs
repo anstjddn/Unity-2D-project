@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+using System.Drawing;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class roomTemplates : MonoBehaviour
+public class RoomTemplates : MonoBehaviour
 {
     public List<GameObject> bottom;
     public List<GameObject> top;
@@ -17,27 +15,31 @@ public class roomTemplates : MonoBehaviour
     public List<GameObject> rooms;
     public int va;
     public bool alladd;
-    public GameObject startroom;
 
-    public static roomTemplates Gameroom;
+    [SerializeField] GameObject player;
+
+
+
 
     public void Start()
     {
         StartCoroutine(roomroutin());
+        player = GameObject.FindObjectOfType<Player>().gameObject.transform.GetChild(0).gameObject;
     }
     public void Reset()
     {
-        foreach(var roomslist in rooms)
+        foreach (var roomslist in rooms)
         {
             Destroy(roomslist.gameObject);
         }
         rooms.Clear();
     }
+
     IEnumerator roomroutin()
     {
         yield return new WaitForSeconds(1f);
 
-        while (va<4)
+        while (va < 4)
         {
             GameManager.Scene.LoadSceneAsync("testest");
             yield return null;
@@ -46,12 +48,13 @@ public class roomTemplates : MonoBehaviour
         {
             foreach (var item1 in rooms)
             {
-                if(item1.gameObject == closeroom)
+                if (item1.gameObject == closeroom)
                 {
                     GameManager.Scene.LoadSceneAsync("testest");
                 }
             }
             alladd = true;
+            PlayerSet();
         }
         if (va >= 5)
         {
@@ -61,7 +64,13 @@ public class roomTemplates : MonoBehaviour
         {
             GameManager.Scene.LoadSceneAsync("testest");
         }
-            yield return null;
+        yield return null;
     }
 
+    public void PlayerSet()
+    {
+        player.SetActive(true);
+        player.GetComponent<PlayerController>().enabled = true;
+    
+    }
 }

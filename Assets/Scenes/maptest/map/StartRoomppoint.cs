@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class StartRoomppoint : MonoBehaviour
 {
-   [SerializeField] private GameObject player;
-    private void Awake()
-    {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-    }
+
+    [SerializeField] private GameObject player;
+
     private void Start()
     {
+        player = GameObject.FindObjectOfType<Player>().gameObject.transform.GetChild(0).gameObject;
         player.transform.position = transform.position;
     }
 

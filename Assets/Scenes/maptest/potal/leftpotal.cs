@@ -9,7 +9,18 @@ public class leftpotal : MonoBehaviour
     {
         if(collision.gameObject.layer == 6)
         {
+            MoveRountin();
             collision.transform.position += transform.right * 17f;
         }
+    }
+    
+
+    IEnumerator MoveRountin()
+    {
+        Time.timeScale = 0f;
+        GameManager.Scene.LoadingUI.FadeOut();
+        yield return new WaitForSeconds(2f);
+        GameManager.Scene.LoadingUI.FadeIn();
+        Time.timeScale = 1f;
     }
 }

@@ -5,9 +5,8 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SceneManager : MonoBehaviour
 {
-    private LoadingUI LoadingUI;
-    [SerializeField]private bool isis;
-
+    public LoadingUI LoadingUI;
+    
     private void Awake()
     {
         LoadingUI ui = GameManager.Resource.Load<LoadingUI>("UI/LoadingUI");
@@ -36,24 +35,17 @@ public class SceneManager : MonoBehaviour
     }
     IEnumerator LoadSceneAsyncRoutine(string sceneName)
     {
-
+      
         AsyncOperation oper = UnitySceneManager.LoadSceneAsync(sceneName);
         LoadingUI.FadeOut();
         yield return new WaitForSeconds(0.5f);
-
-  
         while (!oper.isDone)
         {
             yield return null;
         }
+        LoadingUI.FadeIn();
+        yield return new WaitForSeconds(0.5f);
 
-
-        if (roomTemplates.Gameroom.alladd)
-        {
-        
-            LoadingUI.FadeIn();
-            isis = true;
-        }   
-
+ 
     }
 }

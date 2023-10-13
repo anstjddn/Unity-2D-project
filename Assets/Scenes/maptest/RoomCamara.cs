@@ -10,7 +10,7 @@ public class RoomCamara : MonoBehaviour
 
     public void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindObjectOfType<Player>().gameObject.transform.GetChild(0).gameObject.transform;
         vituralCam.GetComponent<CinemachineVirtualCamera>().Follow = player;
         vituralCam.GetComponent<CinemachineVirtualCamera>().LookAt = player;
     }

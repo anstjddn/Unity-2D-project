@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class adroom : MonoBehaviour
 {
-    private roomTemplates spsp;
+    private RoomTemplates spsp;
     public bool isclear;
     private void Awake()
     {
-        spsp = GameObject.FindGameObjectWithTag("Rooms").GetComponent<roomTemplates>();
+        spsp = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         spsp.rooms.Add(this.gameObject);
     }
 }

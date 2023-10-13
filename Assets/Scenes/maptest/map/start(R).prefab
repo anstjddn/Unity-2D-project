@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251951392156871453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.91, y: -4.78, z: 0}
+  m_LocalPosition: {x: -5.91, y: -3.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47eff631c39637438812f9d8518c730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Startpoint: {fileID: 251951392156871453}
 --- !u!1 &508156624012414623
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb04ff89034610438955401e2ab89aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingui: {fileID: 0}
 --- !u!1 &5309256606657732818
 GameObject:
   m_ObjectHideFlags: 0
@@ -14321,7 +14323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vituralCam: {fileID: 508156624012414623}
-  player: {fileID: 0}
+  player: {fileID: 2180433447817679587, guid: 9cbb5ba85f0f7cc49811ce7f0159f18e, type: 3}
 --- !u!60 &8846437898440848394
 PolygonCollider2D:
   m_ObjectHideFlags: 0
