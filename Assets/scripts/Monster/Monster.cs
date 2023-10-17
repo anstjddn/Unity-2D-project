@@ -156,6 +156,7 @@ public class TraceState : BaseState
     public override void Enter()
     {
         Debug.Log("Trace Enter");
+        SoundManager.Instance.PlaySFX("MinotaurDash");
     }
 
     public override void Exit()
@@ -222,14 +223,16 @@ public class AttackState : BaseState
 
     IEnumerator AttackRoutin()
     {
-        
+        SoundManager.Instance.PlaySFX("MinotaurAttack");
         Collider2D[] colliders = Physics2D.OverlapBoxAll(monster.attackpoint.transform.position, monster.boxsize, 0, monster.attackable);
         foreach (Collider2D collider in colliders)
         {
             
-            IHitable hitable = collider.GetComponent<IHitable>();
+                IHitable hitable = collider.GetComponentInChildren<IHitable>();
+                hitable.TakeHit(monster.damage);
+       //     IHitable hitable = collider.GetComponent<IHitable>();
             
-            hitable.TakeHit(monster.damage);
+         //   hitable.TakeHit(monster.damage);
             
         }
         //yield return new WaitForSeconds(1f);

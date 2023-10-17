@@ -23,7 +23,6 @@ public class player2euipment : MonoBehaviour
     public Sprite curimage { get { return curweapons.GetComponent<Image>().sprite; } }
     public void Awake()
     {
-       
        curweapons = weapons[0];
         weaponmanager = GameObject.FindWithTag("weapondata").GetComponent<WeaponDataManager>().item;
     }
@@ -55,7 +54,7 @@ public class player2euipment : MonoBehaviour
                     if (item1.sworddata != null)
                     {
                       //  Vector3 wapospos = new Vector3(weapons[0].transform.position.x, weapons[0].transform.position.y + 0.15f, weapons[0].transform.position.z);
-                        GameObject obj = Instantiate(item1.sworddata.swodrobj, new Vector2(transform.position.x,transform.position.y+0.4f), transform.rotation);
+                        GameObject obj = Instantiate(item1.sworddata.swodrobj, new Vector2(transform.parent.position.x,transform.parent.position.y+0.15f), transform.rotation);
                       obj.transform.position += new Vector3(0, 0.15f,0);
                         obj.transform.parent = weapons[0].transform;
                         setweapons1 = true;

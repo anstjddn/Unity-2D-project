@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
+
     public Transform slotRoot;
     public shopslot shop;
     public List<Slot> slots;

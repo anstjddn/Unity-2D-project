@@ -40,7 +40,7 @@ public class DataManager : MonoBehaviour
      block = 0;
      tough = 0;
      playerattackspeed = 0;
-     dashcount = 2;
+
     }
 
 }

@@ -18,7 +18,7 @@ public class Dungeonpos : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.name == "player2")
+        if (collision.gameObject.layer ==6)
         {
             players = collision.gameObject;
             dungonimage.SetActive(true);
@@ -31,8 +31,10 @@ public class Dungeonpos : MonoBehaviour
 
     IEnumerator dungeonRoutin()
     {
+        SoundManager.Instance.StopBgm();
+        SoundManager.Instance.PlaySFX("DungeonIn");
         yield return new WaitForSeconds(0.9f);
-        Onplayed?.Invoke();
+        players.SetActive(false);
         yield return new WaitForSeconds(2f);
         GameManager.Scene.LoadSceneAsync("testest");
           players.GetComponent<PlayerInput>().enabled = true;

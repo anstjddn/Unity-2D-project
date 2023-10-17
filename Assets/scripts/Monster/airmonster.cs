@@ -29,24 +29,32 @@ public class airmonster : MonoBehaviour
     IEnumerator attackroutin()
     {
         isattack = true;
+        SoundManager.Instance.PlaySFX("BansheeAttack");
         anim.SetTrigger("attack");
-      GameObject obj1= Instantiate(bulletprefabs,transform.position,Quaternion.identity);
-        Destroy(obj1, 5f);
-      GameObject obj2= Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
-        Destroy(obj2, 5f);
-        GameObject obj3=  Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));
-        Destroy(obj3, 5f);
-        GameObject obj4 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -90));
-        Destroy(obj4, 5f);
-        GameObject obj5 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -135));
-        Destroy(obj5, 5f);
-        GameObject obj6 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 90));
-        Destroy(obj6, 5f);
-        GameObject obj7 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 135));
-        Destroy(obj7, 5f);
-        GameObject obj8 = Instantiate(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 180));
-        Destroy(obj8, 5f);
+      GameObject Bansgeeattack= GameManager.Pool.Get(bulletprefabs,transform.position,Quaternion.identity);
+        StartCoroutine(ReleseRoutine(Bansgeeattack, 5f));
+     //   Destroy(Bansgeeattack, 5f);
+       GameObject Bansgeeattack2 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
+        StartCoroutine(ReleseRoutine(Bansgeeattack2, 5f));
+        GameObject Bansgeeattack3 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));
+        StartCoroutine(ReleseRoutine(Bansgeeattack3, 5f));
+        GameObject Bansgeeattack4 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -90));
+        StartCoroutine(ReleseRoutine(Bansgeeattack4, 5f));
+        GameObject Bansgeeattack5 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -135));
+        StartCoroutine(ReleseRoutine(Bansgeeattack5, 5f));
+        GameObject Bansgeeattack6 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 90));
+        StartCoroutine(ReleseRoutine(Bansgeeattack6, 5f));
+        GameObject Bansgeeattack7 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 135));
+        StartCoroutine(ReleseRoutine(Bansgeeattack7, 5f));
+        GameObject Bansgeeattack8 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 180));
+        StartCoroutine(ReleseRoutine(Bansgeeattack8, 5f));
         yield return new WaitForSeconds(5f);
         isattack = false;
+    }
+
+    IEnumerator ReleseRoutine(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.Pool.Release(obj);
     }
 }

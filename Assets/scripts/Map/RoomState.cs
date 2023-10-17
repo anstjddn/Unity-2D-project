@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoomState : MonoBehaviour
 {
-    public bool isclear;
+   [SerializeField] public bool isclear;
+   [SerializeField]  public List<GameObject> monsterList;
 
 }

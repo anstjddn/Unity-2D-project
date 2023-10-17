@@ -8,7 +8,7 @@ using UnityEngine;
 public class Monsterspawn : MonoBehaviour
 {
     public RoomState roomState;
-    public List<GameObject> monsterList;
+   // public List<GameObject> monsterList;
     public int rand;
     public int monsterNum;
     private bool isplayer;
@@ -40,12 +40,11 @@ public class Monsterspawn : MonoBehaviour
 
     public void Update()
     {
-    
-        foreach (var monsterobj in monsterList)
+        foreach (var monsterobj in roomState.monsterList)
         {
             if(monsterobj.gameObject == null)
             {
-                monsterList.Remove(monsterobj);
+                roomState.monsterList.Remove(monsterobj);
             }
             else
             {
@@ -53,17 +52,17 @@ public class Monsterspawn : MonoBehaviour
             }
         }
 
-        if (!monsterList.Any() && isplayer&& !isopen)
+        if (!roomState.monsterList.Any() && isplayer&& !isopen)
         {
             StartCoroutine(DoorOpen());
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            foreach (var monsterobj in monsterList)
+            foreach (var monsterobj in roomState.monsterList)
             {
                 Destroy(monsterobj);
-                monsterList.Remove(monsterobj);
+                roomState.monsterList.Remove(monsterobj);
             }
         }
 
@@ -80,14 +79,14 @@ public class Monsterspawn : MonoBehaviour
                 float x = transform.root.position.x+ Random.Range(-5, 5);
                 float y = transform.root.position.y+Random.Range(-2, 3);
                 GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x,y), Quaternion.identity);
-                monsterList.Add(monster);
+                roomState.monsterList.Add(monster);
                 monstercount++;
             }
             if(randomMonster == 1)
             {
                 float x = transform.root.position.x + Random.Range(-5, 5);
                 GameObject monster2 = GameManager.Resource.Instantiate<GameObject>("Monster/Minotaurs", new Vector2(x, transform.root.position.y-2), Quaternion.identity);
-                monsterList.Add(monster2);
+                roomState.monsterList.Add(monster2);
                 monstercount++;
             }
             yield return null;

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class ITemBox : MonoBehaviour
+public class ITemBox : MonoBehaviour, Iinteractable
 {
     private Animator anim;
     [SerializeField] GameObject interactkey; //F키
@@ -12,6 +12,7 @@ public class ITemBox : MonoBehaviour
     [SerializeField] GameObject Bullionobj;
     private int coinmoney;
     private int bullionmoney;
+    private bool isopening;
 
     private void Awake()
     {
@@ -23,48 +24,31 @@ public class ITemBox : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키
     {
-        if (collision.gameObject.layer ==6)
+        if (collision.gameObject.layer ==6&&!isopening)
         {
             interactkey.SetActive(true);
         }
-        
-      /* if (interactkey != null)
-        {
-            interactkey.SetActive(true);
-        }
-        else
-        {
-            interactkey.SetActive(false);
-        }*/
 
-       
+
     }
    
     private void OnTriggerExit2D(Collider2D collision)
     {
-
-        interactkey.SetActive(false);
+        if (collision.gameObject.layer == 6 && !isopening)
+        {
+            interactkey.SetActive(false);
+        }
 
     }
 
-    public void Interact()
-    {
-        
-        anim.SetBool("Hit", true);
-        Destroy(interactkey);
-        StartCoroutine(CoinRoutin());
-        StartCoroutine(bullionRoutin());
-      
 
-
-
-    } 
     //나오는돈갯수조절
     IEnumerator CoinRoutin()
     {
         while (coinmoney > 0)
         {
-            Instantiate(Coinobj, transform.position, Quaternion.identity);
+            GameObject coin = GameManager.Pool.Get(Coinobj, transform.position, Quaternion.identity);
+        //    Instantiate(Coinobj, transform.position, Quaternion.identity);
             
             coinmoney--;
         }
@@ -74,13 +58,20 @@ public class ITemBox : MonoBehaviour
     {
         while (bullionmoney > 0)
         {
-            Instantiate(Bullionobj, transform.position, Quaternion.identity);
+            GameObject Bullio = GameManager.Pool.Get(Bullionobj, transform.position, Quaternion.identity);
+           // Instantiate(Bullionobj, transform.position, Quaternion.identity);
 
             bullionmoney--;
         }
         yield return null;
     }
 
-
-
+    public void interact()
+    {
+        isopening = true;
+        anim.SetBool("Hit", true);
+        interactkey.SetActive(false);
+        StartCoroutine(CoinRoutin());
+        StartCoroutine(bullionRoutin());
+    }
 }

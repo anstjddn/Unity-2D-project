@@ -33,7 +33,7 @@ public class BansheeIbullet : MonoBehaviour
         if (collision.gameObject.layer == 6)
         {
 
-            IHitable hitable = collision.GetComponent<IHitable>();
+            IHitable hitable = collision.gameObject.GetComponentInChildren<IHitable>();
             hit = true;
 
             bulletanim.SetTrigger("hit");

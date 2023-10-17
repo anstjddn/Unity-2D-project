@@ -16,7 +16,7 @@ public class itemDarge : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         partentAfterDarag = transform.parent;
-        transform.SetParent(transform.root);
+        transform.SetParent(transform.parent.parent.parent);
         transform.SetAsLastSibling();
         image.raycastTarget = false;
     }

@@ -6,7 +6,6 @@ using UnityEngine;
 public class Monsterspawn2 : MonoBehaviour
 {
     public RoomState roomState;
-    public List<GameObject> monsterList;
     public int rand;
     public int monsterNum;
     private bool isplayer;
@@ -30,7 +29,7 @@ public class Monsterspawn2 : MonoBehaviour
             StartCoroutine(MonsterSpawn(rand));
             StartCoroutine(DoorClose());
         }
-        if (collision.gameObject.layer == 6 && !roomState.isclear)
+        if (collision.gameObject.layer == 6 && isplayer)
         {
             Debug.Log("¿ÃπÃ∏∏µÎ");
         }
@@ -44,11 +43,11 @@ public class Monsterspawn2 : MonoBehaviour
     public void Update()
     {
 
-        foreach (var monsterobj in monsterList)
+        foreach (var monsterobj in roomState.monsterList)
         {
             if (monsterobj.gameObject == null)
             {
-                monsterList.Remove(monsterobj);
+                roomState.monsterList.Remove(monsterobj);
             }
             else
             {
@@ -56,17 +55,17 @@ public class Monsterspawn2 : MonoBehaviour
             }
         }
 
-        if (!monsterList.Any() && isplayer && !isopen)
+        if (!roomState.monsterList.Any() && isplayer && !isopen)
         {
             StartCoroutine(DoorOpen());
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            foreach (var monsterobj in monsterList)
+            foreach (var monsterobj in roomState.monsterList)
             {
                 Destroy(monsterobj);
-                monsterList.Remove(monsterobj);
+                roomState.monsterList.Remove(monsterobj);
             }
         }
 
@@ -79,7 +78,8 @@ public class Monsterspawn2 : MonoBehaviour
                 float x = transform.root.position.x + Random.Range(-5, 5);
                 float y = transform.root.position.y + Random.Range(-2, 3);
                 GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x, y), Quaternion.identity);
-                monsterList.Add(monster);
+            GameManager.Pool.Get(monster);
+            roomState.monsterList.Add(monster);
                 monstercount++;
             yield return null;
         }

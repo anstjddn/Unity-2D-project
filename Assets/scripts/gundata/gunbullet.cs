@@ -6,13 +6,12 @@ public class gunbullet : MonoBehaviour
 {
     [SerializeField] public float bulletspeed;
     private Animator bulletanim;
-    private bool hit;
+    public bool hit;
     [SerializeField] public int hitdamege;
     private void Awake()
     {
         hit = false;
        bulletanim = GetComponent<Animator>();
-
     }
     void Update()
     {
@@ -39,7 +38,8 @@ public class gunbullet : MonoBehaviour
 
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-            Destroy(gameObject, 0.4f);
+          //  StartCoroutine(ReleaseRoutine(this.gameObject, 0.4f));
+           Destroy(gameObject, 0.4f);
 
         }
         if (collision.gameObject.layer == 7)
@@ -49,7 +49,7 @@ public class gunbullet : MonoBehaviour
             hit = true;
 
             bulletanim.SetTrigger("hit");
-  
+          //  StartCoroutine(ReleaseRoutine(this.gameObject, 0.4f));
             Destroy(gameObject, 0.4f);
 
         }
@@ -57,10 +57,17 @@ public class gunbullet : MonoBehaviour
         {          
             hit = true;
             bulletanim.SetTrigger("hit");
-            Destroy(gameObject, 0.4f);
+         //   StartCoroutine(ReleaseRoutine(this.gameObject, 0.4f));
+           Destroy(gameObject, 0.4f);
 
         }
      
+    }
+
+    IEnumerator ReleaseRoutine(GameObject obj,float Time)
+    {
+        yield return new WaitForSeconds(Time);
+        GameManager.Pool.Release(obj);
     }
   
 }

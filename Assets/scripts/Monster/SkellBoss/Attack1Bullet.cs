@@ -12,8 +12,7 @@ public class Attack1Bullet : MonoBehaviour
     {
         hit = false;
         bulletanim = GetComponent<Animator>();
-        
-       
+        StartCoroutine(ReleaseRoutine(5f));
     }
     void Update()
     {
@@ -41,6 +40,12 @@ public class Attack1Bullet : MonoBehaviour
             Destroy(gameObject, 0.4f);
            
         }
+    }
+
+    IEnumerator ReleaseRoutine(float time)
+    {
+        yield return new WaitForSeconds(5f);
+        GameManager.Pool.Release(gameObject);
     }
 
 }

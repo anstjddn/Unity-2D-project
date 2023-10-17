@@ -23,16 +23,7 @@ public class PlayerItemGet : MonoBehaviour
             IGetable Getable = collider.GetComponent<IGetable>();
             Getable?.Get();
         }
-     //   Collider2D[] colliderss = Physics2D.OverlapBoxAll(playerarea.position, areasize, 0, dashdam);
-      /*  if (isdash)
-        {
-            foreach (Collider2D collider in colliderss)
-            {
-
-                IHitable hitable = collider.GetComponent<IHitable>();
-                hitable?.TakeHit(GameManager.data.playerDamege);
-            }
-        }*/
+    
     }
     private void OnDrawGizmos()
     {

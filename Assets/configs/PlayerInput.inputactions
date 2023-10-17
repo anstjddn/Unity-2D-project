@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "levelup",
+                    "name": "Inventory",
                     "type": "Button",
                     "id": "0f3d6024-82c3-452f-82ba-37d35e3d948a",
                     "expectedControlType": "Button",
@@ -212,11 +212,11 @@
                 {
                     "name": "",
                     "id": "9dfb5969-102a-420a-8a25-dfd0ef5ebd81",
-                    "path": "<Keyboard>/k",
+                    "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "levelup",
+                    "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

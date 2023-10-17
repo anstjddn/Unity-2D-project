@@ -7,9 +7,12 @@ using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
-  
 
-   public void ChangeScene(string scenename)
+    public void Awake()
+    {
+        SoundManager.Instance.PlayeBGM("Town");
+    }
+    public void ChangeScene(string scenename)
     {
         GameManager.Scene.LoadScene(scenename);
     }

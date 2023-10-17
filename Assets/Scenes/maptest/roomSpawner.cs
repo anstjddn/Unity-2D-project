@@ -59,7 +59,7 @@ public class roomSpawner : MonoBehaviour
                 rand = Random.Range(0, templates.right.Count);
              
                 Instantiate(templates.right[rand], transform.position, templates.right[rand].transform.rotation);
-                if (rand == 2)
+                if (rand == 3)
                 {
                     templates.va++;
                     templates.right.Remove(templates.right[rand]);

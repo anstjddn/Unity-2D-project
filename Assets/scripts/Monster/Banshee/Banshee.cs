@@ -30,7 +30,7 @@ public class Banshee : MonoBehaviour, IHitable
     private void Update()
     {
         hpbar.value = curhp;
-        if (curhp > 0)
+    /*    if (curhp > 0)
         {
          
         }
@@ -40,24 +40,34 @@ public class Banshee : MonoBehaviour, IHitable
             dieeffect = Instantiate(dieeffect, transform.position, Quaternion.identity);
             Destroy(dieeffect, 3f);
             StartCoroutine(CoinRoutin());
-        }
+        }*/
     }
 
     public void TakeHit(int dagame)
     {
+        SoundManager.Instance.PlaySFX("MonsterHit");
         hpbackground.gameObject.SetActive(true);
         Instantiate(textprefabs, transform.position, Quaternion.identity);
         curhp -= dagame;
         hit.color = new Color(255, 0, 0, 255);
-      StartCoroutine(damageRoutin());
-      //  Invoke("prihit", 0.1f);
+       StartCoroutine(damageRoutin());
+        //  Invoke("prihit", 0.1f);
+        if (curhp <= 0)
+        {
+            SoundManager.Instance.PlaySFX("MonsterDie");
+            GameManager.Pool.Release(gameObject);
+           GameObject monsterdie = GameManager.Pool.Get(dieeffect, transform.position, Quaternion.identity);
+            StartCoroutine(DieRoutine(monsterdie, 3f));
+          //  Destroy(dieeffect, 3f);
+            StartCoroutine(CoinRoutin());
+        }
     }
 
     IEnumerator CoinRoutin()
     {
         while (coinmoney > 0)
         {
-            Instantiate(coinprefabs, transform.position, Quaternion.identity);
+            GameObject coin= GameManager.Pool.Get(coinprefabs, transform.position, Quaternion.identity);
             coinmoney--;
         }
         yield return null;
@@ -71,6 +81,12 @@ public class Banshee : MonoBehaviour, IHitable
    private void prihit()
     {
         hit.color = new Color(255, 255, 255, 255);
+    }
+
+    IEnumerator DieRoutine(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.Pool.Release(obj);
     }
 
 } 

@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoodNpc : MonoBehaviour
+public class FoodNpc : MonoBehaviour,Iinteractable
 {
     private Animator anim;
     [SerializeField] GameObject interactkey; //F키
+    [SerializeField] GameObject FoodUI;
+    private bool isui;
     private void Awake()
     {
         interactkey.SetActive(false);
         anim = GetComponent<Animator>();
-      
+        FoodUI.SetActive(false);
 
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키
@@ -20,14 +22,6 @@ public class FoodNpc : MonoBehaviour
             interactkey.SetActive(true);
         }
 
-        /* if (interactkey != null)
-          {
-              interactkey.SetActive(true);
-          }
-          else
-          {
-              interactkey.SetActive(false);
-          }*/
 
 
     }
@@ -39,10 +33,12 @@ public class FoodNpc : MonoBehaviour
 
     }
 
-    public void Interact()
+    public void interact()
     {
-
-        Debug.Log("상호작용");
-
+        if (!FoodUI.activeSelf)
+        {
+            FoodUI.SetActive(true);
+        }
     }
+
 }

@@ -44,6 +44,14 @@ public class RoomTemplates : MonoBehaviour
             GameManager.Scene.LoadSceneAsync("testest");
             yield return null;
         }
+        if (va >4)
+        {
+            GameManager.Scene.LoadSceneAsync("testest");
+        }
+        if (rooms.Count > 15)
+        {
+            GameManager.Scene.LoadSceneAsync("testest");
+        }
         if (va == 4)
         {
             foreach (var item1 in rooms)
@@ -56,21 +64,22 @@ public class RoomTemplates : MonoBehaviour
             alladd = true;
             PlayerSet();
         }
-        if (va >= 5)
-        {
-            GameManager.Scene.LoadSceneAsync("testest");
-        }
-        if (rooms.Count > 15)
-        {
-            GameManager.Scene.LoadSceneAsync("testest");
-        }
+       
+        alladd = true;
+        PlayerSet();
         yield return null;
     }
 
     public void PlayerSet()
     {
+        SoundManager.Instance.PlayeBGM("Dungeon");
         player.SetActive(true);
         player.GetComponent<PlayerController>().enabled = true;
     
+    }
+
+    public bool Check(bool alladd)
+    {
+        return alladd;
     }
 }

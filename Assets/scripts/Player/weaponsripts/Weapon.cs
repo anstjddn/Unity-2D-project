@@ -84,6 +84,7 @@ public class Weapon: MonoBehaviour
     {
       if(curtype == weapontype.sword&& !isattack)
         {
+            SoundManager.Instance.PlaySFX("PlayerAttack");
             StartCoroutine(swordhiteffctroutin(attackdalay));
         }
        if (curtype == weapontype.gun && !isattack&& !isreloading)
@@ -102,17 +103,19 @@ public class Weapon: MonoBehaviour
     {
         isattack = true;
        
-        Instantiate(hiteffect, swordAttackpoint.position, transform.rotation);                     //이거 임펙트 방향
+        GameObject hit =GameManager.Pool.Get(hiteffect, swordAttackpoint.position, transform.rotation);                     //이거 임펙트 방향
         Collider2D[] colliders = Physics2D.OverlapBoxAll(swordAttackpoint.transform.position, boxsize, 0, monster);
         foreach (Collider2D collider in colliders)
         {
 
             IHitable hitable = collider.GetComponent<IHitable>();
             hitable.TakeHit(dagame);
-            Instantiate(slasheffect, collider.transform.position, Quaternion.Euler(0, 0, 120));
-            Destroy(slasheffect, 0.5f);
+            GameObject slashefect = GameManager.Pool.Get(slasheffect, collider.transform.position, Quaternion.Euler(0, 0, 120));
+            StartCoroutine(ReleaseRoutine(0.5f, slashefect));
+        //    Destroy(slasheffect, 0.5f);
         }
         yield return new WaitForSeconds(attackdalay);
+        GameManager.Pool.Release(hit);
         isattack = false;
         
     }
@@ -123,8 +126,9 @@ public class Weapon: MonoBehaviour
         isattack = true;
         int weaponcount = curweapon.GetComponent<gun>().data.shootcount;
         bulletcount++;
-        Instantiate(bulletprefabs, bulletpoint.position, bulletpoint.rotation);
-        Destroy(slasheffect, 5f);
+       GameObject bulletefect = GameManager.Pool.Get(bulletprefabs, bulletpoint.position, bulletpoint.rotation);
+    //  Instantiate(bulletprefabs, bulletpoint.position, bulletpoint.rotation);
+       // Destroy(slasheffect, 5f);
         yield return new WaitForSeconds(attackdaley);
         isattack = false;
         if (bulletcount == weaponcount)
@@ -145,5 +149,10 @@ public class Weapon: MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(swordAttackpoint.transform.position, boxsize);
+    }
+    IEnumerator ReleaseRoutine(float Time,GameObject obj)
+    {
+        yield return new WaitForSeconds(Time);
+        GameManager.Pool.Release(obj);
     }
 }

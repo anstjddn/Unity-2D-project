@@ -15,7 +15,7 @@ public class Coin : MonoBehaviour, IGetable
     public void Get()
     {
         GameManager.data.BaseGold += 10;
-        Destroy(gameObject);
+        GameManager.Pool.Release(gameObject);
     }
 
     private void Awake()

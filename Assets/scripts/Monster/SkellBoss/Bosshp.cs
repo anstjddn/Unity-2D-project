@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Bosshp : MonoBehaviour,IHitable
 {
     public int bosshp = 500;
     public SpriteRenderer bosshit;
+
+    public UnityAction Ondeaded;
     private void Awake()
     {
         bosshit = GetComponent<SpriteRenderer>();
@@ -18,7 +22,6 @@ public class Bosshp : MonoBehaviour,IHitable
      
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (bosshp > 0)
@@ -27,6 +30,7 @@ public class Bosshp : MonoBehaviour,IHitable
         }
         else if(bosshp < 0)
         {
+            Ondeaded?.Invoke();
             Destroy(gameObject);
         }
     }

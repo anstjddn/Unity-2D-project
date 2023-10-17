@@ -15,6 +15,7 @@ public class PoolManager : MonoBehaviour
         poolDic = new Dictionary<string, ObjectPool<GameObject>>();
         poolContainer = new Dictionary<string, Transform>();
         poolRoot = new GameObject("PoolRoot").transform;
+        poolRoot.SetParent(transform);
         canvasRoot = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
     }
 

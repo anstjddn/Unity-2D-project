@@ -61,7 +61,7 @@ public class Attack3 : MonoBehaviour
         GameObject idleffect = transform.GetChild(0).gameObject;                //날아갈때 주변 임펙트끄기
         idleffect.SetActive(false);
     }
-    public void Remove()
+    public void RemoveSwordObj()
     {
         Destroy(gameObject);
     }

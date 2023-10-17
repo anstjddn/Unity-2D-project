@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.iOS;
 
 public class Attack2 : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Attack2 : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6)
+        if (gameObject.activeSelf&&collision.gameObject.layer == 6)
         {
             IHitable hitable = collision.GetComponent<IHitable>();
             hitable?.TakeHit(damage);

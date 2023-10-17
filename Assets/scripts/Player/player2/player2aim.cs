@@ -8,6 +8,7 @@ public class player2aim : MonoBehaviour
    
         [SerializeField] public GameObject aimcursor;
         [SerializeField] public Transform WeaponHoledpoint;
+    [SerializeField] public Weapon weapon;
         Vector2 aimpos;
 
         private void LateUpdate()
@@ -23,7 +24,8 @@ public class player2aim : MonoBehaviour
         
      private void OnAttack()
     {
-        Attack();
+        if (weapon.curweapon!=null)
+         Attack();
     }
     public void Attack()
     {

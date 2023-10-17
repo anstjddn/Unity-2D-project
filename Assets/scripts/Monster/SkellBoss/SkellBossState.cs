@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class SkellBossState : MonoBehaviour
@@ -9,7 +10,7 @@ public class SkellBossState : MonoBehaviour
     public Transform player;
     private BaseState[] states;
     private State curstate;
-    public int Handspeed;
+    [SerializeField] public int Handspeed;
     public Rigidbody2D monsterRb;
     public Animator monsteranim;
     public Collider2D monsterCollider;
@@ -17,6 +18,8 @@ public class SkellBossState : MonoBehaviour
     [SerializeField] public GameObject Attack1;
     [SerializeField] public Transform[] Attackpoints;
     [SerializeField] public float rotatespeed;
+
+
 
    // public int Randpatton = Random.Range((int)State.Attack1, (int)State.Attack3);
 
@@ -50,11 +53,17 @@ public class SkellBossState : MonoBehaviour
 
     }
 
-     public void ChangeState(State state)
+     public void ChangeState()
       {
-          states[(int)curstate].Exit();
-          curstate = state;
-          states[(int)curstate].Enter();
+                  
+      //  int rand = Random.Range(1, 4);
+        states[(int)curstate].Exit();
+        curstate = State.Attack2;
+        states[(int)curstate].Enter();
+
+     //   states[(int)curstate].Exit();
+      //    curstate = state;
+      //    states[(int)curstate].Enter();
       }
  
 
@@ -69,6 +78,8 @@ public class BossIdleState : BaseState           //가만히 있는거
     }
     public override void Enter()
     {
+     
+        bossmonster.ChangeState();
         Debug.Log("Idle Enter");
     }
     public override void Exit()
@@ -79,7 +90,7 @@ public class BossIdleState : BaseState           //가만히 있는거
 
     public override void Update()
     {
-        bossmonster.ChangeState(SkellBossState.State.Attack1);
+      //  bossmonster.ChangeState(SkellBossState.State.Attack1);
 
 
     }
@@ -116,7 +127,7 @@ public class BossAttack1State : BaseState             //입에서 회전
         {
             bossmonster.monsteranim.SetBool("Attack1", false);
             bossmonster.StopAllCoroutines();
-            bossmonster.ChangeState(SkellBossState.State.Attack3);
+            bossmonster.ChangeState();
 
         }
         if (!isattack)
@@ -130,21 +141,7 @@ public class BossAttack1State : BaseState             //입에서 회전
             t.Rotate(-Vector3.back * bossmonster.rotatespeed * Time.deltaTime);
            
         }
-     /*   if (curTime > 8f)
-        {
-
-            bossmonster.StopAllCoroutines();
-            bossmonster.ChangeState(SkellBossState.State.Attack3);
-
-        }*/
-
-
-        /* if (!isattack)
-         {
-             bossmonster.StartCoroutine(AttackRoutin(0.4f));
-
-         }*/
-
+   
 
     }
     IEnumerator AttackRoutin(float dalay)
@@ -154,15 +151,21 @@ public class BossAttack1State : BaseState             //입에서 회전
         {
             foreach (Transform t in bossmonster.Attackpoints)
             {
-                SkellBossState.Instantiate(bossmonster.Attack1, t.position, t.rotation);        //동시에 생성
+             GameObject Skllobssbullet = GameManager.Pool.Get(bossmonster.Attack1, t.position, t.rotation);        //동시에 생성
+            //    ReleaseRoutine
             }
             
         }
         yield return new WaitForSeconds(dalay);
         isattack = false;
+      
 
 
-
+    }
+    IEnumerator ReleaseRoutine(GameObject obj,float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.Pool.Release(obj);
     }
     
 }
@@ -206,7 +209,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
         if (isAttack2last)
         {
             bossmonster.StopAllCoroutines();
-            bossmonster.ChangeState(SkellBossState.State.Attack1);
+            bossmonster.ChangeState();
         }
 
 
@@ -222,7 +225,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
         {
             Vector2 playerdirleft = (bossmonster.player.position - leftobj.transform.position);
             playerdirleft = new Vector2(0, playerdirleft.y).normalized;
-            leftobj.transform.Translate(playerdirleft * 4 * Time.deltaTime);
+            leftobj.transform.Translate(playerdirleft * bossmonster.Handspeed * Time.deltaTime);
 
         }
 
@@ -239,11 +242,11 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
             yield return new WaitForSeconds(1f);
             leftlayer.SetActive(false);
         }
-        if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.3f && isAttack2left)
+      /*  if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.3f && isAttack2left)
         {
             //데미지 받은거 구현
 
-        }
+        }*/
 
             yield return new WaitForSeconds(1.5f);   //왼손쓰고 1초후 오른손
 
@@ -252,19 +255,20 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
                 Vector2 playerdirRight = (bossmonster.player.position - rightobj.transform.position);
                 playerdirRight = new Vector2(0, playerdirRight.y).normalized;
-                rightobj.transform.Translate(playerdirRight * 4 * Time.deltaTime);
+                rightobj.transform.Translate(playerdirRight * bossmonster.Handspeed * Time.deltaTime);
 
             }
 
 
             if (Mathf.Abs(rightobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2right)
             {
-
+             
 
                 rightobj.transform.Translate(Vector3.zero);
                 isAttack2right = true;
                 rightobj.GetComponent<Animator>().SetBool("righthand", true);
-                yield return new WaitForSeconds(0.8f);
+              //   isAttack2right = true;
+                 yield return new WaitForSeconds(0.8f);
                 rightlayer.SetActive(true);
                 rightobj.GetComponent<Animator>().SetBool("righthand", false);
                 yield return new WaitForSeconds(1f);
@@ -278,21 +282,23 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
             {
                 Vector2 playerdirleft = (bossmonster.player.position - leftobj.transform.position);
                 playerdirleft = new Vector2(0, playerdirleft.y).normalized;
-                leftobj.transform.Translate(playerdirleft * 4 * Time.deltaTime);
+                leftobj.transform.Translate(playerdirleft * bossmonster.Handspeed * Time.deltaTime);
 
             }
 
             if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2last)
             {
+            
                 leftobj.transform.Translate(Vector3.zero);
-
-                leftobj.GetComponent<Animator>().SetBool("Attack", true);
-                yield return new WaitForSeconds(0.8f);
+            isAttack2last = true;
+            leftobj.GetComponent<Animator>().SetBool("Attack", true);
+             //   isAttack2last = true;
+               yield return new WaitForSeconds(0.8f);
                 leftlayer.SetActive(true);
                 leftobj.GetComponent<Animator>().SetBool("Attack", false);
-                isAttack2last = true;
+             //   isAttack2last = true; 
                 yield return new WaitForSeconds(1f);
-                leftlayer.SetActive(true);
+               leftlayer.SetActive(false);
 
             }
             yield return new WaitForSeconds(7f);
@@ -350,16 +356,23 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
             yield return new WaitForSeconds(0.5f);
         }
-        yield return new WaitForSeconds(1f);
-        if (attack3List[5].hitable)
+        yield return new WaitForSeconds(2f);
+      /*  if (attack3List[5].hitable)
         {
             for (int i = 0; i < 6; i++)
             {
-                attack3List[i].Remove();
+                attack3List[i].RemoveSwordObj();
             }
-            bossmonster.ChangeState(SkellBossState.State.Attack1);
-            bossmonster.StopAllCoroutines();
+         //   bossmonster.ChangeState(SkellBossState.State.Attack1);
+           // bossmonster.StopAllCoroutines();
+        }*/
+        for (int i = 0; i < 6; i++)
+        {
+            attack3List[i].RemoveSwordObj();
         }
+        attack3List.Clear();
+        yield return new WaitForSeconds(0.5f);
+        bossmonster.ChangeState();
     }
 
     }

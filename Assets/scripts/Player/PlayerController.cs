@@ -14,7 +14,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
-public class PlayerController : MonoBehaviour, IHitable
+public class PlayerController : MonoBehaviour
 {
     //플레이어 이동
     private Rigidbody2D playerRb;
@@ -34,8 +34,6 @@ public class PlayerController : MonoBehaviour, IHitable
     [SerializeField] float footrange;
     private bool isgroundcheck;
     [SerializeField] LayerMask whatground;
-
-    public UnityEvent Ondeaded;
 
 
     // 플레이어 시점 관련 구현
@@ -66,7 +64,6 @@ public class PlayerController : MonoBehaviour, IHitable
         isjumping = false;
         weaponhold = transform.GetChild(0).transform;
         dashcount = GameManager.data.dashcount;
-        GameManager.data.Set();
     }
 
 
@@ -140,12 +137,14 @@ public class PlayerController : MonoBehaviour, IHitable
    // 무브 구현
      private void Move()
      {
-         transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
+       // SoundManager.Instance.PlaySFX("PlayerMove");
+        transform.Translate(new Vector3(movedir.x, 0, 0) * movespeed * Time.deltaTime);
 
     }
      private void OnMove(InputValue value)
      {
-         movedir.x = value.Get<Vector2>().x;
+        SoundManager.Instance.PlaySFX("PlayerMove");
+        movedir.x = value.Get<Vector2>().x;
          movedir.y = value.Get<Vector2>().y;
      }
      // 점프구현
@@ -168,6 +167,7 @@ public class PlayerController : MonoBehaviour, IHitable
      {
         if (dashcount > 0)
         {
+            SoundManager.Instance.PlaySFX("playerdash");
             StartCoroutine(dashroutin());
         }
 
@@ -207,13 +207,16 @@ public class PlayerController : MonoBehaviour, IHitable
 
     }
 // 무적됬따가 풀리는거
-      public void OffDamage()
+
+
+
+/*      public void OffDamage()
       {
           gameObject.layer = 6;
           playerrender.color = new Color(1, 1, 1,1);
-      }
+      }*/
 
-      //floor로 발꺼지는거
+      //floor로 발꺼지는거    
       private void OnCollisionExit2D(Collision2D collision)
       {
           if (collision.gameObject.CompareTag("Floor"))
@@ -229,31 +232,32 @@ public class PlayerController : MonoBehaviour, IHitable
     }
     IEnumerator floorRoutin()
     {
-        if (curfloor != null)
+      /*  if (curfloor != null)
         {
             BoxCollider2D floorcollder = curfloor.gameObject.GetComponent<BoxCollider2D>();
             Physics2D.IgnoreCollision(transform.GetComponent<Collider2D>(), floorcollder);
             playerRb.velocity = new Vector2(0, -9);
             yield return new WaitForSeconds(1f);
             Physics2D.IgnoreCollision(transform.GetComponent<Collider2D>(), floorcollder, false);
-        }
-    /*   if (curfloorTile != null)
-        {
-            TilemapCollider2D floorTilecollder = curfloorTile.gameObject.GetComponent<TilemapCollider2D>();
-            Physics2D.IgnoreCollision(transform.GetComponent<Collider2D>(), floorTilecollder);
-            playerRb.velocity = new Vector2(0, -9);
-            yield return new WaitForSeconds(1f);
-            Physics2D.IgnoreCollision(transform.GetComponent<Collider2D>(), floorTilecollder, false);
         }*/
+        if(curfloor != null)
+        {
+            BoxCollider2D floorcollder = curfloor.gameObject.GetComponent<BoxCollider2D>();
+            floorcollder.enabled = false;
+            playerRb.velocity = new Vector2(0, -9);
+            yield return new WaitForSeconds(0.5f);
+            floorcollder.enabled = true;
+        }
+   
     }
 
-    public void TakeHit(int dagame)
+  /*  public void TakeHit(int dagame)
     {
          GameManager.data.curHp -= dagame;
         if (GameManager.data.curHp <= 0)
         {
             Ondeaded?.Invoke();
-            GameManager.data.Set();
+          //  GameManager.data.Set();
         }
 
 
@@ -262,15 +266,14 @@ public class PlayerController : MonoBehaviour, IHitable
         playerrender.color = new Color(1, 1, 1, 0.4f);
         Invoke("OffDamage", 0.5f);
 
-    }
+    }*/
 
     IEnumerator dashroutin()
     {
         dashTime -= Time.deltaTime;
         if (dashTime > 0)
         {
-            // transform.gameObject.layer = 16;
-          //  transform.Translate(dir * Dashpower);
+           
             playerRb.velocity = dir.normalized * Dashpower;
             isdashing = true;
             dashcount--;
@@ -282,7 +285,8 @@ public class PlayerController : MonoBehaviour, IHitable
         }
         else
         {
-            playerRb.velocity = new Vector2(0,Physics2D.gravity.y);
+            playerRb.velocity = Vector2.zero;
+          //  playerRb.velocity = new Vector2(0,Physics2D.gravity.y);
         }
  
     }
