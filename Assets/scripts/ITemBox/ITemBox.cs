@@ -68,6 +68,7 @@ public class ITemBox : MonoBehaviour, Iinteractable
 
     public void interact()
     {
+        SoundManager.Instance.PlaySFX("BoxOpen");
         isopening = true;
         anim.SetBool("Hit", true);
         interactkey.SetActive(false);

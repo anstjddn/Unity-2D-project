@@ -32,7 +32,7 @@ public class Monsterspawn : MonoBehaviour
             StartCoroutine(MonsterSpawn(rand));
             StartCoroutine(DoorClose());
         }
-        if(collision.gameObject.layer == 6 && !roomState.isclear)
+        if(collision.gameObject.layer == 6 && isplayer)
         {
             Debug.Log("¿ÃπÃ∏∏µÎ");
         }

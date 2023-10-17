@@ -7679,7 +7679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3de9cc4e3e64b544389cbf4105dfb09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomState: {fileID: 0}
+  roomState: {fileID: 6147127207044715079}
   rand: 0
   monsterNum: 0
   doorobj: {fileID: 6147127207351357505}
@@ -7778,7 +7778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3de9cc4e3e64b544389cbf4105dfb09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomState: {fileID: 0}
+  roomState: {fileID: 6147127207044715079}
   rand: 0
   monsterNum: 0
   doorobj: {fileID: 6147127207351357505}
@@ -7877,7 +7877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3de9cc4e3e64b544389cbf4105dfb09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomState: {fileID: 0}
+  roomState: {fileID: 6147127207044715079}
   rand: 0
   monsterNum: 0
   doorobj: {fileID: 6147127207351357505}
@@ -7976,7 +7976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3de9cc4e3e64b544389cbf4105dfb09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomState: {fileID: 0}
+  roomState: {fileID: 6147127207044715079}
   rand: 0
   monsterNum: 0
   doorobj: {fileID: 6147127207351357505}
