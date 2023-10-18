@@ -47,6 +47,7 @@ public class PlayerState : MonoBehaviour, IHitable
 
     IEnumerator dieRountine()
     {
+        gameObject.layer = 8;
         SoundManager.Instance.StopBgm();
         SoundManager.Instance.PlaySFX("dead");
         playeranim.SetTrigger("die");

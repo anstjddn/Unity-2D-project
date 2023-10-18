@@ -18,7 +18,7 @@ public class BossRoom : MonoBehaviour
         if(collision.gameObject.layer == 6&& !isenter)
         {
             isenter = true;
-
+            SoundManager.Instance.PlayeBGM("BossRoom");
             door.SetActive(true);
             boss.SetActive(true);
 

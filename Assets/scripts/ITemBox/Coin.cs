@@ -14,6 +14,7 @@ public class Coin : MonoBehaviour, IGetable
 
     public void Get()
     {
+        SoundManager.Instance.PlaySFX("EatCoin");
         GameManager.data.BaseGold += 10;
         GameManager.Pool.Release(gameObject);
     }

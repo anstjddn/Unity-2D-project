@@ -435,6 +435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isclear: 0
   monsterList: []
+  isinplayer: 0
 --- !u!61 &494592588
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -548,10 +549,6 @@ PrefabInstance:
     - target: {fileID: 8970084406373927228, guid: dcab73ad6a1d7e641a51fbfa3bd3c8e6, type: 3}
       propertyPath: m_RootOrder
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8970084406373927228, guid: dcab73ad6a1d7e641a51fbfa3bd3c8e6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8970084406373927228, guid: dcab73ad6a1d7e641a51fbfa3bd3c8e6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1188,7 +1185,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 516087
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

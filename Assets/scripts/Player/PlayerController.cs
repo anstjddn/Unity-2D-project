@@ -158,6 +158,7 @@ public class PlayerController : MonoBehaviour
     }
      private void Jump()
      {
+        SoundManager.Instance.PlaySFX("PlayerJump");
         playerRb.velocity = Vector2.up * jumppower;
 
      }
@@ -195,11 +196,11 @@ public class PlayerController : MonoBehaviour
           {
               curfloorTile = collision.gameObject;
           }*/
-        if (collision.gameObject.layer ==11)
+    /*    if (collision.gameObject.layer ==11)
         {
             GameManager.data.BaseGold += 10;
             Destroy(collision.gameObject);
-        }
+        }*/
       /*  if(isdashing&& collision.gameObject.layer == 9)
         {
             collision.gameObject.GetComponent<IHitable>().TakeHit(GameManager.data.playerDamege);

@@ -15,8 +15,7 @@ public class Sound
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager instance;
-    private static SoundManager soundManager;
-    public static SoundManager Sound { get { return soundManager; } }
+
     public static SoundManager Instance { get { return instance; } }
 
     [SerializeField] Sound[] sfx;

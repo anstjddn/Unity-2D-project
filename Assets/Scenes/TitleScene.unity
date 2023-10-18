@@ -1290,6 +1290,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 69ba331ff54a04645ac9cd60b0c2d725, type: 3}
   - name: MinotaurDash
     clip: {fileID: 8300000, guid: aee96656e74bb08449b316796b45a4fa, type: 3}
+  - name: EatCoin
+    clip: {fileID: 8300000, guid: 9761cf425f06bef428558678f619068b, type: 3}
+  - name: PlayerJump
+    clip: {fileID: 8300000, guid: 47e26ab9676d69141ae942b1091cfe26, type: 3}
+  - name: BossAttack1
+    clip: {fileID: 8300000, guid: a3c646fd8566d3943b3c4e77c83468ec, type: 3}
+  - name: BossAttack2
+    clip: {fileID: 8300000, guid: 964a1052ddc1da2488ee1bff506a548c, type: 3}
+  - name: BossAttack3
+    clip: {fileID: 8300000, guid: fc1647308ebb5af49b5abfe8deed0982, type: 3}
   bgm:
   - name: Town
     clip: {fileID: 8300000, guid: dcb22c86a069f2f49a5d4b86d5717765, type: 3}

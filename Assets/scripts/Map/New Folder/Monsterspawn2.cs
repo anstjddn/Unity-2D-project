@@ -16,20 +16,21 @@ public class Monsterspawn2 : MonoBehaviour
 
     public void Awake()
     {
-        roomState = GetComponentInParent<RoomState>();
+      //  roomState = GetComponentInParent<RoomState>();
         rand = Random.Range(3, 6);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6 && !roomState.isclear && !isplayer)
+        if (collision.gameObject.layer == 6 && !roomState.isclear && !roomState.isinplayer)
         {
+            roomState.isinplayer = true;
             doorobj.SetActive(true);
             isplayer = true;
             Debug.Log("몬스터생성");
             StartCoroutine(MonsterSpawn(rand));
             StartCoroutine(DoorClose());
         }
-        if (collision.gameObject.layer == 6 && isplayer)
+        if (collision.gameObject.layer == 6&&roomState.isinplayer)
         {
             Debug.Log("이미만듬");
         }
@@ -78,8 +79,7 @@ public class Monsterspawn2 : MonoBehaviour
                 float x = transform.root.position.x + Random.Range(-5, 5);
                 float y = transform.root.position.y + Random.Range(-2, 3);
                 GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x, y), Quaternion.identity);
-            GameManager.Pool.Get(monster);
-            roomState.monsterList.Add(monster);
+                roomState.monsterList.Add(monster);
                 monstercount++;
             yield return null;
         }

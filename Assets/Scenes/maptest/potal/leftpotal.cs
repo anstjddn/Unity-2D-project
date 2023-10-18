@@ -34,6 +34,7 @@ public class leftpotal : MonoBehaviour
     {
        
         GameManager.Scene.LoadingUI.FadeOut();
+        yield return new WaitForSeconds(1f);
         player.GetComponent<PlayerInput>().enabled = false;
         player.transform.position += transform.right * 17f;
         player.GetComponent<PlayerInput>().enabled = true;

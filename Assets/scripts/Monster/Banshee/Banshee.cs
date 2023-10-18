@@ -26,36 +26,23 @@ public class Banshee : MonoBehaviour, IHitable
         hpbar.value = curhp;
         hpbackground.gameObject.SetActive(false);
     }
-    
-    private void Update()
-    {
-        hpbar.value = curhp;
-    /*    if (curhp > 0)
-        {
-         
-        }
-        else
-        {
-            Destroy(gameObject);
-            dieeffect = Instantiate(dieeffect, transform.position, Quaternion.identity);
-            Destroy(dieeffect, 3f);
-            StartCoroutine(CoinRoutin());
-        }*/
-    }
+   
 
     public void TakeHit(int dagame)
     {
+      
         SoundManager.Instance.PlaySFX("MonsterHit");
         hpbackground.gameObject.SetActive(true);
         Instantiate(textprefabs, transform.position, Quaternion.identity);
         curhp -= dagame;
+        hpbar.value = curhp;
         hit.color = new Color(255, 0, 0, 255);
        StartCoroutine(damageRoutin());
         //  Invoke("prihit", 0.1f);
         if (curhp <= 0)
         {
             SoundManager.Instance.PlaySFX("MonsterDie");
-            GameManager.Pool.Release(gameObject);
+            Destroy(gameObject);
            GameObject monsterdie = GameManager.Pool.Get(dieeffect, transform.position, Quaternion.identity);
             StartCoroutine(DieRoutine(monsterdie, 3f));
           //  Destroy(dieeffect, 3f);

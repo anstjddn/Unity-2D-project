@@ -23,6 +23,7 @@ public class BossRoomMove : MonoBehaviour,Iinteractable
 
     public void BossMove()
     {
+        SoundManager.Instance.StopBgm();
         GameManager.Scene.LoadScene("BossScene");
     }
 

@@ -56,9 +56,9 @@ public class SkellBossState : MonoBehaviour
      public void ChangeState()
       {
                   
-      //  int rand = Random.Range(1, 4);
+        int rand = Random.Range(1, 4);
         states[(int)curstate].Exit();
-        curstate = State.Attack2;
+        curstate = (State)rand;
         states[(int)curstate].Enter();
 
      //   states[(int)curstate].Exit();
@@ -151,14 +151,16 @@ public class BossAttack1State : BaseState             //입에서 회전
         {
             foreach (Transform t in bossmonster.Attackpoints)
             {
-             GameObject Skllobssbullet = GameManager.Pool.Get(bossmonster.Attack1, t.position, t.rotation);        //동시에 생성
-            //    ReleaseRoutine
+                SoundManager.Instance.PlaySFX("BossAttack1");
+              GameObject Skllobssbullet = GameManager.Pool.Get(bossmonster.Attack1, t.position, t.rotation);        //동시에 생성
             }
             
         }
         yield return new WaitForSeconds(dalay);
         isattack = false;
-      
+
+
+
 
 
     }
@@ -177,7 +179,10 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     private bool isAttack2right;
     private bool isAttack2end;
     private bool isAttack2last;
-
+    private GameObject leftobj;
+    private GameObject rightobj;
+    private GameObject leftlayer;
+    private GameObject rightlayer;
 
     public BossAttack2State(SkellBossState bossmonster)
     {
@@ -199,6 +204,8 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     public override void Exit()
     {
         Debug.Log("Attack2 Exit");
+        leftlayer.SetActive(false);
+        rightlayer.SetActive(false);
     }
 
     public override void Update()
@@ -216,10 +223,10 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     }
     IEnumerator Attack2Routin()
     {
-        GameObject leftobj = bossmonster.handobj[0];
-        GameObject rightobj = bossmonster.handobj[1];
-        GameObject leftlayer = leftobj.transform.GetChild(0).gameObject;
-        GameObject rightlayer = rightobj.transform.GetChild(0).gameObject;
+         leftobj = bossmonster.handobj[0];
+         rightobj = bossmonster.handobj[1];
+         leftlayer = leftobj.transform.GetChild(0).gameObject;
+         rightlayer = rightobj.transform.GetChild(0).gameObject;
 
         if (Mathf.Abs(bossmonster.player.position.y - leftobj.transform.position.y) > 0.1f && !isAttack2left)
         {
@@ -233,8 +240,9 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
         {
 
             leftobj.transform.Translate(Vector3.zero);
-
+           
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
+            SoundManager.Instance.PlaySFX("BossAttack2");
             isAttack2left = true;
             yield return new WaitForSeconds(0.8f);
             leftlayer.SetActive(true);
@@ -267,8 +275,9 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
                 rightobj.transform.Translate(Vector3.zero);
                 isAttack2right = true;
                 rightobj.GetComponent<Animator>().SetBool("righthand", true);
-              //   isAttack2right = true;
-                 yield return new WaitForSeconds(0.8f);
+            SoundManager.Instance.PlaySFX("BossAttack2");
+            //   isAttack2right = true;
+            yield return new WaitForSeconds(0.8f);
                 rightlayer.SetActive(true);
                 rightobj.GetComponent<Animator>().SetBool("righthand", false);
                 yield return new WaitForSeconds(1f);
@@ -292,8 +301,9 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
                 leftobj.transform.Translate(Vector3.zero);
             isAttack2last = true;
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
-             //   isAttack2last = true;
-               yield return new WaitForSeconds(0.8f);
+            SoundManager.Instance.PlaySFX("BossAttack2");
+            //   isAttack2last = true;
+            yield return new WaitForSeconds(0.8f);
                 leftlayer.SetActive(true);
                 leftobj.GetComponent<Animator>().SetBool("Attack", false);
              //   isAttack2last = true; 
@@ -341,6 +351,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
             float posX = bossmonster.transform.position.x - 5f + i * 2f;
             float posY = bossmonster.transform.position.y + 5;
             Attack3 attack3 = SkellBossState.Instantiate(bossmonster.Attack3prefabs, new Vector2(posX, posY), Quaternion.identity);
+            SoundManager.Instance.PlaySFX("BossAttack3");
             attack3.SetTarget(bossmonster.player.transform);
             attack3.Aim();
             attack3List.Add(attack3);
