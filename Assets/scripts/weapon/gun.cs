@@ -33,7 +33,7 @@ public class gun : MonoBehaviour
         {
             reloadingTiemground.gameObject.SetActive(true);
             reloadingTiem.value -= Time.deltaTime / data.realoadtime;
-            Debug.Log(reloadingTiem.value);
+           
             yield return null;
 
         }

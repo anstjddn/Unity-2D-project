@@ -12,9 +12,15 @@ public class BansheeIbullet : MonoBehaviour
     {
         hit = false;
         bulletanim = GetComponent<Animator>();
-
+        StartCoroutine(Destory(gameObject,5f));
 
     }
+    private void OnEnable()
+    {
+        hit = false;
+        StartCoroutine(Destory(gameObject, 5f));
+    }
+
     void Update()
     {
         if (!hit)
@@ -38,14 +44,16 @@ public class BansheeIbullet : MonoBehaviour
 
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-            Destroy(gameObject, 0.4f);
+            StartCoroutine(Destory(gameObject, 0.5f));
+         //   Destroy(gameObject, 0.4f);
 
         }
     }
 
-    IEnumerator Destory()
+    IEnumerator Destory(GameObject obj,float time)
     {
-        yield return new WaitForSeconds(4f);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(time);
+        GameManager.Pool.Release(obj);
+        //Destroy(gameObject);
     }
 }

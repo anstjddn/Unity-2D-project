@@ -26,7 +26,16 @@ public class Banshee : MonoBehaviour, IHitable
         hpbar.value = curhp;
         hpbackground.gameObject.SetActive(false);
     }
-   
+
+    private void OnEnable()
+    {
+        coinmoney = Random.Range(5, 11);
+        hit = GetComponent<SpriteRenderer>();
+        curhp = maxhp;
+        hpbar.maxValue = maxhp;
+        hpbar.value = curhp;
+        hpbackground.gameObject.SetActive(false);
+    }
 
     public void TakeHit(int dagame)
     {
@@ -42,9 +51,8 @@ public class Banshee : MonoBehaviour, IHitable
         if (curhp <= 0)
         {
             SoundManager.Instance.PlaySFX("MonsterDie");
-            Destroy(gameObject);
-           GameObject monsterdie = GameManager.Pool.Get(dieeffect, transform.position, Quaternion.identity);
-            StartCoroutine(DieRoutine(monsterdie, 3f));
+            GameManager.Pool.Release(gameObject);
+            StartCoroutine(DieRoutine(0.5f));
           //  Destroy(dieeffect, 3f);
             StartCoroutine(CoinRoutin());
         }
@@ -65,15 +73,11 @@ public class Banshee : MonoBehaviour, IHitable
         hit.color = new Color(255, 255, 255, 255);
         yield return new WaitForSeconds(0.3f);
     }
-   private void prihit()
+    IEnumerator DieRoutine(float time)
     {
-        hit.color = new Color(255, 255, 255, 255);
-    }
-
-    IEnumerator DieRoutine(GameObject obj, float time)
-    {
+        GameObject monsterdie = GameManager.Pool.Get(dieeffect, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(time);
-        GameManager.Pool.Release(obj);
+        GameManager.Pool.Release(monsterdie);
     }
 
 } 

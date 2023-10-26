@@ -14,6 +14,11 @@ public class Attack1Bullet : MonoBehaviour
         bulletanim = GetComponent<Animator>();
         StartCoroutine(ReleaseRoutine(5f));
     }
+    private void OnEnable()
+    { 
+            hit = false;
+        StartCoroutine(ReleaseRoutine(5f));
+    }
     void Update()
     {
         if (!hit)
@@ -37,7 +42,7 @@ public class Attack1Bullet : MonoBehaviour
            
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-            Destroy(gameObject, 0.4f);
+          //  Destroy(gameObject, 0.4f);
            
         }
     }

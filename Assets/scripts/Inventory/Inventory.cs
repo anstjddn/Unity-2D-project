@@ -32,13 +32,13 @@ public class Inventory : MonoBehaviour
        GameObject moveobj = Instantiate(obj);
         moveobj.name = obj.name;
     //    Destroy(obj);
-        Debug.Log("들이감");
+ 
       
         for (int i = 0; i < slots.Count; i++)
         {
             if (slots[i].transform.childCount == 0)                 //없는경우
             {
-                Debug.Log($"{obj.name} slots{i}비어있음");
+              
 
                 moveobj.transform.SetParent(slots[i].transform);
                 moveobj.AddComponent<itemDarge>();
@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
 
             if (slots[14].transform.childCount != 0)
             {
-                Debug.Log("꽉찼음");
+               
                 return;
             }
         }

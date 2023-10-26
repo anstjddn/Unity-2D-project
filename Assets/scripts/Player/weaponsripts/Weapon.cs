@@ -36,11 +36,10 @@ public class Weapon: MonoBehaviour
     public bool isreloading;
     public int reloadingtime;
 
- /*   public void Awake()
-    {
-        curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
-    }*/
-
+   /*    public void Awake()
+       {
+           curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
+       }*/
 
     public void Update()                //무기 바뀔거 염려해서 update에 올려놈
     {
@@ -48,7 +47,6 @@ public class Weapon: MonoBehaviour
         if (curweapon == null)
         {
             baseset();
-           
         }
       //  curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
 
@@ -160,14 +158,6 @@ public class Weapon: MonoBehaviour
         bulletcount = 0;
         yield return new WaitForSeconds(reloadingtime);
         isreloading = false;
-       
-        // 리로딩 이미지 넣자
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(swordAttackpoint.transform.position, boxsize);
     }
     IEnumerator ReleaseRoutine(float Time,GameObject obj)
     {

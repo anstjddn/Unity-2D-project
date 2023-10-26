@@ -41,7 +41,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Iinteractable interactable = collider.GetComponent<Iinteractable>();
             interactable?.interact();
-            Debug.Log(collider.gameObject.name);
+    
         }
 
     }

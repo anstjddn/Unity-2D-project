@@ -14,50 +14,53 @@ public class gunbullet : MonoBehaviour
         hit = false;
        bulletanim = GetComponent<Animator>();
     }
-
-    void Update()
+    private void OnEnable()
     {
-       if (!hit)
-        {
-           transform.Translate(Vector3.up * Time.deltaTime * bulletspeed);
-        }
-        else
-        {
-          transform.Translate(Vector3.zero);
-        }
-
+        hit = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
+    {
+        if(!hit)
+           transform.Translate(Vector2.up * Time.deltaTime * bulletspeed);
+        else
+        {
+            transform.Translate(Vector3.zero);
+        }
+    }
+
+  
+
+   private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        Debug.Log("Ãæµ¹ÇÔ");
+      
         if (collision.gameObject.layer == 9)
         {
-         
-            IHitable hitable = collision.GetComponent<IHitable>();
             hit = true;
+            IHitable hitable = collision.GetComponent<IHitable>();
 
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-               Destroy(gameObject, 0.4f);
+         //   GameManager.Pool.Release(transform.parent.gameObject);
+           StartCoroutine(ReleaseRoutine(gameObject,0.5f));
+          //     Destroy(gameObject, 0.4f);
 
         }
         if (collision.gameObject.layer == 7)
         {
-
-        
             hit = true;
-
             bulletanim.SetTrigger("hit");
-            Destroy(gameObject, 0.4f);
+            StartCoroutine(ReleaseRoutine(gameObject, 0.5f));
+            //  Destroy(gameObject, 0.4f);
 
         }
         if (collision.gameObject.layer == 14)
         {
             hit = true;
             bulletanim.SetTrigger("hit");
-           Destroy(gameObject, 0.4f);
+            StartCoroutine(ReleaseRoutine(gameObject, 0.5f));
+            //   Destroy(gameObject, 0.4f);
 
         }
      
@@ -67,6 +70,9 @@ public class gunbullet : MonoBehaviour
     {
         
         yield return new WaitForSeconds(Time);
+        //  transform.position = setpos.position;
+        //  transform.rotation = setpos.rotation;
+       // hit = false;
         GameManager.Pool.Release(obj);
     }
 

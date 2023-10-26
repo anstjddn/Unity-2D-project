@@ -12,6 +12,6 @@ public class InventoryUI : BaseUI
 
     public void Update()
     {
-        texts["curcoin"].text = GameManager.data.BaseGold.ToString();
+        texts["playercoin"].text = GameManager.data.BaseGold.ToString();
     }
 }

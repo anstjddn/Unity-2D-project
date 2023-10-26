@@ -18,6 +18,15 @@ public class Slot : MonoBehaviour
     public void Awake()
     {
         button = GetComponent<Button>();
+        if (transform.GetChild(0).gameObject == null)
+        {
+            imageobj = null;
+            return;
+        }
+        else
+        {
+            imageobj = transform.GetChild(0).gameObject;
+        }
         imageobj = transform.GetChild(0).gameObject;
         button.onClick.AddListener(() => invent.Buyitem(imageobj));
         button.onClick.AddListener(() => Buyitem());
