@@ -39,7 +39,7 @@ public class RoomTemplates : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        while (va < 4)
+   /*     while (va < 4)
         {
             GameManager.Scene.LoadSceneAsync("testest");
             yield return null;
@@ -51,7 +51,9 @@ public class RoomTemplates : MonoBehaviour
         if (rooms.Count > 15)
         {
             GameManager.Scene.LoadSceneAsync("testest");
-        }
+        }*/
+
+
         if (va == 4)
         {
             foreach (var item1 in rooms)
@@ -64,9 +66,11 @@ public class RoomTemplates : MonoBehaviour
             alladd = true;
             PlayerSet();
         }
-       
-        alladd = true;
-        PlayerSet();
+        else
+        {
+            GameManager.Scene.LoadSceneAsync("testest");
+
+        }
         yield return null;
     }
 

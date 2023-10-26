@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,6 +17,9 @@ public class meum : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, I
     [SerializeField] public Image foodimage;
     [SerializeField] public int hpheal;
     [SerializeField] public int maxhp;
+    [SerializeField] public int food;
+    [SerializeField] public TMP_Text fooddata;
+    [SerializeField] public TMP_Text foodprice;
     private bool buy;
 
     public void Awake()
@@ -56,8 +59,11 @@ public class meum : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, I
             GameManager.data.BaseGold -= money;
             GameManager.data.curHp += hpheal;
             GameManager.data.maxHp += maxhp;
+            GameManager.data.curfood += food;
             foodimage.color = new UnityEngine.Color(255, 255, 255, 0);
             Debug.Log("»ò´Ù");
+            fooddata.gameObject.SetActive(false);
+            foodprice.gameObject.SetActive(false);
             transform.GetComponent<Button>().interactable = false;
            
 
@@ -66,7 +72,6 @@ public class meum : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, I
         if(GameManager.data.BaseGold < money && !buy)
         {
             Debug.Log("¸ø»ï");
-          // transform.GetComponent<Button>().spriteState.selectedSprite;
         }
         if (buy)
         {

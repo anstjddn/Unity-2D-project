@@ -12,7 +12,7 @@ public class ITemBox : MonoBehaviour, Iinteractable
     [SerializeField] GameObject Bullionobj;
     private int coinmoney;
     private int bullionmoney;
-    private bool isopening;
+    private bool isinteractable;
 
     private void Awake()
     {
@@ -24,17 +24,16 @@ public class ITemBox : MonoBehaviour, Iinteractable
     }
     private void OnTriggerEnter2D(Collider2D collision)             //상호작용 ㄹ키
     {
-        if (collision.gameObject.layer ==6&&!isopening)
+        if (!isinteractable && collision.gameObject.layer ==6)
         {
             interactkey.SetActive(true);
         }
-
 
     }
    
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6 && !isopening)
+        if (!isinteractable && collision.gameObject.layer == 6)
         {
             interactkey.SetActive(false);
         }
@@ -68,11 +67,15 @@ public class ITemBox : MonoBehaviour, Iinteractable
 
     public void interact()
     {
-        SoundManager.Instance.PlaySFX("BoxOpen");
-        isopening = true;
-        anim.SetBool("Hit", true);
-        interactkey.SetActive(false);
-        StartCoroutine(CoinRoutin());
-        StartCoroutine(bullionRoutin());
+        if (!isinteractable)
+        {
+            SoundManager.Instance.PlaySFX("BoxOpen");
+            isinteractable = true;
+            anim.SetBool("Hit", true);
+            interactkey.SetActive(false);
+            StartCoroutine(CoinRoutin());
+            StartCoroutine(bullionRoutin());
+        }
+        else return;
     }
 }

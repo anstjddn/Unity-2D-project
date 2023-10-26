@@ -14,6 +14,7 @@ public class Bosshp : MonoBehaviour,IHitable
     private void Awake()
     {
         bosshit = GetComponent<SpriteRenderer>();
+        Ondeaded+= die;
     }
     public void TakeHit(int dagame)
     {
@@ -29,23 +30,10 @@ public class Bosshp : MonoBehaviour,IHitable
             Ondeaded?.Invoke();
             Destroy(gameObject);
         }
-     //   bosshit.color = new Color(255, 0, 0, 255);
-     //   Invoke("prihit", 0.1f);
+
      
     }
 
-    void Update()
-    {
-        if (bosshp > 0)
-        {
-            Debug.Log(bosshp);
-        }
-        else if(bosshp < 0)
-        {
-            Ondeaded?.Invoke();
-            Destroy(gameObject);
-        }
-    }
     private void prihit()
     {
         bosshit.color = new Color(255, 255, 255, 255);
@@ -58,6 +46,8 @@ public class Bosshp : MonoBehaviour,IHitable
 
     IEnumerator dieRountion()
     {
+        GameManager.Scene.LoadingUI.FadeOut();
+        yield return new WaitForSeconds(2f);
         GameManager.Resource.Instantiate<Canvas>("UI/DieUI");
         yield return new WaitForSeconds(3f);
         GameObject player = GameObject.FindObjectOfType<Player>().gameObject.transform.GetChild(0).gameObject;

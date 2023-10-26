@@ -38,6 +38,7 @@ public class FoodNpc : MonoBehaviour,Iinteractable
         if (!FoodUI.activeSelf)
         {
             FoodUI.SetActive(true);
+            SoundManager.Instance.PlayeBGM("shop");
         }
     }
 

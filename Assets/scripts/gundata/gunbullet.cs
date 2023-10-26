@@ -8,20 +8,22 @@ public class gunbullet : MonoBehaviour
     private Animator bulletanim;
     public bool hit;
     [SerializeField] public int hitdamege;
+    private Transform setpos;
     private void Awake()
     {
         hit = false;
        bulletanim = GetComponent<Animator>();
     }
+
     void Update()
     {
-        if (!hit)
+       if (!hit)
         {
-            transform.Translate(Vector3.up * Time.deltaTime * bulletspeed);
+           transform.Translate(Vector3.up * Time.deltaTime * bulletspeed);
         }
         else
         {
-            transform.Translate(Vector3.zero);
+          transform.Translate(Vector3.zero);
         }
 
     }
@@ -32,32 +34,29 @@ public class gunbullet : MonoBehaviour
         Debug.Log("Ãæµ¹ÇÔ");
         if (collision.gameObject.layer == 9)
         {
-
+         
             IHitable hitable = collision.GetComponent<IHitable>();
             hit = true;
 
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-          //  StartCoroutine(ReleaseRoutine(this.gameObject, 0.4f));
-           Destroy(gameObject, 0.4f);
+               Destroy(gameObject, 0.4f);
 
         }
         if (collision.gameObject.layer == 7)
         {
 
-       
+        
             hit = true;
 
             bulletanim.SetTrigger("hit");
-          //  StartCoroutine(ReleaseRoutine(this.gameObject, 0.4f));
             Destroy(gameObject, 0.4f);
 
         }
         if (collision.gameObject.layer == 14)
-        {          
+        {
             hit = true;
             bulletanim.SetTrigger("hit");
-         //   StartCoroutine(ReleaseRoutine(this.gameObject, 0.4f));
            Destroy(gameObject, 0.4f);
 
         }
@@ -66,8 +65,9 @@ public class gunbullet : MonoBehaviour
 
     IEnumerator ReleaseRoutine(GameObject obj,float Time)
     {
+        
         yield return new WaitForSeconds(Time);
         GameManager.Pool.Release(obj);
     }
-  
+
 }

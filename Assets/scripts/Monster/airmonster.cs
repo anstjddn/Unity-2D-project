@@ -32,8 +32,7 @@ public class airmonster : MonoBehaviour
         SoundManager.Instance.PlaySFX("BansheeAttack");
         anim.SetTrigger("attack");
       GameObject Bansgeeattack= GameManager.Pool.Get(bulletprefabs,transform.position,Quaternion.identity);
-     
-       Destroy(Bansgeeattack, 5f);
+        Destroy(Bansgeeattack, 5f);
        GameObject Bansgeeattack2 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
         Destroy(Bansgeeattack2, 5f);
         GameObject Bansgeeattack3 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));

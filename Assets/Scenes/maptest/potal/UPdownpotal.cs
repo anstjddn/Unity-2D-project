@@ -27,8 +27,9 @@ public class UPdownpotal : MonoBehaviour
 
     IEnumerator MoveRountin()
     {
-        GameManager.Scene.LoadingUI.FadeOut();
         player.GetComponent<PlayerInput>().enabled = false;
+        GameManager.Scene.LoadingUI.FadeOut();
+        yield return new WaitForSeconds(1f);
         player.transform.position += transform.up * 30f;
         player.GetComponent<PlayerInput>().enabled = true;
         yield return new WaitForSeconds(0.5f);

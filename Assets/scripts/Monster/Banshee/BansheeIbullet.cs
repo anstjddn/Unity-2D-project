@@ -42,4 +42,10 @@ public class BansheeIbullet : MonoBehaviour
 
         }
     }
+
+    IEnumerator Destory()
+    {
+        yield return new WaitForSeconds(4f);
+        Destroy(gameObject);
+    }
 }

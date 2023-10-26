@@ -28,6 +28,15 @@ public class shopslot : MonoBehaviour
                 slot.name = items.iteminfos[i].name;
                 slot.imageobj.name = items.iteminfos[i].name;
                 slot.image.sprite = items.iteminfos[i].sprite;
+                if (items.iteminfos[i].sworddata !=null)
+                {
+                    slot.texts.text = $"Damega: {items.iteminfos[i].sworddata.damage} Attackdalay : {items.iteminfos[i].sworddata.attackdelay}";
+                }
+                if (items.iteminfos[i].gundata != null)
+                {
+                    slot.texts.text = $"Damega: {items.iteminfos[i].gundata.damage} ShootCount : {items.iteminfos[i].gundata.shootcount}";
+                  
+                }
 
                 slots.Add(slot);
             }

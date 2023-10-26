@@ -72,7 +72,11 @@ public class PlayerController : MonoBehaviour
    
         Vector2 scale = weaponhold.transform.localScale;
         dir = (mousepoint - transform.position).normalized;
-        Move();
+        if (!isdashing)
+        {
+            Move();
+        }
+      //  Move();
 
         if (movedir.magnitude == 0|| isjumping)
          {
@@ -192,31 +196,8 @@ public class PlayerController : MonoBehaviour
          {
              curfloor = collision.gameObject;
          }
-        /*  if (collision.gameObject.CompareTag("TileFloor"))
-          {
-              curfloorTile = collision.gameObject;
-          }*/
-    /*    if (collision.gameObject.layer ==11)
-        {
-            GameManager.data.BaseGold += 10;
-            Destroy(collision.gameObject);
-        }*/
-      /*  if(isdashing&& collision.gameObject.layer == 9)
-        {
-            collision.gameObject.GetComponent<IHitable>().TakeHit(GameManager.data.playerDamege);
-        }*/
-
+     
     }
-// 무적됬따가 풀리는거
-
-
-
-/*      public void OffDamage()
-      {
-          gameObject.layer = 6;
-          playerrender.color = new Color(1, 1, 1,1);
-      }*/
-
       //floor로 발꺼지는거    
       private void OnCollisionExit2D(Collision2D collision)
       {

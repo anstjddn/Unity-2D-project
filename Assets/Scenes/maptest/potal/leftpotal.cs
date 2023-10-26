@@ -32,11 +32,10 @@ public class leftpotal : MonoBehaviour
 
     IEnumerator MoveRountin()
     {
-       
+        player.GetComponent<PlayerInput>().enabled = false;
         GameManager.Scene.LoadingUI.FadeOut();
         yield return new WaitForSeconds(1f);
-        player.GetComponent<PlayerInput>().enabled = false;
-        player.transform.position += transform.right * 17f;
+        player.transform.position += transform.right * 18f;
         player.GetComponent<PlayerInput>().enabled = true;
         yield return new WaitForSeconds(0.5f);
         GameManager.Scene.LoadingUI.FadeIn();

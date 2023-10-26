@@ -36,8 +36,7 @@ public class Dungeonpos : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
         players.SetActive(false);
         yield return new WaitForSeconds(2f);
-       // GameManager.Scene.LoadSceneAsync("testest");
-        GameManager.Scene.LoadScene("BossScene");
+        GameManager.Scene.LoadSceneAsync("testest");
         players.GetComponent<PlayerInput>().enabled = true;
     }
    

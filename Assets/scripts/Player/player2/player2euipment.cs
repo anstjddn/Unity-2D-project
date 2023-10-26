@@ -14,7 +14,6 @@ public class player2euipment : MonoBehaviour
 {
         
     [SerializeField] public GameObject[] weapons;
-    //  public List<GameObject> weapons = new List<GameObject>();
     public GameObject curweapons;
     [SerializeField] public Inventoryeqip inventoryeqip;
     [SerializeField] public item weaponmanager;

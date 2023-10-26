@@ -19,7 +19,7 @@ public class Weapon: MonoBehaviour
 
 
     //equipment 창에 있는 현재 무기 불러와서 쓰기
-   public    GameObject curweapon;
+   [SerializeField]  public GameObject curweapon;
 
     //칼일떄
       [SerializeField] GameObject slasheffect;                   
@@ -36,14 +36,22 @@ public class Weapon: MonoBehaviour
     public bool isreloading;
     public int reloadingtime;
 
+ /*   public void Awake()
+    {
+        curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
+    }*/
+
 
     public void Update()                //무기 바뀔거 염려해서 update에 올려놈
     {
+        curweapon = transform.GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
         if (curweapon == null)
         {
-            isattack = false;
+            baseset();
+           
         }
-        curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
+      //  curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
+
         if (curweapon.GetComponent<sword>() != null)                                //현재 무기가 칼이면
         {
             dagame = curweapon.GetComponent<sword>().data.damage;
@@ -78,6 +86,16 @@ public class Weapon: MonoBehaviour
         }
 
     }
+    public void baseset()
+    {
+        isattack = false;
+        curweapon = null;
+        slasheffect = null;
+        dagame = 0;
+        hiteffect = null;
+        attackdalay = 0;
+        bulletprefabs = null;
+    }
 
 
     public void Attack()
@@ -87,13 +105,13 @@ public class Weapon: MonoBehaviour
             SoundManager.Instance.PlaySFX("PlayerAttack");
             StartCoroutine(swordhiteffctroutin(attackdalay));
         }
-       if (curtype == weapontype.gun && !isattack&& !isreloading)
+       if (!isreloading &&curtype == weapontype.gun && !isattack)
         {
             StartCoroutine(gunattack(attackdalay));
         }
         if (isreloading)
         {
-            StopCoroutine(gunattack(attackdalay));
+          //  StopCoroutine(gunattack(attackdalay));
             StartCoroutine(reloadingrouine(reloadingtime));
         }
 
@@ -138,10 +156,11 @@ public class Weapon: MonoBehaviour
     }
     IEnumerator reloadingrouine(int reloadingtime)
     {
-       // curweapon.GetComponent<gun>().Reloading();
-        yield return new WaitForSeconds(reloadingtime);
+        curweapon.GetComponent<gun>().Reloading();
         bulletcount = 0;
+        yield return new WaitForSeconds(reloadingtime);
         isreloading = false;
+       
         // 리로딩 이미지 넣자
     }
 

@@ -28,6 +28,9 @@ public class foodslot : MonoBehaviour
                  slot.meumimage = fooddata.foods[i].foodimage;
                  slot.hpheal = fooddata.foods[i].hpheal;
                  slot.maxhp = fooddata.foods[i].maxhp;
+            slot.food = fooddata.foods[i].curfood;
+            slot.fooddata.text = $"Name: {fooddata.foods[i].name} Hpheal:+{fooddata.foods[i].hpheal} Maxhp:+{fooddata.foods[i].maxhp} food:+{fooddata.foods[i].curfood}";
+            slot.foodprice.text = $"Price: {fooddata.foods[i].price}";
                    slots.Add(slot);
               }
         

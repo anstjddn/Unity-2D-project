@@ -301,7 +301,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
             yield return new WaitForSeconds(1.5f);
 
-            if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f && !isAttack2last)
+            if (!isAttack2last &&Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) > 0.1f )
             {
                 Vector2 playerdirleft = (bossmonster.player.position - leftobj.transform.position);
                 playerdirleft = new Vector2(0, playerdirleft.y).normalized;
@@ -309,7 +309,7 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
 
             }
 
-            if (Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f && !isAttack2last)
+            if (!isAttack2last && Mathf.Abs(leftobj.transform.position.y - bossmonster.player.position.y) < 0.1f)
             {
             
                 leftobj.transform.Translate(Vector3.zero);

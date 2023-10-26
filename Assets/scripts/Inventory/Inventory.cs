@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
 
        GameObject moveobj = Instantiate(obj);
         moveobj.name = obj.name;
-        Destroy(obj);
+    //    Destroy(obj);
         Debug.Log("µÈ¿Ã∞®");
       
         for (int i = 0; i < slots.Count; i++)

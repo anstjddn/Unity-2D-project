@@ -54,6 +54,6 @@ public class PlayerState : MonoBehaviour, IHitable
         transform.GetComponent<PlayerInput>().enabled = false;
         GameManager.Resource.Instantiate<Canvas>("UI/DieUI");
         yield return new WaitForSeconds(2f);
-        Destroy(gameObject);
+        Destroy(gameObject.transform.parent);
     }
 }

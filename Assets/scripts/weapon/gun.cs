@@ -10,24 +10,44 @@ public class gun : MonoBehaviour
     [SerializeField] Canvas reloadingTiemground;
     [SerializeField] public float curTime;
     [SerializeField] GameObject reloadeffet;
+    public bool reloading;
 
     public void Awake()
     {
-        reloadingTiem.value = curTime / data.realoadtime;
+        reloadingTiem.value = 1;
         reloadingTiemground.gameObject.SetActive(false);
         reloadeffet.SetActive(false);
     }
-   /* public void Reloading()
+   public void Reloading()
     {
-       
-         reloadingTiem.value += Time.deltaTime;
-          reloadingTiemground.gameObject.SetActive(true);
-          if (curTime/data.realoadtime >=1)
-          {
-              reloadingTiemground.gameObject.SetActive(false);
-              reloadeffet.SetActive(true);
-          }
-    }*/
+        if(!reloading)
+        StartCoroutine(ReloadingRoutine());
+    }
 
+    IEnumerator ReloadingRoutine()
+    {
+        reloading = true;
+        SoundManager.Instance.PlaySFX("Reload");
+        reloadingTiemground.gameObject.SetActive(true);
+        while (reloadingTiem.value > 0)
+        {
+            reloadingTiemground.gameObject.SetActive(true);
+            reloadingTiem.value -= Time.deltaTime / data.realoadtime;
+            Debug.Log(reloadingTiem.value);
+            yield return null;
+
+        }
+        if (reloadingTiem.value < 0)
+        {
+            reloadeffet.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            reloadingTiemground.gameObject.SetActive(false);
+            reloadeffet.SetActive(false);
+            reloadingTiem.value = 1;
+            reloading = false;
+        }
+        yield return null;
+
+    }
 }
 

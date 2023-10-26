@@ -78,7 +78,7 @@ public class Monsterspawn2 : MonoBehaviour
         {
                 float x = transform.root.position.x + Random.Range(-5, 5);
                 float y = transform.root.position.y + Random.Range(-2, 3);
-                GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x, y), Quaternion.identity);
+            GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x, y), Quaternion.identity);
                 roomState.monsterList.Add(monster);
                 monstercount++;
             yield return null;

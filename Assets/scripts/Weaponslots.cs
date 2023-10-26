@@ -11,7 +11,7 @@ public class Weaponslots : MonoBehaviour
     {
         weapon1 = transform.GetComponent<Image>();
     }
-    private void Update()
+ /*   private void Update()
     {
         if (weaponhold.transform.GetChild(0) != null)
         {
@@ -23,5 +23,5 @@ public class Weaponslots : MonoBehaviour
         {
             transform.GetComponent<Image>().color = new Color(255, 255, 255, 0);
         }
-    }
+    }*/
 }

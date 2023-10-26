@@ -17,6 +17,7 @@ public class FoodData : ScriptableObject
         public string name;
         public int hpheal;
         public int maxhp;
+        public int curfood;
         public Sprite foodimage;
 
     }

@@ -24,10 +24,10 @@ public class Monsterspawn : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 6   && !roomState.isclear && !isplayer)
+        if(!roomState.isinplayer&& collision.gameObject.layer == 6   && !roomState.isclear)
         {
+            roomState.isinplayer = true;
             doorobj.SetActive(true);
-            isplayer = true;
             Debug.Log("몬스터생성");
             StartCoroutine(MonsterSpawn(rand));
             StartCoroutine(DoorClose());
@@ -51,8 +51,8 @@ public class Monsterspawn : MonoBehaviour
                 Debug.Log("없다");
             }
         }
-
-        if (!roomState.monsterList.Any() && isplayer&& !isopen)
+        //몬스터 다잡으면 오픈
+        if (!roomState.monsterList.Any() && !isopen)
         {
             StartCoroutine(DoorOpen());
         }
