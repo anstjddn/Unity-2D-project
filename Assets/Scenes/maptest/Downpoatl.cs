@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UPdownpotal : MonoBehaviour
+public class Downpoatl : MonoBehaviour
 {
     private GameObject player;
 
@@ -13,7 +13,6 @@ public class UPdownpotal : MonoBehaviour
         {
             player = collision.gameObject;
             StartCoroutine(MoveRountin());
-         //   collision.transform.position += transform.up * 30f;
 
         }
     }
@@ -27,16 +26,11 @@ public class UPdownpotal : MonoBehaviour
 
     IEnumerator MoveRountin()
     {
-        Time.timeScale = 0f;
         player.GetComponent<PlayerInput>().enabled = false;
         GameManager.Scene.LoadingUI.FadeOut();
-        yield return new WaitForSecondsRealtime(1f);
-        player.transform.position += transform.up * 30f;
-        Time.timeScale = 1f;
+        yield return new WaitForSeconds(1f);
         player.GetComponent<PlayerInput>().enabled = true;
-        yield return new WaitForSecondsRealtime(0.5f);
         GameManager.Scene.LoadingUI.FadeIn();
 
-       
     }
 }

@@ -42,14 +42,17 @@ public class Attack1Bullet : MonoBehaviour
            
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-          //  Destroy(gameObject, 0.4f);
-           
+            StartCoroutine(ReleaseRoutine(0.5f));
+     
+            
+
+
         }
     }
 
     IEnumerator ReleaseRoutine(float time)
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(time);
         GameManager.Pool.Release(gameObject);
     }
 

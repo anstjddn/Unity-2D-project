@@ -51,10 +51,9 @@ public class Banshee : MonoBehaviour, IHitable
         if (curhp <= 0)
         {
             SoundManager.Instance.PlaySFX("MonsterDie");
+            StartCoroutine(CoinRoutin());
             GameManager.Pool.Release(gameObject);
             StartCoroutine(DieRoutine(0.5f));
-          //  Destroy(dieeffect, 3f);
-            StartCoroutine(CoinRoutin());
         }
     }
 
@@ -62,7 +61,7 @@ public class Banshee : MonoBehaviour, IHitable
     {
         while (coinmoney > 0)
         {
-            GameObject coin= GameManager.Pool.Get(coinprefabs, transform.position, Quaternion.identity);
+           GameObject coin= GameManager.Pool.Get(coinprefabs, transform.position, Quaternion.identity);
             coinmoney--;
         }
         yield return null;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class Monsterspawn : MonoBehaviour
     public int monsterNum;
     private bool isplayer;
     [SerializeField] public GameObject doorobj;
-    public bool isopen;
+    public bool ismonstersp;
     [SerializeField] public GameObject minimap;
 
 
@@ -31,6 +32,7 @@ public class Monsterspawn : MonoBehaviour
             Debug.Log("몬스터생성");
             StartCoroutine(MonsterSpawn(rand));
             StartCoroutine(DoorClose());
+            ismonstersp = true;
         }
         if(collision.gameObject.layer == 6 && isplayer)
         {
@@ -42,7 +44,7 @@ public class Monsterspawn : MonoBehaviour
     {
         foreach (var monsterobj in roomState.monsterList)
         {
-            if(monsterobj.gameObject == null)
+            if(monsterobj.gameObject.activeSelf==false)
             {
                 roomState.monsterList.Remove(monsterobj);
             }
@@ -52,7 +54,7 @@ public class Monsterspawn : MonoBehaviour
             }
         }
         //몬스터 다잡으면 오픈
-        if (!roomState.monsterList.Any() && !isopen)
+        if (!roomState.monsterList.Any() && ismonstersp)
         {
             StartCoroutine(DoorOpen());
         }
@@ -65,7 +67,7 @@ public class Monsterspawn : MonoBehaviour
                 roomState.monsterList.Remove(monsterobj);
             }
         }
-
+     
     }
     IEnumerator MonsterSpawn(int montserNum)
     {
@@ -78,14 +80,16 @@ public class Monsterspawn : MonoBehaviour
             {
                 float x = transform.root.position.x+ Random.Range(-5, 5);
                 float y = transform.root.position.y+Random.Range(-2, 3);
-                GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x,y), Quaternion.identity);
+
+                GameObject monster=GameManager.Pool.Get(GameManager.Resource.Load<GameObject>("Monster/Bansheel"), new Vector2(x, y), Quaternion.identity);
                 roomState.monsterList.Add(monster);
                 monstercount++;
             }
             if(randomMonster == 1)
             {
                 float x = transform.root.position.x + Random.Range(-5, 5);
-                GameObject monster2 = GameManager.Resource.Instantiate<GameObject>("Monster/Minotaurs", new Vector2(x, transform.root.position.y-2), Quaternion.identity);
+                
+                GameObject monster2= GameManager.Pool.Get(GameManager.Resource.Load<GameObject>("Monster/Minotaurs"), new Vector2(x, transform.root.position.y - 2), Quaternion.identity);
                 roomState.monsterList.Add(monster2);
                 monstercount++;
             }
@@ -108,7 +112,7 @@ public class Monsterspawn : MonoBehaviour
     IEnumerator DoorOpen()
     {
         roomState.isclear = true;
-        isopen = true;
+        //isopen = true;
         Mapdoor[] door =  doorobj.GetComponentsInChildren<Mapdoor>();
         yield return new WaitForSeconds(0.1f);
         foreach (var mapdoor in door)

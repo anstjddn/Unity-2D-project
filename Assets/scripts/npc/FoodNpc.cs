@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FoodNpc : MonoBehaviour,Iinteractable
 {
     private Animator anim;
     [SerializeField] GameObject interactkey; //FŰ
     [SerializeField] GameObject FoodUI;
+    private GameObject player;
     private bool isui;
     private void Awake()
     {
@@ -20,6 +23,7 @@ public class FoodNpc : MonoBehaviour,Iinteractable
         if (collision.gameObject.layer == 6)
         {
             interactkey.SetActive(true);
+            player = collision.gameObject;
         }
 
 
@@ -30,6 +34,7 @@ public class FoodNpc : MonoBehaviour,Iinteractable
     {
 
         interactkey.SetActive(false);
+        player = null;
 
     }
 
@@ -39,7 +44,15 @@ public class FoodNpc : MonoBehaviour,Iinteractable
         {
             FoodUI.SetActive(true);
             SoundManager.Instance.PlayeBGM("shop");
-        }
+            player.GetComponent<PlayerInput>().enabled = false;
+        }   
+    }
+    public void Escinteract()
+    {
+        player.GetComponent<PlayerInput>().enabled = true;
+        FoodUI.SetActive(false);
+        SoundManager.Instance.StopBgm();
+        SoundManager.Instance.PlayeBGM("Dungeon");
     }
 
 }

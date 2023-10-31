@@ -61,6 +61,11 @@ public class SoundManager : MonoBehaviour
             {
                 for (int j = 0; j < sfxPlayer.Length; j++)
                 {
+                    if (sfxPlayer[j].clip == null)
+                    {
+                        sfxPlayer[j].clip = sfx[i].clip;
+                        sfxPlayer[j].Play();
+                    }
                     // SFXPlayer에서 재생 중이지 않은 Audio Source를 발견했다면 
                     if (!sfxPlayer[j].isPlaying)
                     {

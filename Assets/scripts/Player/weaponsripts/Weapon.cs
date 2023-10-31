@@ -35,12 +35,6 @@ public class Weapon: MonoBehaviour
     [SerializeField] int bulletcount;
     public bool isreloading;
     public int reloadingtime;
-
-   /*    public void Awake()
-       {
-           curweapon = GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
-       }*/
-
     public void Update()                //¹«±â ¹Ù²ð°Å ¿°·ÁÇØ¼­ update¿¡ ¿Ã·Á³ð
     {
         curweapon = transform.GetComponent<player2euipment>().curweapons.transform.GetChild(0).gameObject;
@@ -143,6 +137,7 @@ public class Weapon: MonoBehaviour
         int weaponcount = curweapon.GetComponent<gun>().data.shootcount;
         bulletcount++;
        GameObject bulletefect = GameManager.Pool.Get(bulletprefabs, bulletpoint.position, bulletpoint.rotation);
+        SoundManager.Instance.PlaySFX("Gun");
     //  Instantiate(bulletprefabs, bulletpoint.position, bulletpoint.rotation);
        // Destroy(slasheffect, 5f);
         yield return new WaitForSeconds(attackdaley);

@@ -9,6 +9,13 @@ public class DieUI : SceneUI
         base.Awake();
         texts["glodText"].text = GameManager.data.BaseGold.ToString();
         texts["TimeText"].text = GameManager.data.playerTime.ToString();
-        buttons["ReStartButton"].onClick.AddListener(() => GameManager.Scene.LoadScene("GameScene"));
+        buttons["ReStartButton"].onClick.AddListener(() => Restart());
+    }
+
+    public void Restart()
+    {
+        GameObject player = GameObject.FindObjectOfType<Player>().gameObject;
+        Destroy(player);
+        GameManager.Scene.LoadScene("GameScene");
     }
 }

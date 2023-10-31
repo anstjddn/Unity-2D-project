@@ -17,6 +17,13 @@ public class Attack3 : MonoBehaviour
     public bool hitable;
     Vector2 targetDir;
 
+    private void OnEnable()
+    {
+        isLooking = false;
+        isground = false;
+        hitable = false;
+        isAttack = false;
+    }
     private void Update()
     {
         if (isLooking)

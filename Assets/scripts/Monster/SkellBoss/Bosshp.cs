@@ -46,11 +46,10 @@ public class Bosshp : MonoBehaviour,IHitable
 
     IEnumerator dieRountion()
     {
-        GameManager.Scene.LoadingUI.FadeOut();
-        yield return new WaitForSeconds(2f);
+        SoundManager.Instance.StopBgm();
         GameManager.Resource.Instantiate<Canvas>("UI/DieUI");
         yield return new WaitForSeconds(3f);
         GameObject player = GameObject.FindObjectOfType<Player>().gameObject.transform.GetChild(0).gameObject;
-        Destroy(player);
+        Destroy(player.transform.parent);
     }
 }

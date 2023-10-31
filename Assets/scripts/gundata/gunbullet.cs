@@ -13,15 +13,17 @@ public class gunbullet : MonoBehaviour
     {
         hit = false;
        bulletanim = GetComponent<Animator>();
+       StartCoroutine(ReleaseRoutine(gameObject, 5f));
     }
     private void OnEnable()
     {
         hit = false;
+        StartCoroutine(ReleaseRoutine(gameObject, 5f));
     }
 
     private void Update()
     {
-        if(!hit)
+        if (!hit)
            transform.Translate(Vector2.up * Time.deltaTime * bulletspeed);
         else
         {
@@ -42,9 +44,8 @@ public class gunbullet : MonoBehaviour
 
             bulletanim.SetTrigger("hit");
             hitable?.TakeHit(hitdamege);
-         //   GameManager.Pool.Release(transform.parent.gameObject);
-           StartCoroutine(ReleaseRoutine(gameObject,0.5f));
-          //     Destroy(gameObject, 0.4f);
+              StartCoroutine(ReleaseRoutine(gameObject,0.5f));
+
 
         }
         if (collision.gameObject.layer == 7)
@@ -52,15 +53,15 @@ public class gunbullet : MonoBehaviour
             hit = true;
             bulletanim.SetTrigger("hit");
             StartCoroutine(ReleaseRoutine(gameObject, 0.5f));
-            //  Destroy(gameObject, 0.4f);
+
+
 
         }
         if (collision.gameObject.layer == 14)
         {
             hit = true;
             bulletanim.SetTrigger("hit");
-            StartCoroutine(ReleaseRoutine(gameObject, 0.5f));
-            //   Destroy(gameObject, 0.4f);
+           StartCoroutine(ReleaseRoutine(gameObject, 0.5f));
 
         }
      
@@ -70,9 +71,7 @@ public class gunbullet : MonoBehaviour
     {
         
         yield return new WaitForSeconds(Time);
-        //  transform.position = setpos.position;
-        //  transform.rotation = setpos.rotation;
-       // hit = false;
+    
         GameManager.Pool.Release(obj);
     }
 

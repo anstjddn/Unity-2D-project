@@ -17,6 +17,10 @@ public class airmonster : MonoBehaviour
         playerpos = GameObject.FindWithTag("Player").transform;
          anim = GetComponent<Animator>();
     }
+    private void OnEnable()
+    {
+        isattack = false;
+    }
     public void Update()
     {
         if(!isattack &&Vector2.Distance(playerpos.position, transform.position) < 5)
@@ -31,22 +35,14 @@ public class airmonster : MonoBehaviour
         isattack = true;
         SoundManager.Instance.PlaySFX("BansheeAttack");
         anim.SetTrigger("attack");
-      GameObject Bansgeeattack= GameManager.Pool.Get(bulletprefabs,transform.position,Quaternion.identity);
-        Destroy(Bansgeeattack, 5f);
+        GameObject Bansgeeattack= GameManager.Pool.Get(bulletprefabs,transform.position,Quaternion.identity);
        GameObject Bansgeeattack2 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0,0,45));
-        Destroy(Bansgeeattack2, 5f);
         GameObject Bansgeeattack3 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -45));
-        Destroy(Bansgeeattack3, 5f);
         GameObject Bansgeeattack4 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -90));
-        Destroy(Bansgeeattack4, 5f);
         GameObject Bansgeeattack5 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, -135));
-        Destroy(Bansgeeattack5, 5f);
         GameObject Bansgeeattack6 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 90));
-        Destroy(Bansgeeattack6, 5f);
         GameObject Bansgeeattack7 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 135));
-        Destroy(Bansgeeattack7, 5f);
         GameObject Bansgeeattack8 = GameManager.Pool.Get(bulletprefabs, transform.position, Quaternion.Euler(0, 0, 180));
-        Destroy(Bansgeeattack8, 5f);
         yield return new WaitForSeconds(5f);
         isattack = false;
     }

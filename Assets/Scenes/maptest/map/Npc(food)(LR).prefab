@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 2.6, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
@@ -6714,7 +6714,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8417112530066262901}
-  - component: {fileID: 8185236886474626779}
   m_Layer: 0
   m_Name: Lmonsterpoint
   m_TagString: Untagged
@@ -6739,20 +6738,6 @@ Transform:
   m_Father: {fileID: 6565669448550197596}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8185236886474626779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8417112530066262900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f054a01b94c5f4f9c8a0491ca58454, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isclear: 0
-  monsterList: []
 --- !u!1 &8417112530766322408
 GameObject:
   m_ObjectHideFlags: 0

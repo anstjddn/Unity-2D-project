@@ -19,6 +19,7 @@ public class BansheeIbullet : MonoBehaviour
     {
         hit = false;
         StartCoroutine(Destory(gameObject, 5f));
+        bulletanim.SetBool("hit", false);
     }
 
     void Update()
@@ -42,7 +43,7 @@ public class BansheeIbullet : MonoBehaviour
             IHitable hitable = collision.gameObject.GetComponentInChildren<IHitable>();
             hit = true;
 
-            bulletanim.SetTrigger("hit");
+            bulletanim.SetBool("hit",true);
             hitable?.TakeHit(hitdamege);
             StartCoroutine(Destory(gameObject, 0.5f));
          //   Destroy(gameObject, 0.4f);

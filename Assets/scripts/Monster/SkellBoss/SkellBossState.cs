@@ -239,14 +239,14 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
     }
     IEnumerator Attack2Routin()
     {
-          Debug.Log("들어감");
+         
          leftobj = bossmonster.handobj[0];
          rightobj = bossmonster.handobj[1];
          leftlayer = leftobj.transform.GetChild(0).gameObject;
          rightlayer = rightobj.transform.GetChild(0).gameObject;
 
         yield return new WaitForSeconds(2f);
-        if (Mathf.Abs(bossmonster.player.position.y - leftobj.transform.position.y) > 0.1f && !isAttack2left)
+        if (!isAttack2left && Mathf.Abs(bossmonster.player.position.y - leftobj.transform.position.y) > 0.1f)
         {
             Vector2 playerdirleft = (bossmonster.player.position - leftobj.transform.position);
             playerdirleft = new Vector2(0, playerdirleft.y).normalized;
@@ -316,11 +316,9 @@ public class BossAttack2State : BaseState               //손따라가서 레이저
             isAttack2last = true;
             leftobj.GetComponent<Animator>().SetBool("Attack", true);
             SoundManager.Instance.PlaySFX("BossAttack2");
-            //   isAttack2last = true;
             yield return new WaitForSeconds(0.8f);
                 leftlayer.SetActive(true);
                 leftobj.GetComponent<Animator>().SetBool("Attack", false);
-             //   isAttack2last = true; 
                 yield return new WaitForSeconds(1f);
                leftlayer.SetActive(false);
 

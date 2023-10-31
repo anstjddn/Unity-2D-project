@@ -46,13 +46,9 @@ public class Monsterspawn2 : MonoBehaviour
 
         foreach (var monsterobj in roomState.monsterList)
         {
-            if (monsterobj.gameObject == null)
+            if (monsterobj.gameObject.activeSelf==false)
             {
                 roomState.monsterList.Remove(monsterobj);
-            }
-            else
-            {
-                Debug.Log("¾ø´Ù");
             }
         }
 
@@ -78,7 +74,9 @@ public class Monsterspawn2 : MonoBehaviour
         {
                 float x = transform.root.position.x + Random.Range(-5, 5);
                 float y = transform.root.position.y + Random.Range(-2, 3);
-            GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x, y), Quaternion.identity);
+          //  GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel");
+            // GameObject monster = GameManager.Resource.Instantiate<GameObject>("Monster/Bansheel", new Vector2(x, y), Quaternion.identity);
+            GameObject monster=GameManager.Pool.Get(GameManager.Resource.Load<GameObject>("Monster/Bansheel"), new Vector2(x, y), Quaternion.identity);
                 roomState.monsterList.Add(monster);
                 monstercount++;
             yield return null;

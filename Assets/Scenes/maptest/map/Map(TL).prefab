@@ -85,6 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isclear: 0
   monsterList: []
+  isinplayer: 0
 --- !u!1 &2533316381262097456
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2533316381262097456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.52, y: 11.3, z: 0}
+  m_LocalPosition: {x: 0.52, y: 11.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -495,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 2.6, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
@@ -15242,7 +15243,7 @@ MonoBehaviour:
   rand: 0
   monsterNum: 0
   doorobj: {fileID: 6886907581215693784}
-  isopen: 0
+  ismonstersp: 0
   minimap: {fileID: 6844402774153358823}
 --- !u!1 &8420377156954569194
 GameObject:
@@ -15253,7 +15254,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8420377156954569195}
-  - component: {fileID: 8264511344058613314}
   m_Layer: 0
   m_Name: Lmonsterpoint
   m_TagString: Untagged
@@ -15278,20 +15278,6 @@ Transform:
   m_Father: {fileID: 9209961830428856221}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8264511344058613314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8420377156954569194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f054a01b94c5f4f9c8a0491ca58454, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isclear: 0
-  monsterList: []
 --- !u!1 &8420377157783358746
 GameObject:
   m_ObjectHideFlags: 0
@@ -15389,7 +15375,7 @@ MonoBehaviour:
   rand: 0
   monsterNum: 0
   doorobj: {fileID: 6886907581215693784}
-  isopen: 0
+  ismonstersp: 0
   minimap: {fileID: 6844402774153358823}
 --- !u!1001 &652902939010993475
 PrefabInstance:
